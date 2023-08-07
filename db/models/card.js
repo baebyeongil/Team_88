@@ -27,7 +27,7 @@ const Card = connector.sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    index: {
+    cardIndex: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

@@ -19,7 +19,7 @@ const Column = connector.sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    index: {
+    columnIndex: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

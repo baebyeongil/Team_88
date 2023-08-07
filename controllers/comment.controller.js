@@ -3,11 +3,11 @@ const CommentService = require('../services/comment.service');
 class CommentController {
   commentService = new CommentService();
 
-  getComment = async (req, res, next) => {
+  getComments = async (req, res, next) => {
     try {
-      const { cardId } = req.prams;
+      const { cardId } = req.params;
 
-      const getCommentData = await this.commentService.getComment(cardId);
+      const getCommentData = await this.commentService.getComments(cardId);
 
       return res
         .status(getCommentData.status)
@@ -23,7 +23,7 @@ class CommentController {
   postComment = async (req, res, next) => {
     try {
       const userId = res.locals.user;
-      const { cardId } = req.prams;
+      const { cardId } = req.params;
       const { comment } = req.body;
 
       const postCommentData = await this.commentService.postComment(
@@ -43,7 +43,7 @@ class CommentController {
   updateComment = async (req, res, next) => {
     try {
       const userId = res.locals.user;
-      const { commentId } = req.prams;
+      const { commentId } = req.params;
       const { comment } = req.body;
 
       const updateCommentData = await this.commentService.updateComment(
@@ -63,7 +63,7 @@ class CommentController {
   deleteComment = async (req, res, next) => {
     try {
       const userId = res.locals.user;
-      const { commentId } = req.prams;
+      const { commentId } = req.params;
 
       const deleteCommentData = await this.commentService.deleteComment(
         userId,
