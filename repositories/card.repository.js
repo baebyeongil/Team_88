@@ -1,11 +1,11 @@
-const Card = require('../db/models/card');
+const { Card } = require('../db/models/card');
 
 class CardRepository {
-  getCards = async boardId => {
+  getCard = async cardId => {
     try {
-      const getCardsData = await Card.findAll({ where: { boardId } });
+      const getCardData = await Card.findOne({ where: { id: cardId } });
 
-      return getCardsData;
+      return getCardData;
     } catch (error) {
       throw error;
     }
