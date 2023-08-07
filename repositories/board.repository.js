@@ -72,29 +72,43 @@ class BoardRepository {
   }
 
   //보드불러오기
-  async getBoard(user, boardId) {
+  // async getBoard(user, boardId) {
+  //   try {
+  //     const getBoard = await Member.findOne({
+  //       where: { userId: user.id, boardId: boardId },
+  //       include: {
+  //         model: Board,
+  //         attributes: ['title', 'content'],
+  //       },
+  //       include: {
+  //         model: Column,
+  //         attributes: ['id', 'title'],
+  //       },
+  //       include: {
+  //         model: Card,
+  //         attributes: ['id', 'title', 'content', 'workerId', 'deadLine'],
+  //       },
+  //     });
+  //     return getBoard;
+  //   } catch (err) {
+  //     console.error(err);
+  //     return {
+  //       status: 400,
+  //       message: '보드를 수정하는 도중 에러가 발생했습니다.',
+  //     };
+  //   }
+  // }
+  async deleteBoard(user, boardId) {
     try {
-      const getBoard = await Member.findOne({
-        where: { userId: user.id, boardId: boardId },
-        include: {
-          model: Board,
-          attributes: ['title', 'content'],
-        },
-        include: {
-          model: Column,
-          attributes: ['id', 'title'],
-        },
-        include: {
-          model: Card,
-          attributes: ['id', 'title', 'content', 'workerId', 'deadLine'],
-        },
+      const deleteBoard = await Board.findOne({
+        where: { userId: user.id, id: boardId }
       });
-      return getBoard;
+      return deleteBoard;
     } catch (err) {
       console.error(err);
       return {
         status: 400,
-        message: '보드를 수정하는 도중 에러가 발생했습니다.',
+        message: '보드를 삭제하는 도중 에러가 발생했습니다.',
       };
     }
   }
