@@ -9,7 +9,7 @@ class ColumnService {
 
   postColumn = async (boardId, title) => {
     try {
-      let index = 0;
+      let columnIndex = 0;
       if (!boardId) {
         return {
           status: 400,
@@ -28,27 +28,28 @@ class ColumnService {
       //     message: '존재하지 않는 보드입니다.',
       //   };
       // }
-      const lastColumn = await this.columnRepository.findLastColumn();
+      const lastColumn = await this.columnRepository.findLastColumn(boardId);
+
       if (lastColumn) {
-        index = await this.columnIndexRepository.index(lastColumn);
+        columnIndex = await this.columnIndexRepository.index(lastColumn);
       } else if (!lastColumn) {
-        index = 10000000;
+        columnIndex = 10000000;
       }
 
       const createColumn = await this.columnRepository.postColumn(
         boardId,
         title,
-        index
+        columnIndex
       );
       if (!createColumn) {
         return {
           status: 400,
-          message: '컬럼 생성에 실패하였습니다.',
+          message: '컬럼 생성 실패',
         };
       }
       return {
         status: 200,
-        message: column,
+        message: '컬럼 생성 성공',
       };
     } catch (err) {
       console.log(err);
@@ -128,7 +129,7 @@ class ColumnService {
       //     message: '존재하지 않는 보드입니다.',
       //   };
       // }
-      const column = await this.columnRepository.findOneColimn(columnId);
+      const column = await this.columnRepository.findOneColumn(columnId);
       if (!column) {
         return {
           status: 400,
@@ -147,13 +148,14 @@ class ColumnService {
         message: '컬럼 삭제 성공',
       };
     } catch (err) {
+      console.log(err);
       return { status: 500, message: 'Server Error' };
     }
   };
 
   moveColumn = async (boardId, columnId, number) => {
     try {
-      let index = 0;
+      let columnIndex = 0;
 
       if (!boardId) {
         return {
@@ -165,10 +167,10 @@ class ColumnService {
           status: 400,
           message: '컬럼 아이디 값이 입력되지 않았습니다.',
         };
-      } else if (!title) {
+      } else if (!number) {
         return {
           status: 400,
-          message: '타이틀이 입력되지 않았습니다.',
+          message: '변경 할 위치가 입력되지 않았습니다.',
         };
       }
       // const board = await this.boardRepository.1개보드찾는함수
@@ -188,17 +190,16 @@ class ColumnService {
       }
       const columnData = await this.columnRepository.findAllColumn(boardId);
       if (columnData) {
-        preIndex = columnData[number - 1].index;
-        aftIndex = columnData[number].index;
-        index = (preIndex + aftIndex) / 2;
+        const preIndex = columnData[number - 1].columnIndex;
+        const aftIndex = columnData[number].columnIndex;
+        columnIndex = (preIndex + aftIndex) / 2;
       } else if (!columnData) {
-        index = 10000000;
+        columnIndex = 10000000;
       }
 
       const moveColumn = await this.columnRepository.moveColumn(
-        boardId,
         columnId,
-        title
+        columnIndex
       );
       if (!moveColumn) {
         return {
