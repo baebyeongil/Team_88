@@ -21,7 +21,7 @@ class ColumnRepository {
   findAllColumn = async boardId => {
     const columnIndex = await Column.findAll(
       {
-        attributes: ['index'],
+        attributes: ['columnIndex'],
       },
       { where: { boardId } }
     );
@@ -30,7 +30,7 @@ class ColumnRepository {
 
   findOneColumn = async columnId => {
     const column = await Column.findOne({
-      where: { columnId },
+      where: { id: columnId },
     });
     return column;
   };
@@ -40,18 +40,21 @@ class ColumnRepository {
       {
         title,
       },
-      { where: { columnId } }
+      { where: { id: columnId } }
     );
     return column;
   };
 
   deleteColumn = async columnId => {
-    const column = await Column.destory({ where: { columnId } });
+    const column = await Column.destroy({ where: { id: columnId } });
     return column;
   };
 
-  moveColumn = async columnId => {
-    const column = await Column.update({ where: { columnId } });
+  moveColumn = async (columnId, columnIndex) => {
+    const column = await Column.update(
+      { columnIndex },
+      { where: { id: columnId } }
+    );
     return column;
   };
 }
