@@ -1,4 +1,4 @@
-const { Card } = require('../db/models/card');
+const Card = require('../db/models/card');
 
 class CardRepository {
   getCard = async cardId => {
@@ -14,7 +14,7 @@ class CardRepository {
   findCard = async columnId => {
     try {
       const findCardData = await Card.findAll({
-        attributes: ['index'],
+        attributes: ['cardIndex'],
         where: { columnId },
       });
 
@@ -31,7 +31,7 @@ class CardRepository {
     content,
     workerId,
     deadLine,
-    index
+    cardIndex
   ) => {
     try {
       const postCardData = await Card.create({
@@ -41,7 +41,7 @@ class CardRepository {
         content,
         workerId,
         deadLine,
-        index,
+        cardIndex,
       });
 
       return postCardData;
@@ -73,10 +73,10 @@ class CardRepository {
     }
   };
 
-  stateCard = async (columnId, cardId, index) => {
+  stateCard = async (columnId, cardId, cardIndex) => {
     try {
       const stateCardData = await Card.update(
-        { columnId, index },
+        { columnId, cardIndex },
         { where: { cardId } }
       );
 
@@ -86,9 +86,12 @@ class CardRepository {
     }
   };
 
-  moveCard = async (cardId, index) => {
+  moveCard = async (cardId, cardIndex) => {
     try {
-      const moveCardData = await Card.update({ index }, { where: { cardId } });
+      const moveCardData = await Card.update(
+        { cardIndex },
+        { where: { cardId } }
+      );
 
       return moveCardData;
     } catch (error) {
