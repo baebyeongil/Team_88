@@ -22,9 +22,7 @@ class CardController {
 
   postCard = async (req, res, next) => {
     try {
-      console.log(res.locals.user);
-      console.log(res.locals.user.id);
-      const userId = res.locals.user.userId;
+      const userId = res.locals.user.id;
       const { columnId } = req.params;
       const { title, content, workerId, deadLine } = req.body;
       const postCardData = await this.cardService.postCard(
@@ -107,6 +105,10 @@ class CardController {
         cardId,
         number
       );
+
+      return res
+        .status(moveCardData.status)
+        .json({ result: moveCardData.message });
     } catch (error) {
       return { status: 400, message: 'Controller Error: 수정에 실패했습니다.' };
     }

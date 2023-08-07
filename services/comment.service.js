@@ -25,7 +25,7 @@ class CommentService {
 
   updateComment = async (userId, commentId, comment) => {
     try {
-      const updateCommentData = await this.commentRepository.postComment(
+      const updateCommentData = await this.commentRepository.updateComment(
         userId,
         commentId,
         comment
@@ -42,7 +42,7 @@ class CommentService {
 
   deleteComment = async (userId, commentId) => {
     try {
-      const deleteCommentData = await this.commentRepository.postComment(
+      const deleteCommentData = await this.commentRepository.deleteComment(
         userId,
         commentId
       );
