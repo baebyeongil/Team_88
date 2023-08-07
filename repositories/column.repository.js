@@ -2,25 +2,32 @@ const Column = require('../db/models/column');
 const { Sequelize } = require('sequelize');
 
 class ColumnRepository {
-  postColumn = async (title, index) => {
+  postColumn = async (boardId, title, index) => {
     const column = await Column.create({
+      boardId,
       title,
       index,
     });
     return column;
   };
 
-  findLastColumn = async () => {
-    const lastColumn = await Column.findAll({
-      attributes: [Sequelize.fn('MAX', Sequelize.col('index'))],
-    });
+  findLastColumn = async boardId => {
+    const lastColumn = await Column.findAll(
+      {
+        attributes: [Sequelize.fn('MAX', Sequelize.col('index'))],
+      },
+      { where: { boardId } }
+    );
     return lastColumn;
   };
 
-  findAllColumn = async () => {
-    const columnIndex = await Column.findAll({
-      attributes: ['index'],
-    });
+  findAllColumn = async boardId => {
+    const columnIndex = await Column.findAll(
+      {
+        attributes: ['index'],
+      },
+      { where: { boardId } }
+    );
     return columnIndex;
   };
 

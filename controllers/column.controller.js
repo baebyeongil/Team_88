@@ -32,8 +32,13 @@ class ColumnController {
 
   moveColumn = async (req, res) => {
     const { boardId, columnId } = req.params;
+    const { number } = req.body;
 
-    const result = await this.columnService.moveColumn(boardId, columnId);
+    const result = await this.columnService.moveColumn(
+      boardId,
+      columnId,
+      number
+    );
     return res.status(result.status).json(result.message);
   };
 }

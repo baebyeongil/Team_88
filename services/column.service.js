@@ -9,6 +9,7 @@ class ColumnService {
 
   postColumn = async (boardId, title) => {
     try {
+      let index = 0;
       if (!boardId) {
         return {
           status: 400,
@@ -28,11 +29,17 @@ class ColumnService {
       //   };
       // }
       const lastColumn = await this.columnRepository.findLastColumn();
-      if (!lastColumn) {
-        console.log('test');
+      if (lastColumn) {
+        index = await this.columnIndexRepository.index(lastColumn);
+      } else if (!lastColumn) {
+        index = 10000000;
       }
-      const index = await this.columnIndexRepository.index(lastColumn);
-      const createColumn = await this.columnRepository.postColumn(title, index);
+
+      const createColumn = await this.columnRepository.postColumn(
+        boardId,
+        title,
+        index
+      );
       if (!createColumn) {
         return {
           status: 400,
@@ -144,8 +151,10 @@ class ColumnService {
     }
   };
 
-  moveColumn = async (boardId, columnId, title) => {
+  moveColumn = async (boardId, columnId, number) => {
     try {
+      let index = 0;
+
       if (!boardId) {
         return {
           status: 400,
@@ -170,18 +179,22 @@ class ColumnService {
       //   };
       // }
 
-      const column = await this.columnRepository.findOneColimn(columnId);
+      const column = await this.columnRepository.findOneColumn(columnId);
       if (!column) {
         return {
           status: 400,
           message: '존재하지 않는 컬럼입니다.',
         };
       }
-      const columnIndex = await this.columnRepository.findAllColumn();
-      if (!columnIndex) {
-        console.log('test');
+      const columnData = await this.columnRepository.findAllColumn(boardId);
+      if (columnData) {
+        preIndex = columnData[number - 1].index;
+        aftIndex = columnData[number].index;
+        index = (preIndex + aftIndex) / 2;
+      } else if (!columnData) {
+        index = 10000000;
       }
-      const index = await this.columnIndexRepository.index(lastColumn);
+
       const moveColumn = await this.columnRepository.moveColumn(
         boardId,
         columnId,
