@@ -8,7 +8,8 @@ const columnRouter = require('./column.router');
 const commentRouter = require('./comment.router');
 
 router.use('/user', userRouter);
-router.use('/board', [boardRouter, columnRouter, cardRouter]);
+router.use('/board', [boardRouter, columnRouter]);
 router.use('/card', commentRouter);
+router.use('/column', cardRouter);
 
 module.exports = router;

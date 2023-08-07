@@ -3,11 +3,11 @@ const CardRepository = require('../repositories/card.repository');
 class CardService {
   cardRepository = new CardRepository();
 
-  getCards = async boardId => {
+  getCard = async cardId => {
     try {
-      const getCardsData = await this.cardRepository.getCards(boardId);
+      const getCardData = await this.cardRepository.getCard(cardId);
 
-      return { status: 200, message: getCardsData };
+      return { status: 200, message: getCardData };
     } catch (error) {
       return {
         status: 400,
@@ -21,8 +21,7 @@ class CardService {
       let index = 10000000;
 
       const findCardData = await this.cardRepository.findCard(columnId);
-
-      if (findCardData != []) {
+      if (findCardData.length) {
         index = findCardData[findCardData.length - 1].index + 10000000;
       }
 
@@ -38,6 +37,7 @@ class CardService {
 
       return { status: 200, message: '등록이 완료되었습니다.' };
     } catch (error) {
+      console.log(error);
       return { status: 400, message: 'Repository Error: 등록에 실패했습니다.' };
     }
   };
@@ -85,7 +85,7 @@ class CardService {
       let index = 10000000;
       const findCardData = await this.cardRepository.findCard(columnId);
 
-      if (findCardData != []) {
+      if (findCardData.length) {
         index = findCardData[findCardData.length - 1].index + 10000000;
       }
 
@@ -102,7 +102,7 @@ class CardService {
       let index = 10000000;
       const findCardData = await this.cardRepository.findCard(columnId);
 
-      if (findCardData != []) {
+      if (findCardData.length) {
         preIndex = findCardData[number - 1].index;
         aftIndex = findCardData[number].index;
         index = (preIndex + aftIndex) / 2;

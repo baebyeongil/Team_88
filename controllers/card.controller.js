@@ -3,15 +3,15 @@ const CardService = require('../services/card.service');
 class CardController {
   cardService = new CardService();
 
-  getCards = async (req, res, next) => {
+  getCard = async (req, res, next) => {
     try {
-      const { boardId } = req.body;
+      const { cardId } = req.params;
 
-      const getCardsData = await this.cardService.getCards(boardId);
+      const getCardData = await this.cardService.getCard(cardId);
 
       return res
-        .status(getCardsData.status)
-        .json({ result: getCardsData.message });
+        .status(getCardData.status)
+        .json({ result: getCardData.message });
     } catch (error) {
       return {
         status: 400,
@@ -23,9 +23,8 @@ class CardController {
   postCard = async (req, res, next) => {
     try {
       const userId = res.locals.user;
-      const { columnId } = req.prams;
+      const { columnId } = req.params;
       const { title, content, workerId, deadLine } = req.body;
-
       const postCardData = await this.cardService.postCard(
         userId,
         columnId,
@@ -46,7 +45,7 @@ class CardController {
   updateCard = async (req, res, next) => {
     try {
       const userId = res.locals.user;
-      const { cardId } = req.prams;
+      const { cardId } = req.params;
       const { title, content, workerId, deadLine } = req.body;
 
       const updateCardData = await this.cardService.updateCard(
@@ -69,7 +68,7 @@ class CardController {
   deleteCard = async (req, res, next) => {
     try {
       const userId = res.locals.user;
-      const { cardId } = req.prams;
+      const { cardId } = req.params;
 
       const deleteCardData = await this.cardService.deleteCard(userId, cardId);
 
@@ -83,7 +82,7 @@ class CardController {
 
   stateCard = async (req, res, next) => {
     try {
-      const { cardId } = req.prams;
+      const { cardId } = req.params;
       const { columnId } = req.body;
 
       const stateCardData = await this.cardService.stateCard(columnId, cardId);
@@ -98,7 +97,7 @@ class CardController {
 
   moveCard = async (req, res, next) => {
     try {
-      const { columnId, cardId } = req.prams;
+      const { columnId, cardId } = req.params;
       const { number } = req.body;
 
       const moveCardData = await this.cardService.moveCard(
