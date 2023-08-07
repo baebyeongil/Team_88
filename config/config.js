@@ -25,7 +25,7 @@ const config = {
     refreshExpiresIn: getValue('JWT_REFRESH_EXPIRES_IN', '7d'),
   },
   server: {
-    port: getValue('PORT', 8080),
+    port: getValue('PORT', 3000),
   },
 };
 
