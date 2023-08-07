@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-dotenv.config()
+dotenv.config();
 
 function getValue(key, defaultValue = undefined) {
   const value = process.env[key] || defaultValue;
