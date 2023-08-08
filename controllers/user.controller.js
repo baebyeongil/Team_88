@@ -26,6 +26,15 @@ class UserController {
       return res.status(token.status).json(token.message);
     }
   };
+  //로그아웃
+  logout = async (req, res, next) => {
+    try {
+      res.cookie('Authorization', '');
+      return res.status(200).json({ message: '로그아웃이 완료되었습니다.' });
+    } catch (error) {
+      res.status(404).json({ errorMessage: '로그아웃에 실패했습니다.' });
+    }
+  };
   //회원탈퇴
   deleteUser = async (req, res, next) => {
     const user = res.locals.user;
