@@ -54,6 +54,7 @@
       >
         로그인
       </button>
+      <button class="btn btn-light logout-button d-none">로그아웃</button>
     </header>
 
     <section class="background-image">
@@ -241,12 +242,14 @@
               const successMessage = document.createElement('div');
               successMessage.classList.add('alert', 'alert-success', 'mt-3');
               successMessage.textContent =
-                '회원 가입이 성공적으로 완료되었습니다. 창을 닫아주세요.';
+                '회원 가입이 성공적으로 완료되었습니다.';
 
               const modalBody = document.querySelector(
                 '#signupModal .modal-body'
               );
               modalBody.appendChild(successMessage);
+
+              reLoad();
             })
             .catch(error => {
               // 에러 처리
@@ -258,6 +261,11 @@
       document.addEventListener('DOMContentLoaded', function () {
         const loginButton = document.querySelector(
           '#loginModal button.btn-primary'
+        );
+        const mainLoginButton = document.querySelector('.login-button');
+        const logoutButton = document.querySelector('.logout-button');
+        const loginModal = new bootstrap.Modal(
+          document.getElementById('loginModal')
         );
 
         loginButton.addEventListener('click', function () {
@@ -275,14 +283,73 @@
           axios
             .post('/user/login', userData) // 실제 백엔드 URL로 수정해야 합니다
             .then(response => {
-              // 로그인 성공 처리
-              console.log('로그인 성공');
-              // 원하는 추가적인 처리 수행
+              // 성공 메시지 표시
+              const successMessage = document.createElement('div');
+              successMessage.classList.add('alert', 'alert-success', 'mt-3');
+              successMessage.textContent =
+                '로그인이 성공적으로 완료되었습니다.';
+
+              const modalBody = document.querySelector(
+                '#loginModal .modal-body'
+              );
+              modalBody.appendChild(successMessage);
+
+              reLoad();
             })
             .catch(error => {
-              // 로그인 실패 처리
-              console.error('로그인 실패');
+              // 에러 처리
             });
+        });
+
+        logoutButton.addEventListener('click', function () {
+          // 로그아웃 버튼 클릭 시 동작 구현
+          mainLoginButton.classList.remove('d-none'); // 로그인 버튼 표시
+          logoutButton.classList.add('d-none'); // 로그아웃 버튼 숨김
+          location.reload();
+        });
+      });
+
+      //리로드
+      reLoad = () => {
+        setTimeout(() => {
+          location.reload();
+        }, 500);
+      };
+
+      //페이지 오픈 시
+      document.addEventListener('DOMContentLoaded', function () {
+        const loginButton = document.querySelector('.login-button');
+        const logoutButton = document.querySelector('.logout-button');
+        const loginModal = new bootstrap.Modal(
+          document.getElementById('loginModal')
+        );
+        const loginForm = document.querySelector('#loginModal form');
+
+        // 쿠키값 확인하여 버튼 상태 설정
+        function checkLoginStatus() {
+          let cookies = document.cookie;
+          if (cookies.includes('Authorization=Bearer%20')) {
+            loginButton.classList.add('d-none'); // 로그인 버튼 숨김
+            logoutButton.classList.remove('d-none'); // 로그아웃 버튼 표시
+          } else {
+            loginButton.classList.remove('d-none'); // 로그인 버튼 표시
+            logoutButton.classList.add('d-none'); // 로그아웃 버튼 숨김
+          }
+        }
+
+        // 페이지 로드 시 쿠키값 확인
+        checkLoginStatus();
+
+        logoutButton.addEventListener('click', function () {
+          // Axios를 사용하여 POST 요청 보내기
+          axios
+            .post('/user/logout') // 실제 백엔드 URL로 수정해야 합니다
+            .then(response => {})
+            .catch(error => {
+              // 에러 처리
+            });
+
+          checkLoginStatus();
         });
       });
     </script>
