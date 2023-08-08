@@ -1,3 +1,4 @@
+const { col } = require('sequelize');
 const CardRepository = require('../repositories/card.repository');
 
 class CardService {
@@ -22,7 +23,7 @@ class CardService {
 
       const findCardData = await this.cardRepository.findCard(columnId);
       if (findCardData.length) {
-        index = findCardData[findCardData.length - 1].index + 10000000;
+        index = findCardData[findCardData.length - 1].cardIndex + 10000000;
       }
 
       await this.cardRepository.postCard(
@@ -37,7 +38,6 @@ class CardService {
 
       return { status: 200, message: '등록이 완료되었습니다.' };
     } catch (error) {
-      console.log(error);
       return { status: 400, message: 'Repository Error: 등록에 실패했습니다.' };
     }
   };
@@ -86,7 +86,7 @@ class CardService {
       const findCardData = await this.cardRepository.findCard(columnId);
 
       if (findCardData.length) {
-        index = findCardData[findCardData.length - 1].index + 10000000;
+        index = findCardData[findCardData.length - 1].cardIndex + 10000000;
       }
 
       await this.cardRepository.stateCard(columnId, cardId, index);
@@ -101,11 +101,26 @@ class CardService {
     try {
       let index = 10000000;
       const findCardData = await this.cardRepository.findCard(columnId);
+      let length = findCardData.length;
 
-      if (findCardData.length) {
-        preIndex = findCardData[number - 1].index;
-        aftIndex = findCardData[number].index;
-        index = (preIndex + aftIndex) / 2;
+      if (number == 0) {
+        if (length) {
+          let preIndex = 0;
+          let aftIndex = findCardData[number].cardIndex;
+          index = (preIndex + aftIndex) / 2;
+        }
+      } else if (number >= length) {
+        if (length) {
+          let preIndex = findCardData[length - 2].cardIndex;
+          let aftIndex = findCardData[length - 1].cardIndex;
+          index = (preIndex + aftIndex) / 2;
+        }
+      } else {
+        if (length) {
+          let preIndex = findCardData[number - 1].cardIndex;
+          let aftIndex = findCardData[number].cardIndex;
+          index = (preIndex + aftIndex) / 2;
+        }
       }
 
       await this.cardRepository.moveCard(cardId, index);

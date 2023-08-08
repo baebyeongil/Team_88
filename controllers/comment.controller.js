@@ -22,7 +22,7 @@ class CommentController {
 
   postComment = async (req, res, next) => {
     try {
-      const userId = res.locals.user;
+      const userId = res.locals.user.id;
       const { cardId } = req.params;
       const { comment } = req.body;
 
@@ -42,7 +42,7 @@ class CommentController {
 
   updateComment = async (req, res, next) => {
     try {
-      const userId = res.locals.user;
+      const userId = res.locals.user.id;
       const { commentId } = req.params;
       const { comment } = req.body;
 
@@ -62,7 +62,7 @@ class CommentController {
 
   deleteComment = async (req, res, next) => {
     try {
-      const userId = res.locals.user;
+      const userId = res.locals.user.id;
       const { commentId } = req.params;
 
       const deleteCommentData = await this.commentService.deleteComment(
