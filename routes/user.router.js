@@ -5,8 +5,8 @@ const userController = new UserController();
 
 router.post('/signup', userController.createUser);
 router.post('/login', userController.login);
-router.delete("/deleteUser",auth, userController.deleteUser);
-router.put('/',auth, userController.updateUser);
-
+router.post('/logout', auth, userController.logout);
+router.delete('/deleteUser', auth, userController.deleteUser);
+router.put('/', auth, userController.updateUser);
 
 module.exports = router;
