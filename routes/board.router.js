@@ -5,9 +5,10 @@ const boardController = new BoardController();
 
 
 router.post('/',auth, boardController.createBoard);
-router.get('/',auth, boardController.getBoard);
+router.get('/',auth, boardController.getBoardList);
+router.get('/:boardId',auth, boardController.getBoard);
 router.put('/:boardId',auth, boardController.updateBoard);
-// router.delete('/:boardId', boardController.deleteBoard);
+router.delete('/:boardId',auth, boardController.deleteBoard);
 // router.post('/:boardId/member', boardController.invateBoard);
 
 module.exports = router;
