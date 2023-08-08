@@ -6,38 +6,48 @@ class ColumnController {
   postColumn = async (req, res) => {
     const { boardId } = req.params;
     const { title } = req.body;
+    const user = res.locals.user;
 
-    const result = await this.columnService.postColumn(boardId, title);
+    const result = await this.columnService.postColumn(boardId, title, user);
     return res.status(result.status).json(result.message);
   };
 
   updateColumn = async (req, res) => {
     const { boardId, columnId } = req.params;
     const { title } = req.body;
+    const user = res.locals.user;
 
     const result = await this.columnService.updateColumn(
       boardId,
       columnId,
-      title
+      title,
+      user
     );
     return res.status(result.status).json(result.message);
   };
 
   deleteColumn = async (req, res) => {
     const { boardId, columnId } = req.params;
+    const user = res.locals.user;
 
-    const result = await this.columnService.deleteColumn(boardId, columnId);
+    const result = await this.columnService.deleteColumn(
+      boardId,
+      columnId,
+      user
+    );
     return res.status(result.status).json(result.message);
   };
 
   moveColumn = async (req, res) => {
     const { boardId, columnId } = req.params;
     const { number } = req.body;
+    const user = res.locals.user;
 
     const result = await this.columnService.moveColumn(
       boardId,
       columnId,
-      number
+      number,
+      user
     );
     return res.status(result.status).json(result.message);
   };
