@@ -20,18 +20,19 @@ class App {
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
       })
     );
+    this.app.use(cors({ origin: true, credentials: true }));
     this.app.use(cookieParser());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(morgan('dev'));
     this.app.use('/', router);
     //frontend 폴더 자체를 들고 갈게 프론트 작업시
-    // this.app.use(express.static("frontend"));
-    // this.app.use(bodyParser.urlencoded({ extended: false }));
-    // this.app.use("/", router);
-    // this.app.get("/", (req, res) => {
-    //   res.sendFile(__dirname + "/frontend/main.html");
-    // });
+    this.app.use(express.static('frontend'));
+    this.app.use(bodyParser.urlencoded({ extended: false }));
+    this.app.use('/', router);
+    this.app.get('/', (req, res) => {
+      res.sendFile(__dirname + '/frontend/main.html');
+    });
   }
 
   runServer() {
