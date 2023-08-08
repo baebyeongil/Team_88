@@ -1,4 +1,5 @@
 const BoardRepository = require('../repositories/board.repository');
+const User = require('../db/models/user');
 const Board = require('../db/models/board');
 const bcrypt = require('bcrypt');
 class BoardService {
@@ -95,7 +96,7 @@ class BoardService {
 
     const getBoard = await this.boardRepository.getBoard(user, boardId);
     console.log(getBoard);
-    if (!getBoard.getBoard[0]) {
+    if (!getBoard) {
       return {
         status: 400,
         message:
@@ -103,16 +104,20 @@ class BoardService {
       };
     }
 
-    return await getBoard;
+    return {
+      status: 200,
+      getBoard,
+    };
   };
+
+  //보드삭제
   deleteBoard = async (user, boardId, password) => {
-    if(!user){
+    if (!user) {
       return {
         status: 400,
         message: '로그인이 필요합니다.',
       };
     }
-    
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
@@ -137,6 +142,39 @@ class BoardService {
       status: 200,
       message: '보드를 삭제했습니다.',
     };
+  };
+  //보드초대하기
+  inviteBoard = async (email, boardId) => {
+    if (!email) {
+      return {
+        status: 400,
+        message: '이메일을 입력해야합니다.',
+      };
+    }
+
+    const invitedUser = await User.findOne({
+      where: { email },
+    });
+
+    if (!invitedUser) {
+      return {
+        status: 400,
+        message: '해당 유저는 존재하지 않습니다.',
+      };
+    }
+
+    const existBoard = await Board.findOne({
+      where: { id: boardId },
+    });
+
+    if (!existBoard) {
+      return {
+        status: 400,
+        message: '해당 보드는 존재하지 않습니다.',
+      };
+    }
+    console.log(invitedUser.id);
+    return await this.boardRepository.inviteBoard(invitedUser.id, boardId);
   };
 }
 
