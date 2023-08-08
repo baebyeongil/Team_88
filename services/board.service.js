@@ -85,26 +85,26 @@ class BoardService {
   };
 
   //보드불러오기
-  // getBoard = async (user, boardId) => {
-  //   if (!user) {
-  //     return {
-  //       status: 400,
-  //       message: '로그인이 필요합니다.',
-  //     };
-  //   }
+  getBoard = async (user, boardId) => {
+    if (!user) {
+      return {
+        status: 400,
+        message: '로그인이 필요합니다.',
+      };
+    }
 
-  //   const getBoard = await this.boardRepository.getBoard(user, boardId);
-  //   console.log(getBoard);
-  //   if (!getBoard.getBoard[0]) {
-  //     return {
-  //       status: 400,
-  //       message:
-  //         '등록된 보드가 없습니다, 보드를 생성하거나 초대받을 수 있습니다.',
-  //     };
-  //   }
+    const getBoard = await this.boardRepository.getBoard(user, boardId);
+    console.log(getBoard);
+    if (!getBoard.getBoard[0]) {
+      return {
+        status: 400,
+        message:
+          '등록된 보드가 없습니다, 보드를 생성하거나 초대받을 수 있습니다.',
+      };
+    }
 
-  //   return await getBoard;
-  // };
+    return await getBoard;
+  };
   deleteBoard = async (user, boardId, password) => {
     if(!user){
       return {
