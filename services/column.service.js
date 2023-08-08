@@ -7,7 +7,7 @@ class ColumnService {
   boardRepository = new BoardRepository();
   columnIndexRepository = new ColumnIndexRepository();
 
-  postColumn = async (boardId, title) => {
+  postColumn = async (boardId, title, user) => {
     try {
       let columnIndex = 0;
       if (!boardId) {
@@ -21,13 +21,13 @@ class ColumnService {
           message: '타이틀이 입력되지 않았습니다.',
         };
       }
-      // const board = await this.boardRepository.1개보드찾는함수
-      // if (!board) {
-      //   return {
-      //     status: 400,
-      //     message: '존재하지 않는 보드입니다.',
-      //   };
-      // }
+      const board = await this.boardRepository.getBoard(user, boardId);
+      if (board.status === 400) {
+        return {
+          status: 400,
+          message: '존재하지 않는 보드입니다.',
+        };
+      }
       const lastColumn = await this.columnRepository.findLastColumn(boardId);
 
       if (lastColumn) {
@@ -35,7 +35,6 @@ class ColumnService {
       } else if (!lastColumn) {
         columnIndex = 10000000;
       }
-
       const createColumn = await this.columnRepository.postColumn(
         boardId,
         title,
@@ -52,12 +51,11 @@ class ColumnService {
         message: '컬럼 생성 성공',
       };
     } catch (err) {
-      console.log(err);
       return { status: 500, message: 'Server Error' };
     }
   };
 
-  updateColumn = async (boardId, columnId, title) => {
+  updateColumn = async (boardId, columnId, title, user) => {
     try {
       if (!boardId) {
         return {
@@ -75,14 +73,14 @@ class ColumnService {
           message: '타이틀이 입력되지 않았습니다.',
         };
       }
-      // const board = await this.boardRepository.1개보드찾는함수
-      // if (!board) {
-      //   return {
-      //     status: 400,
-      //     message: '존재하지 않는 보드입니다.',
-      //   };
-      // }
-      const column = await this.columnRepository.findOneColimn(columnId);
+      const board = await this.boardRepository.getBoard(user, boardId);
+      if (board.status === 400) {
+        return {
+          status: 400,
+          message: '존재하지 않는 보드입니다.',
+        };
+      }
+      const column = await this.columnRepository.findOneColumn(columnId);
       if (!column) {
         return {
           status: 400,
@@ -109,7 +107,7 @@ class ColumnService {
     }
   };
 
-  deleteColumn = async (boardId, columnId) => {
+  deleteColumn = async (boardId, columnId, user) => {
     try {
       if (!boardId) {
         return {
@@ -122,13 +120,13 @@ class ColumnService {
           message: '컬럼 아이디 값이 입력되지 않았습니다.',
         };
       }
-      // const board = await this.boardRepository.1개보드찾는함수
-      // if (!board) {
-      //   return {
-      //     status: 400,
-      //     message: '존재하지 않는 보드입니다.',
-      //   };
-      // }
+      const board = await this.boardRepository.getBoard(user, boardId);
+      if (board.status === 400) {
+        return {
+          status: 400,
+          message: '존재하지 않는 보드입니다.',
+        };
+      }
       const column = await this.columnRepository.findOneColumn(columnId);
       if (!column) {
         return {
@@ -148,12 +146,11 @@ class ColumnService {
         message: '컬럼 삭제 성공',
       };
     } catch (err) {
-      console.log(err);
       return { status: 500, message: 'Server Error' };
     }
   };
 
-  moveColumn = async (boardId, columnId, number) => {
+  moveColumn = async (boardId, columnId, number, user) => {
     try {
       let columnIndex = 0;
 
@@ -167,20 +164,19 @@ class ColumnService {
           status: 400,
           message: '컬럼 아이디 값이 입력되지 않았습니다.',
         };
-      } else if (!number) {
+      } else if (number === undefined) {
         return {
           status: 400,
           message: '변경 할 위치가 입력되지 않았습니다.',
         };
       }
-      // const board = await this.boardRepository.1개보드찾는함수
-      // if (!board) {
-      //   return {
-      //     status: 400,
-      //     message: '존재하지 않는 보드입니다.',
-      //   };
-      // }
-
+      const board = await this.boardRepository.getBoard(user, boardId);
+      if (board.status === 400) {
+        return {
+          status: 400,
+          message: '존재하지 않는 보드입니다.',
+        };
+      }
       const column = await this.columnRepository.findOneColumn(columnId);
       if (!column) {
         return {
@@ -189,7 +185,11 @@ class ColumnService {
         };
       }
       const columnData = await this.columnRepository.findAllColumn(boardId);
-      if (columnData) {
+      if (number === 0) {
+        columnIndex = columnData[number].columnIndex - 1;
+      } else if (number + 1 >= columnData.length) {
+        columnIndex = (await this.columnRepository.findLastColumn(boardId)) + 1;
+      } else if (columnData) {
         const preIndex = columnData[number - 1].columnIndex;
         const aftIndex = columnData[number].columnIndex;
         columnIndex = (preIndex + aftIndex) / 2;
