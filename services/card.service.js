@@ -25,6 +25,7 @@ class CardService {
       if (findCardData.length) {
         index = findCardData[findCardData.length - 1].cardIndex + 10000000;
       }
+      console.log(title);
 
       await this.cardRepository.postCard(
         userId,
