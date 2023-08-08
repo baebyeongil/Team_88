@@ -104,37 +104,56 @@ class CardService {
       let aftIndex = 0;
       let cardData = [];
       const findCardData = await this.cardRepository.findCard(columnId);
-      let length = findCardData.length;
+      let length = findCardData.length - 1;
 
       if (length) {
+        let targetIndex = findCardData.findIndex(e => e.id == cardId);
         if (number == 0) {
           preIndex = 0;
           aftIndex = findCardData[number].cardIndex;
         } else if (number >= length) {
-          preIndex = findCardData[length - 1].cardIndex;
+          preIndex = findCardData[length].cardIndex;
           aftIndex = preIndex + 20000000;
         } else {
-          preIndex = findCardData[number - 1].cardIndex;
-          aftIndex = findCardData[number].cardIndex;
+          if (targetIndex > number) {
+            preIndex = findCardData[number - 1].cardIndex;
+            aftIndex = findCardData[number].cardIndex;
+          } else {
+            preIndex = findCardData[number].cardIndex;
+            aftIndex = findCardData[number + 1].cardIndex;
+          }
         }
         index = Math.floor((preIndex + aftIndex) / 2);
-      }
 
-      if (index == preIndex || index == aftIndex) {
-        for (let i = 0; i < findCardData.length; i++) {
-          let data = {
-            userId: findCardData[i].userId,
-            columnId: findCardData[i].columnId,
-            title: findCardData[i].title,
-            content: findCardData[i].content,
-            cardIndex: 10000000 * (i + 1),
-            workerId: findCardData[i].workerId,
-            deadLine: findCardData[i].deadLine,
-          };
-          cardData.push(data);
+        if (index == preIndex || index == aftIndex) {
+          for (let i = 0; i < findCardData.length; i++) {
+            let data = {
+              id: findCardData[i].id,
+              cardIndex: 10000000 * (i + 1),
+            };
+            cardData.push(data);
+          }
+          await this.cardRepository.resetIndexCard(cardData, columnId);
+          cardData = [];
+
+          if (number == 0) {
+            preIndex = 0;
+            aftIndex = 10000000;
+          } else if (number >= length) {
+            preIndex = (number + 1) * 10000000;
+            aftIndex = preIndex + 20000000;
+          } else {
+            if (targetIndex > number) {
+              preIndex = number * 10000000;
+              aftIndex = (number + 1) * 10000000;
+            } else {
+              preIndex = (number + 1) * 10000000;
+              aftIndex = (number + 2) * 10000000;
+            }
+          }
+
+          index = Math.floor((preIndex + aftIndex) / 2);
         }
-        await this.cardRepository.resetIndexCard(cardData, columnId);
-        cardData = [];
       }
 
       await this.cardRepository.moveCard(cardId, index);
