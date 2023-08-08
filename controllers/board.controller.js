@@ -37,16 +37,16 @@ class BoardController {
     return res.status(updateBoard.status).json(updateBoard.message);
   };
   //보드불러오기
-  // getBoard = async (req, res) => {
-  //   const user = res.locals.user;
-  //   const { boardId } = req.params;
-  //   const getBoard = await this.boardService.getBoard(user, boardId);
-  //   if (getBoard.status == 400) {
-  //     return res.status(getBoard.status).json(getBoard.message);
-  //   } else {
-  //     return res.status(getBoard.status).json(getBoard.getBoard);
-  //   }
-  // };
+  getBoard = async (req, res) => {
+    const user = res.locals.user;
+    const { boardId } = req.params;
+    const getBoard = await this.boardService.getBoard(user, boardId);
+    if (getBoard.status == 400) {
+      return res.status(getBoard.status).json(getBoard.message);
+    } else {
+      return res.status(getBoard.status).json(getBoard.getBoard);
+    }
+  };
   //보드불러오기
   deleteBoard = async (req, res) => {
     const user = res.locals.user;
