@@ -8,8 +8,9 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="./styles/main.css" />
-    <script src="./scripts/main.js" defet></script>
+    <link rel="stylesheet" href="./styles/mypage.css" />
+    <script src="./scripts/mypage.js" defet></script>
+    <!-- 추가적인 스타일 시트를 여기에 링크할 수 있습니다. -->
   </head>
   <body>
     <header class="header">
@@ -24,99 +25,32 @@
       <button class="btn btn-light logout-button d-none">로그아웃</button>
     </header>
 
-    <section class="background-image">
-      <div class="container text-center">
-        <h1 class="display-4">배경 이미지 영역</h1>
-        <p class="lead">멋진 이미지와 함께 환영합니다.</p>
-        <button
-          class="btn btn-success btn-lg join-button"
-          data-bs-toggle="modal"
-          data-bs-target="#signupModal"
-        >
-          지금 가입하기
-        </button>
-      </div>
-    </section>
-
-    <section class="description">
-      <div class="container">
-        <p class="lead">간단한 설명이 들어갈 수 있는 레이어</p>
-      </div>
-    </section>
-
-    <!-- 가입 모달 -->
+    <!-- 헤더 아래에 보드 제목 추가 -->
     <div
-      class="modal fade"
-      id="signupModal"
-      tabindex="-1"
-      aria-labelledby="signupModalLabel"
-      aria-hidden="true"
+      class="board-title"
+      style="display: flex; align-items: center; margin-left: 20px"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="signupModalLabel">가입하기</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label for="email" class="form-label">이메일</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  placeholder="이메일을 입력하세요"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">비밀번호</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="password"
-                  placeholder="비밀번호를 입력하세요"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="confirm" class="form-label">비밀번호 확인</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="confirm"
-                  placeholder="비밀번호를 다시 입력하세요"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="nickname" class="form-label">닉네임</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="nickname"
-                  placeholder="사용하실 닉네임을 입력하세요"
-                />
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              취소
-            </button>
-            <button type="button" class="btn btn-primary" id="submitSignup">
-              가입하기
-            </button>
-          </div>
-        </div>
-      </div>
+      <h1 style="margin: 0">나의 보드</h1>
+    </div>
+
+    <!-- 검은색 가로 선 -->
+    <div class="black-line"></div>
+
+    <!-- 보드 상세페이지로 들어갈 수 있는 버튼 -->
+    <div class="board-buttons" style="margin-top: 20px"></div>
+
+    <!-- 보드 생성 버튼 -->
+    <div
+      class="create-board"
+      style="margin-top: 20px; display: flex; justify-content: flex-start"
+    >
+      <button
+        class="btn btn-primary"
+        id="createBoardButton"
+        style="margin-left: 20px; width: 120px; height: 80px"
+      >
+        보드 생성
+      </button>
     </div>
 
     <!-- 로그인 모달 -->
@@ -176,10 +110,67 @@
       </div>
     </div>
 
+    <!-- 데이터 입력을 위한 모달 -->
+    <div
+      class="modal fade"
+      id="createBoardModal"
+      tabindex="-1"
+      aria-labelledby="createBoardModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="createBoardModalLabel">보드 생성</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="createBoardForm">
+              <div class="mb-3">
+                <label for="boardTitle" class="form-label">제목</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="boardTitle"
+                  placeholder="제목을 입력하세요"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="boardContent" class="form-label">내용</label>
+                <textarea
+                  class="form-control"
+                  id="boardContent"
+                  placeholder="내용을 입력하세요"
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              취소
+            </button>
+            <button type="button" class="btn btn-primary" id="submitBoard">
+              생성
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Axios 로드 -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-    <script></script>
 
     <!-- 부트스트랩 스크립트 파일 링크 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
