@@ -79,14 +79,14 @@ class BoardRepository {
         include: {
           model: Board,
           attributes: ['title', 'content'],
-        },
-        include: {
-          model: Column,
-          attributes: ['id', 'title'],
-        },
-        include: {
-          model: Card,
-          attributes: ['id', 'title', 'content', 'workerId', 'deadLine'],
+          include: {
+            model: Column,
+            attributes: ['id', 'title'],
+            include: {
+              model: Card,
+              attributes: ['id', 'title', 'content', 'workerId', 'deadLine'],
+            },
+          },
         },
       });
       return getBoard;
@@ -94,14 +94,16 @@ class BoardRepository {
       console.error(err);
       return {
         status: 400,
-        message: '보드를 수정하는 도중 에러가 발생했습니다.',
+        message: '보드를 불러오는 도중 에러가 발생했습니다.',
       };
     }
   }
+
+  //보드 삭제하기
   async deleteBoard(user, boardId) {
     try {
       const deleteBoard = await Board.findOne({
-        where: { userId: user.id, id: boardId }
+        where: { userId: user.id, id: boardId },
       });
       return deleteBoard;
     } catch (err) {
@@ -109,6 +111,26 @@ class BoardRepository {
       return {
         status: 400,
         message: '보드를 삭제하는 도중 에러가 발생했습니다.',
+      };
+    }
+  }
+
+  //보드 초대하기
+  async inviteBoard(userId, boardId) {
+    try {
+      await Member.create({
+        userId,
+        boardId,
+      });
+      return {
+        status: 200,
+        message: '보드 초대에 성공했습니다.',
+      };
+    } catch (err) {
+      console.error(err);
+      return {
+        status: 400,
+        message: '보드에 유저를 초대하는 도중 에러가 발생했습니다.',
       };
     }
   }
