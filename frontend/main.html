@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Website</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <!-- 추가적인 스타일 시트를 여기에 링크할 수 있습니다. -->
+    <style>
+      /* 원하는 스타일을 추가합니다. */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background-color: #343a40;
+        color: #ffffff;
+      }
+      .logo {
+        font-size: 24px;
+      }
+      .login-button {
+        margin-left: 10px;
+      }
+      .background-image {
+        background-image: url('your-image-url.jpg');
+        background-size: cover;
+        height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+      }
+      .description {
+        padding: 50px;
+        text-align: center;
+        background-color: #f8f9fa;
+      }
+      .join-button {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">8딱8딱 로고</div>
+      <button class="btn btn-light login-button">로그인</button>
+    </header>
+
+    <section class="background-image">
+      <div class="container text-center">
+        <h1 class="display-4">배경 이미지 영역</h1>
+        <p class="lead">멋진 이미지와 함께 환영합니다.</p>
+        <button
+          class="btn btn-success btn-lg join-button"
+          data-bs-toggle="modal"
+          data-bs-target="#signupModal"
+        >
+          지금 가입하기
+        </button>
+      </div>
+    </section>
+
+    <section class="description">
+      <div class="container">
+        <p class="lead">간단한 설명이 들어갈 수 있는 레이어</p>
+      </div>
+    </section>
+
+    <!-- 가입 모달 -->
+    <div
+      class="modal fade"
+      id="signupModal"
+      tabindex="-1"
+      aria-labelledby="signupModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="signupModalLabel">가입하기</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="email" class="form-label">이메일</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="이메일을 입력하세요"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">비밀번호</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  placeholder="비밀번호를 입력하세요"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label"
+                  >비밀번호 확인</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="confirmPassword"
+                  placeholder="비밀번호를 다시 입력하세요"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="nickname" class="form-label">닉네임</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nickname"
+                  placeholder="사용하실 닉네임을 입력하세요"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              취소
+            </button>
+            <button type="button" class="btn btn-primary">가입하기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Axios 로드 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const signupButton = document.querySelector(
+          '#signupModal button.btn-primary'
+        );
+
+        signupButton.addEventListener('click', function () {
+          // 폼 데이터 수집
+          const email = document.querySelector('#email').value;
+          const password = document.querySelector('#password').value;
+          const confirmPassword =
+            document.querySelector('#confirmPassword').value;
+          const nickname = document.querySelector('#nickname').value;
+
+          // 데이터 객체 생성
+          const userData = {
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword,
+            nickname: nickname,
+          };
+
+          // Axios를 사용하여 POST 요청 보내기
+          axios
+            .post('/user/signup', userData)
+            .then(response => {
+              // 백엔드에서 응답이 올 경우 모달 닫기
+              const signupModal = new bootstrap.Modal(
+                document.getElementById('signupModal')
+              );
+              signupModal.hide();
+
+              // 원하는 추가적인 처리 수행
+            })
+            .catch(error => {
+              // 에러 처리
+            });
+        });
+      });
+    </script>
+
+    <!-- 부트스트랩 스크립트 파일 링크 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
