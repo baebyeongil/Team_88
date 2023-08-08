@@ -40,7 +40,7 @@ class CommentRepository {
 
   deleteComment = async (userId, commentId) => {
     try {
-      const deleteCommentData = await Comment.delete({
+      const deleteCommentData = await Comment.destroy({
         where: { id: commentId, userId },
       });
 

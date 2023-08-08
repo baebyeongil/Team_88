@@ -1,9 +1,12 @@
-const { Card } = require('../db/models/card');
+const Card = require('../db/models/card');
 
 class CardRepository {
   getCard = async cardId => {
     try {
-      const getCardData = await Card.findOne({ where: { id: cardId } });
+      const getCardData = await Card.findOne({
+        order: [['cardIndex']],
+        where: { id: cardId },
+      });
 
       return getCardData;
     } catch (error) {
@@ -14,7 +17,8 @@ class CardRepository {
   findCard = async columnId => {
     try {
       const findCardData = await Card.findAll({
-        attributes: ['index'],
+        attributes: ['cardIndex'],
+        order: [['cardIndex']],
         where: { columnId },
       });
 
@@ -31,7 +35,7 @@ class CardRepository {
     content,
     workerId,
     deadLine,
-    index
+    cardIndex
   ) => {
     try {
       const postCardData = await Card.create({
@@ -41,7 +45,7 @@ class CardRepository {
         content,
         workerId,
         deadLine,
-        index,
+        cardIndex,
       });
 
       return postCardData;
@@ -65,7 +69,7 @@ class CardRepository {
 
   deleteCard = async (userId, cardId) => {
     try {
-      const deleteCard = await Card.delete({ where: { id: cardId, userId } });
+      const deleteCard = await Card.destroy({ where: { id: cardId, userId } });
 
       return deleteCard;
     } catch (error) {
@@ -73,11 +77,11 @@ class CardRepository {
     }
   };
 
-  stateCard = async (columnId, cardId, index) => {
+  stateCard = async (columnId, cardId, cardIndex) => {
     try {
       const stateCardData = await Card.update(
-        { columnId, index },
-        { where: { cardId } }
+        { columnId, cardIndex },
+        { where: { id: cardId } }
       );
 
       return stateCardData;
@@ -86,9 +90,12 @@ class CardRepository {
     }
   };
 
-  moveCard = async (cardId, index) => {
+  moveCard = async (cardId, cardIndex) => {
     try {
-      const moveCardData = await Card.update({ index }, { where: { cardId } });
+      const moveCardData = await Card.update(
+        { cardIndex },
+        { where: { id: cardId } }
+      );
 
       return moveCardData;
     } catch (error) {
