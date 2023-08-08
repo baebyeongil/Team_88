@@ -22,7 +22,7 @@ class CardController {
 
   postCard = async (req, res, next) => {
     try {
-      const userId = res.locals.user;
+      const userId = res.locals.user.id;
       const { columnId } = req.params;
       const { title, content, workerId, deadLine } = req.body;
       const postCardData = await this.cardService.postCard(
@@ -44,7 +44,7 @@ class CardController {
 
   updateCard = async (req, res, next) => {
     try {
-      const userId = res.locals.user;
+      const userId = res.locals.user.id;
       const { cardId } = req.params;
       const { title, content, workerId, deadLine } = req.body;
 
@@ -67,7 +67,7 @@ class CardController {
 
   deleteCard = async (req, res, next) => {
     try {
-      const userId = res.locals.user;
+      const userId = res.locals.user.id;
       const { cardId } = req.params;
 
       const deleteCardData = await this.cardService.deleteCard(userId, cardId);
@@ -105,6 +105,10 @@ class CardController {
         cardId,
         number
       );
+
+      return res
+        .status(moveCardData.status)
+        .json({ result: moveCardData.message });
     } catch (error) {
       return { status: 400, message: 'Controller Error: 수정에 실패했습니다.' };
     }
