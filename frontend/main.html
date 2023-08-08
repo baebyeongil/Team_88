@@ -47,7 +47,13 @@
   <body>
     <header class="header">
       <div class="logo">8딱8딱 로고</div>
-      <button class="btn btn-light login-button">로그인</button>
+      <button
+        class="btn btn-light login-button"
+        data-bs-toggle="modal"
+        data-bs-target="#loginModal"
+      >
+        로그인
+      </button>
     </header>
 
     <section class="background-image">
@@ -110,13 +116,11 @@
                 />
               </div>
               <div class="mb-3">
-                <label for="confirmPassword" class="form-label"
-                  >비밀번호 확인</label
-                >
+                <label for="confirm" class="form-label">비밀번호 확인</label>
                 <input
                   type="password"
                   class="form-control"
-                  id="confirmPassword"
+                  id="confirm"
                   placeholder="비밀번호를 다시 입력하세요"
                 />
               </div>
@@ -139,7 +143,66 @@
             >
               취소
             </button>
-            <button type="button" class="btn btn-primary">가입하기</button>
+            <button type="button" class="btn btn-primary" id="submitSignup">
+              가입하기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 로그인 모달 -->
+    <div
+      class="modal fade"
+      id="loginModal"
+      tabindex="-1"
+      aria-labelledby="loginModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">로그인</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="email-login" class="form-label">이메일</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email-login"
+                  placeholder="이메일을 입력하세요"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="password-login" class="form-label">비밀번호</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password-login"
+                  placeholder="비밀번호를 입력하세요"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              취소
+            </button>
+            <button type="button" class="btn btn-primary" id="login">
+              로그인하기
+            </button>
           </div>
         </div>
       </div>
@@ -149,6 +212,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
+      // 회원가입
       document.addEventListener('DOMContentLoaded', function () {
         const signupButton = document.querySelector(
           '#signupModal button.btn-primary'
@@ -158,15 +222,14 @@
           // 폼 데이터 수집
           const email = document.querySelector('#email').value;
           const password = document.querySelector('#password').value;
-          const confirmPassword =
-            document.querySelector('#confirmPassword').value;
+          const confirm = document.querySelector('#confirm').value;
           const nickname = document.querySelector('#nickname').value;
 
           // 데이터 객체 생성
           const userData = {
             email: email,
             password: password,
-            confirmPassword: confirmPassword,
+            confirm: confirm,
             nickname: nickname,
           };
 
@@ -174,16 +237,51 @@
           axios
             .post('/user/signup', userData)
             .then(response => {
-              // 백엔드에서 응답이 올 경우 모달 닫기
-              const signupModal = new bootstrap.Modal(
-                document.getElementById('signupModal')
-              );
-              signupModal.hide();
+              // 성공 메시지 표시
+              const successMessage = document.createElement('div');
+              successMessage.classList.add('alert', 'alert-success', 'mt-3');
+              successMessage.textContent =
+                '회원 가입이 성공적으로 완료되었습니다. 창을 닫아주세요.';
 
-              // 원하는 추가적인 처리 수행
+              const modalBody = document.querySelector(
+                '#signupModal .modal-body'
+              );
+              modalBody.appendChild(successMessage);
             })
             .catch(error => {
               // 에러 처리
+            });
+        });
+      });
+
+      //로그인
+      document.addEventListener('DOMContentLoaded', function () {
+        const loginButton = document.querySelector(
+          '#loginModal button.btn-primary'
+        );
+
+        loginButton.addEventListener('click', function () {
+          // 폼 데이터 수집
+          const email = document.querySelector('#email-login').value;
+          const password = document.querySelector('#password-login').value;
+
+          // 데이터 객체 생성
+          const userData = {
+            email: email,
+            password: password,
+          };
+
+          // Axios를 사용하여 POST 요청 보내기
+          axios
+            .post('/user/login', userData) // 실제 백엔드 URL로 수정해야 합니다
+            .then(response => {
+              // 로그인 성공 처리
+              console.log('로그인 성공');
+              // 원하는 추가적인 처리 수행
+            })
+            .catch(error => {
+              // 로그인 실패 처리
+              console.error('로그인 실패');
             });
         });
       });
