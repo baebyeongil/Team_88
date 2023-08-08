@@ -1,5 +1,34 @@
-// 회원가입
 document.addEventListener('DOMContentLoaded', function () {
+  const loginButton = document.querySelector('.login-button');
+  const logoutButton = document.querySelector('.logout-button');
+
+  // 쿠키값 확인하여 버튼 상태 설정
+  function checkLoginStatus() {
+    let cookies = document.cookie;
+    if (cookies.includes('Authorization=Bearer%20')) {
+      window.location.href = `mypage.html`;
+    } else {
+      loginButton.classList.remove('d-none'); // 로그인 버튼 표시
+      logoutButton.classList.add('d-none'); // 로그아웃 버튼 숨김
+    }
+  }
+
+  // 페이지 로드 시 쿠키값 확인
+  checkLoginStatus();
+
+  logoutButton.addEventListener('click', function () {
+    // Axios를 사용하여 POST 요청 보내기
+    axios
+      .post('/user/logout') // 실제 백엔드 URL로 수정해야 합니다
+      .then(response => {
+        checkLoginStatus();
+      })
+      .catch(error => {
+        alert(error.request.response);
+      });
+  });
+
+  // 회원가입
   const signupButton = document.querySelector(
     '#signupModal button.btn-primary'
   );
@@ -37,13 +66,13 @@ document.addEventListener('DOMContentLoaded', function () {
         alert(error.request.response);
       });
   });
-});
 
-//로그인
-document.addEventListener('DOMContentLoaded', function () {
-  const loginButton = document.querySelector('#loginModal button.btn-primary');
+  //로그인
+  const modalLoginButton = document.querySelector(
+    '#loginModal button.btn-primary'
+  );
 
-  loginButton.addEventListener('click', function () {
+  modalLoginButton.addEventListener('click', function () {
     // 폼 데이터 수집
     const email = document.querySelector('#email-login').value;
     const password = document.querySelector('#password-login').value;
@@ -66,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const modalBody = document.querySelector('#loginModal .modal-body');
         modalBody.appendChild(successMessage);
 
-        reLoad();
+        checkLoginStatus();
       })
       .catch(error => {
         alert(error.request.response);
@@ -80,37 +109,3 @@ reLoad = () => {
     location.reload();
   }, 500);
 };
-
-//페이지 오픈 시
-document.addEventListener('DOMContentLoaded', function () {
-  const loginButton = document.querySelector('.login-button');
-  const logoutButton = document.querySelector('.logout-button');
-  const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-  const loginForm = document.querySelector('#loginModal form');
-
-  // 쿠키값 확인하여 버튼 상태 설정
-  function checkLoginStatus() {
-    let cookies = document.cookie;
-    if (cookies.includes('Authorization=Bearer%20')) {
-      window.location.href = `mypage.html`;
-    } else {
-      loginButton.classList.remove('d-none'); // 로그인 버튼 표시
-      logoutButton.classList.add('d-none'); // 로그아웃 버튼 숨김
-    }
-  }
-
-  // 페이지 로드 시 쿠키값 확인
-  checkLoginStatus();
-
-  logoutButton.addEventListener('click', function () {
-    // Axios를 사용하여 POST 요청 보내기
-    axios
-      .post('/user/logout') // 실제 백엔드 URL로 수정해야 합니다
-      .then(response => {
-        checkLoginStatus();
-      })
-      .catch(error => {
-        alert(error.request.response);
-      });
-  });
-});

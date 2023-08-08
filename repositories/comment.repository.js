@@ -1,9 +1,15 @@
 const Comment = require('../db/models/comment');
-
+const User = require('../db/models/user');
 class CommentRepository {
   getComments = async cardId => {
     try {
-      const getComments = await Comment.findAll({ where: { cardId } });
+      const getComments = await Comment.findAll({
+        include: {
+          model: User,
+          attributes: ['nickname'],
+        },
+        where: { cardId },
+      });
 
       return getComments;
     } catch (error) {

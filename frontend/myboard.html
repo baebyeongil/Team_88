@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Website</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <!-- 추가적인 스타일 시트를 여기에 링크할 수 있습니다. -->
+    <style>
+      /* 원하는 스타일을 추가합니다. */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background-color: #343a40;
+        color: #ffffff;
+      }
+      .logo {
+        font-size: 24px;
+      }
+      .login-button {
+        margin-left: 10px;
+      }
+      .join-button {
+        margin-top: 20px;
+      }
+      /* 추가된 스타일 */
+      .board-title {
+        text-align: center;
+        margin-top: 30px;
+      }
+
+      .black-line {
+        width: 100%;
+        height: 2px;
+        background-color: #000;
+        margin-top: 20px;
+      }
+
+      .board-button {
+        text-align: center;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">8딱8딱 로고</div>
+      <button
+        class="btn btn-light login-button"
+        data-bs-toggle="modal"
+        data-bs-target="#loginModal"
+      >
+        로그인
+      </button>
+      <button class="btn btn-light logout-button d-none">로그아웃</button>
+    </header>
+
+    <!-- 부트스트랩 스크립트 파일 링크 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
