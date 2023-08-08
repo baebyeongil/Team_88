@@ -344,12 +344,12 @@
           // Axios를 사용하여 POST 요청 보내기
           axios
             .post('/user/logout') // 실제 백엔드 URL로 수정해야 합니다
-            .then(response => {})
+            .then(response => {
+              checkLoginStatus();
+            })
             .catch(error => {
               // 에러 처리
             });
-
-          checkLoginStatus();
         });
       });
     </script>
