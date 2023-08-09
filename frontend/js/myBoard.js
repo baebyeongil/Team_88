@@ -25,7 +25,7 @@ const myBoard = async () => {
       <button id="delete-card" onclick="columnDeleteBtn(${id})">X</button>
       <button id="add-card" onclick="cardModarOpen(${id})">+</button>
         <div id="columnTitle">${title}</div>
-        <div id="cardList-${i}"></div>
+        <div id="cardList" class="cardList-${i}"></div>
       </div>
       `;
         $('#card-container').append(temp_html);
@@ -42,7 +42,7 @@ const myBoard = async () => {
                 <div><button id="detailCard" onclick="">상세보기</button></div>
               </div>
             `;
-          $(`#cardList-${i}`).append(card_html);
+          $(`.cardList-${i}`).append(card_html);
           console.log(cards[j]);
         }
       }
