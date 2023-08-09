@@ -13,27 +13,25 @@ const commentList = fetch(`/card/${cardId}/comment`)
     return data;
   });
 
-
 const getCard = () => {
   card.then(datas => {
     const temp = document.createElement('div');
     const cardTitle = datas.result.title;
     const cardContent = datas.result.content;
+    const cardId = datas.result.id;
     $('#cardBox').empty();
     temp.innerHTML = `<div class="card text-center">
-                          <div class="card-header">
-                          제목:${cardTitle}
-                          <button class="cardDeleteBtn">
-                          x
-                          </button>
-                          </div>
-                          <div class="card-body">
-                          <h5 class="card-title">내용:${cardContent}</h5>
-                          <button id="submitComment" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentModal">
-                          댓글
-                          </button>
-                          </div>
-                          </div>`;
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                      <span class="mx-auto">제목:${cardTitle}</span> 
+                      <button class="cardDeleteBtn" onclick="deleteCard(${cardId})">x</button>
+                      </div>
+                      <div class="card-body">
+                      <h5 class="card-title">내용:${cardContent}</h5>
+                      <button id="submitComment" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentModal">
+                      댓글
+                      </button>
+                      </div>
+                      </div>`;
     document.querySelector('#cardBox').append(temp);
   });
 };
@@ -64,7 +62,7 @@ const getComment = () => {
       const temp = document.createElement('div');
       const content = comment.comment;
       const nickname = comment.user.nickname;
-      const commentId=comment.id
+      const commentId = comment.id;
       temp.innerHTML = `<div id="comment" class="container mt-4" style="width: 36rem">
                         <div class="card text-center">
                         <h3>${nickname}</h3><hr/>
@@ -83,7 +81,7 @@ const getComment = () => {
 };
 
 function updateComment(commentId) {
-  let pixComment=prompt("내용을 입력해주세요")
+  let pixComment = prompt('내용을 입력해주세요');
   const req = {
     comment: pixComment,
   };
@@ -101,20 +99,34 @@ function updateComment(commentId) {
     });
 }
 
-
 function deleteComment(commentId) {
-    fetch(`/card/${cardId}/comment/${commentId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(),
-    })
-      .then(res => res.json())
-      .then(res => {
-        alert(res.result);
-        window.location.reload();
-      });
-  }
+  fetch(`/card/${cardId}/comment/${commentId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(),
+  })
+    .then(res => res.json())
+    .then(res => {
+      alert(res.result);
+      window.location.reload();
+    });
+}
+
+function deleteCard(cardId) {
+  fetch(`/column/${columnId}/card/${cardId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(),
+  })
+    .then(res => res.json())
+    .then(res => {
+      alert(res.result);
+      window.location.href = `myboard.html?id=${columnId}`
+    });
+}
 getCard();
 getComment();
