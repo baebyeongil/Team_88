@@ -2,12 +2,12 @@ const urlParams = new URL(location.href).searchParams;
 const cardId = urlParams.get('cardId');
 const columnId = urlParams.get('columnId');
 const commentInput = document.getElementById('commentInput');
-const card = fetch(`http://localhost:3000/column/${columnId}/card/${cardId}`)
+const card = fetch(`/column/${columnId}/card/${cardId}`)
   .then(response => response.json())
   .then(data => {
     return data;
   });
-const commentList = fetch(`http://localhost:3000/card/${cardId}/comment`)
+const commentList = fetch(`/card/${cardId}/comment`)
   .then(response => response.json())
   .then(data => {
     return data;
@@ -22,6 +22,9 @@ const getCard = () => {
     temp.innerHTML = `<div class="card text-center">
                           <div class="card-header">
                           제목:${cardTitle}
+                          <button class="cardDeleteBtn">
+                          x
+                          </button>
                           </div>
                           <div class="card-body">
                           <h5 class="card-title">내용:${cardContent}</h5>
@@ -39,7 +42,7 @@ function postComment() {
     comment: commentInput.value,
   };
 
-  fetch(`http://localhost:3000/card/${cardId}/comment`, {
+  fetch(`/card/${cardId}/comment`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -83,7 +86,7 @@ function updateComment(commentId) {
   const req = {
     comment: pixComment,
   };
-  fetch(`http://localhost:3000/card/${cardId}/comment/${commentId}`, {
+  fetch(`/card/${cardId}/comment/${commentId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -98,7 +101,7 @@ function updateComment(commentId) {
 }
 
 function deleteComment(commentId) {
-  fetch(`http://localhost:3000/card/${cardId}/comment/${commentId}`, {
+  fetch(`/card/${cardId}/comment/${commentId}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
