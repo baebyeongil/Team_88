@@ -37,7 +37,7 @@ columnsContainer.addEventListener('drop', async event => {
       // 새로운 순서로 컬럼을 이동하는 API 요청 보내기
       try {
         const response = await fetch(
-          `http://localhost:3000/board/${boardId}/column/${columnIdToMove}`,
+          `/board/${boardId}/column/${columnIdToMove}`,
           {
             method: 'PUT', // 변경이 필요한 경우 PUT 또는 다른 HTTP 메서드 사용
             headers: {
