@@ -103,17 +103,14 @@ class CardRepository {
     }
   };
 
-  resetIndexCard = async (cardData, columnId) => {
-    console.log(cardData, '으아아아악');
+  resetIndexCard = async cardData => {
     try {
       const resetIndexCardData = await Card.bulkCreate(cardData, {
         updateOnDuplicate: ['cardIndex'],
-        where: { columnId },
       });
 
       return resetIndexCardData;
     } catch (error) {
-      console.log(error);
       throw error;
     }
   };
