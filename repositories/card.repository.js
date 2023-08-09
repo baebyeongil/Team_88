@@ -54,11 +54,11 @@ class CardRepository {
     }
   };
 
-  updateCard = async (userId, cardId, title, content, workerId, deadLine) => {
+  updateCard = async (cardId, title, content, workerId, deadLine) => {
     try {
       const updateCard = await Card.update(
         { title, content, workerId, deadLine },
-        { where: { id: cardId, userId } }
+        { where: { id: cardId } }
       );
 
       return updateCard;
@@ -67,9 +67,9 @@ class CardRepository {
     }
   };
 
-  deleteCard = async (userId, cardId) => {
+  deleteCard = async cardId => {
     try {
-      const deleteCard = await Card.destroy({ where: { id: cardId, userId } });
+      const deleteCard = await Card.destroy({ where: { id: cardId } });
 
       return deleteCard;
     } catch (error) {
