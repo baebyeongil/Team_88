@@ -197,7 +197,7 @@ class ColumnService {
         aftIndex = columnData[number].columnIndex;
       }
       // 제일 뒤로
-      else if (number >= columnData.length) {
+      else if (number + 1 >= columnData.length) {
         preIndex = columnData[number].columnIndex;
         aftIndex = columnData[number].columnIndex + 20000000;
       }
@@ -241,8 +241,8 @@ class ColumnService {
         }
         // 현재 위치보다 뒤로
         else if (number > targetIndex) {
-          preIndex = number * 10000000;
-          aftIndex = preIndex + 20000000;
+          preIndex = (number + 1) * 10000000;
+          aftIndex = (number + 2) * 10000000;
         }
         // 현재 위치보다 앞으로
         else if (number < targetIndex) {
