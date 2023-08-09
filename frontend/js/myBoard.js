@@ -3,7 +3,7 @@ const myBoard = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const boardId = urlParams.get('id');
 
-  await fetch(`http://localhost:3000/board/${boardId}`, {
+  await fetch(`/board/${boardId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ $(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const boardId = urlParams.get('id');
 
-    let columnEndpoint = `http://localhost:3000/board/${boardId}/column`;
+    let columnEndpoint = `/board/${boardId}/column`;
 
     fetch(columnEndpoint, {
       method: 'POST',
@@ -100,7 +100,7 @@ function columnDeleteBtn(id) {
   const boardId = urlParams.get('id');
   const columnId = id;
 
-  fetch(`http://localhost:3000/board/${boardId}/column/${columnId}`, {
+  fetch(`/board/${boardId}/column/${columnId}`, {
     method: 'DELETE',
   })
     .then(res => res.json())
@@ -133,7 +133,7 @@ function cardModarOpen(id) {
   function createCard(content, workerId, deadLine, title) {
     // API 요청을 보내는 부분
 
-    let columnEndpoint = `http://localhost:3000/column/${columnId}/card`;
+    let columnEndpoint = `/column/${columnId}/card`;
 
     fetch(columnEndpoint, {
       method: 'POST',
