@@ -164,15 +164,12 @@ class CardService {
             };
             cardData.push(data);
           }
-          await this.cardRepository.resetIndexCard(cardData, columnId);
+          await this.cardRepository.resetIndexCard(cardData);
           cardData = [];
 
           if (number == 0) {
             preIndex = 0;
             aftIndex = 10000000;
-          } else if (number >= length) {
-            preIndex = (number + 1) * 10000000;
-            aftIndex = preIndex + 20000000;
           } else {
             if (targetIndex > number) {
               preIndex = number * 10000000;
