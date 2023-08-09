@@ -38,12 +38,12 @@ class UserController {
   //회원탈퇴
   deleteUser = async (req, res, next) => {
     const user = res.locals.user;
-    const { password } = req.body;
+    const password = req.headers['password'];
     const deleteUser = await this.userService.deleteUser(user, password);
     if (deleteUser.status === 400) {
       return res.status(deleteUser.status).json(deleteUser.message);
     } else {
-      res.cookie('Authorization', `Bearer ${deleteUser.token}`);
+      res.cookie('Authorization', '');
       return res.status(deleteUser.status).json(deleteUser.message);
     }
   };
