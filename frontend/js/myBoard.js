@@ -87,7 +87,7 @@ $(document).ready(function () {
         if (res.status == 400) {
           const message = await res.json();
           alert(message);
-          location.reload();
+          // location.reload();
         } else {
           location.reload();
         }
