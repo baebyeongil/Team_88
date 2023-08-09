@@ -70,8 +70,7 @@ class BoardRepository {
       };
     }
   }
-
-  //보드불러오기
+  // 보드불러오기
   async getBoard(user, boardId) {
     try {
       const getBoard = await Member.findOne({
@@ -81,14 +80,16 @@ class BoardRepository {
           attributes: ['title', 'content'],
           include: {
             model: Column,
-            attributes: ['id', 'title'],
+            attributes: ['id', 'title', 'columnIndex'],
             include: {
               model: Card,
               attributes: ['id', 'title', 'content', 'workerId', 'deadLine'],
             },
           },
         },
+        order: [[Board, Column, 'columnIndex', 'DESC']],
       });
+
       return getBoard;
     } catch (err) {
       console.error(err);
