@@ -45,18 +45,19 @@ class CardService {
 
   updateCard = async (userId, cardId, title, content, workerId, deadLine) => {
     try {
-      const updateCardData = await this.cardRepository.updateCard(
-        userId,
+      const findCardData = await this.commentRepository.getCard(cardId);
+
+      if (findCardData.userId != userId) {
+        return { status: 403, message: 'Service Error: 수정 권한이 없습니다.' };
+      }
+
+      await this.cardRepository.updateCard(
         cardId,
         title,
         content,
         workerId,
         deadLine
       );
-
-      if (!updateCardData) {
-        return { status: 403, message: 'Service Error: 수정 권한이 없습니다.' };
-      }
 
       return { status: 200, message: '수정이 완료되었습니다.' };
     } catch (error) {
@@ -66,14 +67,13 @@ class CardService {
 
   deleteCard = async (userId, cardId) => {
     try {
-      const deleteCardData = await this.cardRepository.deleteCard(
-        userId,
-        cardId
-      );
+      const findCardData = await this.commentRepository.getCard(cardId);
 
-      if (!deleteCardData) {
+      if (findCardData.userId != userId) {
         return { status: 403, message: 'Service Error: 삭제 권한이 없습니다.' };
       }
+
+      await this.cardRepository.deleteCard(cardId);
 
       return { status: 200, message: '삭제가 완료되었습니다.' };
     } catch (error) {

@@ -19,6 +19,7 @@ class CommentRepository {
           model: User,
           attributes: ['nickname'],
         },
+        order: [['createdAt', 'DESC']],
         where: { cardId },
       });
 
