@@ -1,5 +1,5 @@
-const { where } = require('sequelize');
 const Card = require('../db/models/card');
+const User = require('../db/models/user');
 
 class CardRepository {
   getCard = async cardId => {
@@ -23,6 +23,16 @@ class CardRepository {
       });
 
       return findCardData;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  findUser = async email => {
+    try {
+      const findUserData = await User.findOne({ where: { email } });
+
+      return findUserData;
     } catch (error) {
       throw error;
     }
