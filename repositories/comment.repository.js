@@ -1,6 +1,17 @@
 const Comment = require('../db/models/comment');
 const User = require('../db/models/user');
 class CommentRepository {
+  findComment = async commentId => {
+    try {
+      const findCommentData = await Comment.findOne({
+        where: { id: commentId },
+      });
+
+      return findCommentData;
+    } catch (error) {
+      throw error;
+    }
+  };
   getComments = async cardId => {
     try {
       const getComments = await Comment.findAll({
@@ -31,11 +42,11 @@ class CommentRepository {
     }
   };
 
-  updateComment = async (userId, commentId, comment) => {
+  updateComment = async (commentId, comment) => {
     try {
       const updateCommentData = await Comment.update(
         { comment },
-        { where: { id: commentId, userId } }
+        { where: { id: commentId } }
       );
 
       return updateCommentData;
@@ -44,10 +55,10 @@ class CommentRepository {
     }
   };
 
-  deleteComment = async (userId, commentId) => {
+  deleteComment = async commentId => {
     try {
       const deleteCommentData = await Comment.destroy({
-        where: { id: commentId, userId },
+        where: { id: commentId },
       });
 
       return deleteCommentData;

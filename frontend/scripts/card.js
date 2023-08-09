@@ -13,7 +13,6 @@ const commentList = fetch(`http://localhost:3000/card/${cardId}/comment`)
     return data;
   });
 
-
 const getCard = () => {
   card.then(datas => {
     const temp = document.createElement('div');
@@ -61,7 +60,7 @@ const getComment = () => {
       const temp = document.createElement('div');
       const content = comment.comment;
       const nickname = comment.user.nickname;
-      const commentId=comment.id
+      const commentId = comment.id;
       temp.innerHTML = `<div id="comment" class="container mt-4" style="width: 36rem">
                         <div class="card text-center">
                         <h3>${nickname}</h3><hr/>
@@ -80,7 +79,7 @@ const getComment = () => {
 };
 
 function updateComment(commentId) {
-  let pixComment=prompt("내용을 입력해주세요")
+  let pixComment = prompt('내용을 입력해주세요');
   const req = {
     comment: pixComment,
   };
@@ -98,20 +97,19 @@ function updateComment(commentId) {
     });
 }
 
-
 function deleteComment(commentId) {
-    fetch(`http://localhost:3000/card/${cardId}/comment/${commentId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(),
-    })
-      .then(res => res.json())
-      .then(res => {
-        alert(res.result);
-        window.location.reload();
-      });
-  }
+  fetch(`http://localhost:3000/card/${cardId}/comment/${commentId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(),
+  })
+    .then(res => res.json())
+    .then(res => {
+      alert(res.result);
+      window.location.reload();
+    });
+}
 getCard();
 getComment();
