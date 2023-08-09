@@ -21,9 +21,28 @@ columnsContainer.addEventListener('drop', async event => {
 
   const droppedColumn = event.target;
 
-  const dragdropIndex = Array.from(columnsContainer.children).indexOf(
+  let dragdropIndex = Array.from(columnsContainer.children).indexOf(
     droppedColumn
   );
+
+  if (dragdropIndex == -1) {
+    let droppedChilderenColumn =
+      event.target.parentElement.parentElement.parentElement;
+
+    if (droppedChilderenColumn.id.split('-')[0] == 'cardList') {
+      droppedChilderenColumn =
+        event.target.parentElement.parentElement.parentElement.parentElement;
+    }
+
+    dragdropIndex = Array.from(columnsContainer.children).indexOf(
+      droppedChilderenColumn
+    );
+  }
+
+  if (dragdropIndex == -1) {
+    return;
+  }
+
   const urlParams = new URLSearchParams(window.location.search);
   const boardId = urlParams.get('id');
 
