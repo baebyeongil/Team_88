@@ -58,7 +58,7 @@ columnsContainer.addEventListener('drop', async event => {
 
     if (response.ok) {
       console.log('Column order updated successfully.');
-      // location.reload(); // 컬럼 순서가 변경되었으므로 화면 다시 로드
+      location.reload(); // 컬럼 순서가 변경되었으므로 화면 다시 로드
     } else {
       console.error('Failed to update column order.');
     }

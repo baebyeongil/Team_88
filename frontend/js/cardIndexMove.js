@@ -31,23 +31,48 @@ CardsContainer.addEventListener('drop', async event => {
   const columnId = dragStartCardIndex.split(',')[0];
   const cardId = dragStartCardIndex.split(',')[1];
 
-  try {
-    const response = await fetch(`/column/${columnId}/card/${cardId}/index`, {
-      method: 'PATCH', // 변경이 필요한 경우 PUT 또는 다른 HTTP 메서드 사용
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ number: dragColumnIndex }),
-    });
+  const dropColumnId = droppedCard.id;
 
-    if (response.ok) {
-      console.log('Column order updated successfully.');
-      // location.reload(); // 컬럼 순서가 변경되었으므로 화면 다시 로드
-    } else {
-      console.error('Failed to update column order.');
+  const checkColumId = dropColumnId.split(',')[0];
+
+  if (checkColumId !== columnId) {
+    try {
+      const response = await fetch(`/column/${columnId}/card/${cardId}/state`, {
+        method: 'PATCH', // 변경이 필요한 경우 PUT 또는 다른 HTTP 메서드 사용
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ columnId: dropColumnId }),
+      });
+
+      if (response.ok) {
+        console.log('Column order updated successfully.');
+        location.reload(); // 컬럼 순서가 변경되었으므로 화면 다시 로드
+      } else {
+        console.error('Failed to update column order.');
+      }
+    } catch (error) {
+      console.error('Error while updating column order:', error);
     }
-  } catch (error) {
-    console.error('Error while updating column order:', error);
+  } else if (checkColumId === columnId) {
+    try {
+      const response = await fetch(`/column/${columnId}/card/${cardId}/index`, {
+        method: 'PATCH', // 변경이 필요한 경우 PUT 또는 다른 HTTP 메서드 사용
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ number: dragColumnIndex }),
+      });
+
+      if (response.ok) {
+        console.log('Column order updated successfully.');
+        location.reload(); // 컬럼 순서가 변경되었으므로 화면 다시 로드
+      } else {
+        console.error('Failed to update column order.');
+      }
+    } catch (error) {
+      console.error('Error while updating column order:', error);
+    }
   }
 
   draggingCard = null;
