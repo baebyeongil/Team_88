@@ -5,6 +5,10 @@ class CardRepository {
   getCard = async cardId => {
     try {
       const getCardData = await Card.findOne({
+        include: {
+          model: User,
+          attributes: ['nickname', 'email'],
+        },
         order: [['cardIndex']],
         where: { id: cardId },
       });
