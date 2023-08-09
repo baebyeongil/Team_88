@@ -13,6 +13,13 @@
 .login-button {
   margin-left: 10px;
 }
+.container {
+  display: flex;
+  justify-content: flex-end;
+}
+.myInfo-button {
+  margin-right: 20px;
+}
 .join-button {
   margin-top: 20px;
 }

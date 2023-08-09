@@ -100,11 +100,70 @@ document.addEventListener('DOMContentLoaded', function () {
         alert(error.request.response);
       });
   });
+
+  //내 정보 수정
+  document.getElementById('saveChanges').addEventListener('click', function () {
+    const password = document.getElementById('password').value;
+    const newNickname = document.getElementById('newNickname').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirm = document.getElementById('confirm').value;
+
+    const newUserData = {
+      password: password,
+      newNickname: newNickname,
+      newPassword: newPassword,
+      confirm: confirm,
+    };
+
+    axios
+      .put('/user', newUserData) // 실제 백엔드 URL로 수정해야 합니다
+      .then(response => {
+        // 성공 메시지 표시
+        const successMessage = document.createElement('div');
+        successMessage.classList.add('alert', 'alert-success', 'mt-3');
+        successMessage.textContent = '회원정보가 성공적으로 수정되었습니다.';
+
+        const modalFooter = document.querySelector('#editModal .modal-footer');
+        modalFooter.insertAdjacentElement('beforebegin', successMessage);
+        // 보드 생성에 성공한 경우, 생성된 보드를 화면에 추가
+        reLoad();
+      })
+      .catch(error => {
+        alert(error.request.response);
+      });
+  });
+
+  //회원 탈퇴
+  document.getElementById('deleteUser').addEventListener('click', function () {
+    const password = document.getElementById('password').value;
+
+    const newUserData = {
+      password: password,
+    };
+
+    axios
+      .delete('/user/deleteUser', newUserData) // 실제 백엔드 URL로 수정해야 합니다
+      .then(response => {
+        // 성공 메시지 표시
+        const successMessage = document.createElement('div');
+        successMessage.classList.add('alert', 'alert-success', 'mt-3');
+        successMessage.textContent = '회원탈퇴가 성공적으로 수행되었습니다.';
+
+        const modalFooter = document.querySelector('#editModal .modal-footer');
+        modalFooter.insertAdjacentElement('beforebegin', successMessage);
+        // 보드 생성에 성공한 경우, 생성된 보드를 화면에 추가
+        reLoad();
+      })
+      .catch(error => {
+        console.log(error);
+        alert(error);
+      });
+  });
 });
 
 //리로드
 reLoad = () => {
   setTimeout(() => {
     location.reload();
-  }, 500);
+  }, 700);
 };
