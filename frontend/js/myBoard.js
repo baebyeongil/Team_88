@@ -1,3 +1,4 @@
+// 컬럼 그려지는 부분
 const myBoard = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const boardId = urlParams.get('id');
@@ -20,7 +21,7 @@ const myBoard = async () => {
         let cards = result[i]['cards'];
         let id = result[i]['id'];
         let temp_html = `
-      <div id="columList">
+      <div id="columList" draggable="true">
       <button id="delete-card" onclick="columnDeleteBtn(${id})">X</button>
       <button id="add-card" onclick="cardModarOpen(${id})">+</button>
         <div id="columnTitle">${title}</div>
@@ -28,6 +29,7 @@ const myBoard = async () => {
       </div>
       `;
         $('#card-container').append(temp_html);
+        // 컬럼안에 카드 그려지는 부분
         for (let j = 0; j < cards.length; j++) {
           let cardTitle = cards[j].title;
           let cardContent = cards[j].content;

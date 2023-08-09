@@ -20,11 +20,12 @@ class ColumnRepository {
 
   findAllColumn = async boardId => {
     const columnIndex = await Column.findAll(
+      { where: { boardId }, order: [['columnIndex', 'ASC']] },
       {
         attributes: ['columnIndex'],
-      },
-      { where: { boardId } }
+      }
     );
+
     return columnIndex;
   };
 
@@ -56,6 +57,13 @@ class ColumnRepository {
       { where: { id: columnId } }
     );
     return column;
+  };
+
+  resetIndexColumn = async columnDatas => {
+    const resetIndexColumnData = await Column.bulkCreate(columnDatas, {
+      updateOnDuplicate: ['columnIndex'],
+    });
+    return resetIndexColumnData;
   };
 }
 
