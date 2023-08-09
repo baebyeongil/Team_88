@@ -20,61 +20,73 @@ CardsContainer.addEventListener('dragover', event => {
 CardsContainer.addEventListener('drop', async event => {
   event.preventDefault();
 
-  if (!draggingCard || dragStartCardIndex === null) return;
+  if (draggingCard.parentElement.id == 'cardList') {
+    if (!draggingCard || dragStartCardIndex === null) return;
 
-  const droppedCard = event.target;
+    let droppedCard = event.target;
 
-  const dragColumnIndex = Array.from(dragColumn.children[3].children).indexOf(
-    droppedCard
-  );
-
-  const columnId = dragStartCardIndex.split(',')[0];
-  const cardId = dragStartCardIndex.split(',')[1];
-
-  const dropColumnId = droppedCard.id;
-
-  const checkColumId = dropColumnId.split(',')[0];
-
-  if (checkColumId !== columnId) {
-    try {
-      const response = await fetch(`/column/${columnId}/card/${cardId}/state`, {
-        method: 'PATCH', // 변경이 필요한 경우 PUT 또는 다른 HTTP 메서드 사용
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ columnId: dropColumnId }),
-      });
-
-      if (response.ok) {
-        console.log('Column order updated successfully.');
-        location.reload(); // 컬럼 순서가 변경되었으므로 화면 다시 로드
-      } else {
-        console.error('Failed to update column order.');
-      }
-    } catch (error) {
-      console.error('Error while updating column order:', error);
+    if (droppedCard.id == '') {
+      droppedCard = droppedCard.parentElement;
+    } else if (droppedCard.id == 'detailCard') {
+      droppedCard = droppedCard.parentElement.parentElement;
     }
-  } else if (checkColumId === columnId) {
-    try {
-      const response = await fetch(`/column/${columnId}/card/${cardId}/index`, {
-        method: 'PATCH', // 변경이 필요한 경우 PUT 또는 다른 HTTP 메서드 사용
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ number: dragColumnIndex }),
-      });
+    const dragColumnIndex = Array.from(dragColumn.children[3].children).indexOf(
+      droppedCard
+    );
 
-      if (response.ok) {
-        console.log('Column order updated successfully.');
-        location.reload(); // 컬럼 순서가 변경되었으므로 화면 다시 로드
-      } else {
-        console.error('Failed to update column order.');
+    const columnId = dragStartCardIndex.split(',')[0];
+    const cardId = dragStartCardIndex.split(',')[1];
+
+    const dropColumnId = droppedCard.id;
+    console.log(dropColumnId);
+    const checkColumId = dropColumnId.split(',')[0];
+    if (checkColumId !== columnId) {
+      try {
+        const response = await fetch(
+          `/column/${columnId}/card/${cardId}/state`,
+          {
+            method: 'PATCH', // 변경이 필요한 경우 PUT 또는 다른 HTTP 메서드 사용
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ columnId: dropColumnId }),
+          }
+        );
+
+        if (response.ok) {
+          console.log('Column order updated successfully.');
+          location.reload(); // 컬럼 순서가 변경되었으므로 화면 다시 로드
+        } else {
+          console.error('Failed to update Column order.');
+        }
+      } catch (error) {
+        console.error('Error while updating column order:', error);
       }
-    } catch (error) {
-      console.error('Error while updating column order:', error);
+    } else if (checkColumId === columnId) {
+      try {
+        const response = await fetch(
+          `/column/${columnId}/card/${cardId}/index`,
+          {
+            method: 'PATCH', // 변경이 필요한 경우 PUT 또는 다른 HTTP 메서드 사용
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ number: dragColumnIndex }),
+          }
+        );
+
+        if (response.ok) {
+          console.log('Card order updated successfully.');
+          location.reload(); // 컬럼 순서가 변경되었으므로 화면 다시 로드
+        } else {
+          console.error('Failed to update card order.');
+        }
+      } catch (error) {
+        console.error('Error while updating card order:', error);
+      }
     }
+
+    draggingCard = null;
+    dragStartCardIndex = null;
   }
-
-  draggingCard = null;
-  dragStartCardIndex = null;
 });
