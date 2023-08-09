@@ -33,9 +33,10 @@ const myBoard = async () => {
         for (let j = 0; j < cards.length; j++) {
           let cardTitle = cards[j].title;
           let cardContent = cards[j].content;
+          let cardId = cards[j].id;
           // 카드 내용을 출력하거나 추가하는 코드를 작성하세요
           let card_html = `
-              <div class="cards">
+              <div id=${id},${cardId} class="cards" draggable="true">
                 <div>${cardTitle}</div>
                 <div>${cardContent}</div>
                 <div><button id="detailCard" onclick="">상세보기</button></div>
