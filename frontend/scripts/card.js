@@ -18,21 +18,20 @@ const getCard = () => {
     const temp = document.createElement('div');
     const cardTitle = datas.result.title;
     const cardContent = datas.result.content;
+    const cardId = datas.result.id;
     $('#cardBox').empty();
     temp.innerHTML = `<div class="card text-center">
-                          <div class="card-header">
-                          제목:${cardTitle}
-                          <button class="cardDeleteBtn">
-                          x
-                          </button>
-                          </div>
-                          <div class="card-body">
-                          <h5 class="card-title">내용:${cardContent}</h5>
-                          <button id="submitComment" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentModal">
-                          댓글
-                          </button>
-                          </div>
-                          </div>`;
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                      <span class="mx-auto">제목:${cardTitle}</span> 
+                      <button class="cardDeleteBtn" onclick="deleteCard(${cardId})">x</button>
+                      </div>
+                      <div class="card-body">
+                      <h5 class="card-title">내용:${cardContent}</h5>
+                      <button id="submitComment" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentModal">
+                      댓글
+                      </button>
+                      </div>
+                      </div>`;
     document.querySelector('#cardBox').append(temp);
   });
 };
@@ -114,5 +113,23 @@ function deleteComment(commentId) {
       window.location.reload();
     });
 }
+<<<<<<< HEAD
+
+function deleteCard(cardId) {
+  fetch(`/column/${columnId}/card/${cardId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(),
+  })
+    .then(res => res.json())
+    .then(res => {
+      alert(res.result);
+      window.location.href = `myboard.html?id=${columnId}`
+    });
+}
+=======
+>>>>>>> fe9594b7593e6d122b4419f3c53c0a453df4f493
 getCard();
 getComment();

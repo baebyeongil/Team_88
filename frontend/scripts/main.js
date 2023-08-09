@@ -48,11 +48,16 @@ document.addEventListener('DOMContentLoaded', function () {
       nickname: nickname,
     };
 
-    // Axios를 사용하여 POST 요청 보내기
-    axios
-      .post('/user/signup', userData)
-      .then(response => {
-        // 성공 메시지 표시
+    fetch('/user/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    }).then(async res => {
+      if (res.status == 400) {
+        alert(await res.json());
+      } else {
         const successMessage = document.createElement('div');
         successMessage.classList.add('alert', 'alert-success', 'mt-3');
         successMessage.textContent = '회원 가입이 성공적으로 완료되었습니다.';
@@ -61,10 +66,8 @@ document.addEventListener('DOMContentLoaded', function () {
         modalBody.appendChild(successMessage);
 
         reLoad();
-      })
-      .catch(error => {
-        alert(error.request.response);
-      });
+      }
+    });
   });
 
   //로그인
@@ -82,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
       email: email,
       password: password,
     };
+
 
     // Axios를 사용하여 POST 요청 보내기
     axios
