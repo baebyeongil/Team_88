@@ -72,7 +72,7 @@ class UserService {
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
-    if (user || passwordMatch) {
+    if (passwordMatch) {
       const token = jwt.sign({ id: user.id }, 'custom-secret-key');
       return {
         status: 200,
