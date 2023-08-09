@@ -25,6 +25,7 @@ class CardService {
       if (findCardData.length) {
         index = findCardData[findCardData.length - 1].cardIndex + 10000000;
       }
+      console.log(title);
 
       await this.cardRepository.postCard(
         userId,
@@ -100,27 +101,41 @@ class CardService {
   moveCard = async (columnId, cardId, number) => {
     try {
       let index = 10000000;
+      let preIndex = 0;
+      let aftIndex = 0;
+      let cardData = [];
       const findCardData = await this.cardRepository.findCard(columnId);
       let length = findCardData.length;
 
-      if (number == 0) {
-        if (length) {
-          let preIndex = 0;
-          let aftIndex = findCardData[number].cardIndex;
-          index = (preIndex + aftIndex) / 2;
+      if (length) {
+        if (number == 0) {
+          preIndex = 0;
+          aftIndex = findCardData[number].cardIndex;
+        } else if (number >= length) {
+          preIndex = findCardData[length - 1].cardIndex;
+          aftIndex = preIndex + 20000000;
+        } else {
+          preIndex = findCardData[number - 1].cardIndex;
+          aftIndex = findCardData[number].cardIndex;
         }
-      } else if (number >= length) {
-        if (length) {
-          let preIndex = findCardData[length - 2].cardIndex;
-          let aftIndex = findCardData[length - 1].cardIndex;
-          index = (preIndex + aftIndex) / 2;
+        index = Math.floor((preIndex + aftIndex) / 2);
+      }
+
+      if (index == preIndex || index == aftIndex) {
+        for (let i = 0; i < findCardData.length; i++) {
+          let data = {
+            userId: findCardData[i].userId,
+            columnId: findCardData[i].columnId,
+            title: findCardData[i].title,
+            content: findCardData[i].content,
+            cardIndex: 10000000 * (i + 1),
+            workerId: findCardData[i].workerId,
+            deadLine: findCardData[i].deadLine,
+          };
+          cardData.push(data);
         }
-      } else {
-        if (length) {
-          let preIndex = findCardData[number - 1].cardIndex;
-          let aftIndex = findCardData[number].cardIndex;
-          index = (preIndex + aftIndex) / 2;
-        }
+        await this.cardRepository.resetIndexCard(cardData, columnId);
+        cardData = [];
       }
 
       await this.cardRepository.moveCard(cardId, index);
