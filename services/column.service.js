@@ -153,6 +153,9 @@ class ColumnService {
   moveColumn = async (boardId, columnId, number, user) => {
     try {
       let columnIndex = 0;
+      let preIndex = 0;
+      let aftIndex = 0;
+      let columnDatas = [];
 
       if (!boardId) {
         return {
@@ -185,18 +188,70 @@ class ColumnService {
         };
       }
       const columnData = await this.columnRepository.findAllColumn(boardId);
+
+      let targetIndex = columnData.findIndex(e => e.id == columnId);
+
+      // 제일 앞으로
       if (number === 0) {
-        columnIndex = columnData[number].columnIndex - 1;
-      } else if (number + 1 >= columnData.length) {
-        columnIndex = (await this.columnRepository.findLastColumn(boardId)) + 1;
-      } else if (columnData) {
-        const preIndex = columnData[number - 1].columnIndex;
-        const aftIndex = columnData[number].columnIndex;
-        columnIndex = (preIndex + aftIndex) / 2;
+        preIndex = 0;
+        aftIndex = columnData[number].columnIndex;
+      }
+      // 제일 뒤로
+      else if (number >= columnData.length) {
+        preIndex = columnData[number].columnIndex;
+        aftIndex = columnData[number].columnIndex + 20000000;
+      }
+      // 현재 위치 동일
+      else if (number === targetIndex) {
+        columnIndex = columnData[number].columnIndex;
+      }
+      // 현재 위치보다 뒤로
+      else if (number > targetIndex) {
+        preIndex = columnData[number].columnIndex;
+        aftIndex = columnData[number + 1].columnIndex;
+      }
+      // 현재 위치보다 앞으로
+      else if (number < targetIndex) {
+        preIndex = columnData[number - 1].columnIndex;
+        aftIndex = columnData[number].columnIndex;
       } else if (!columnData) {
         columnIndex = 10000000;
       }
+      columnIndex = Math.floor((preIndex + aftIndex) / 2);
 
+      if (columnIndex === preIndex || columnIndex === aftIndex) {
+        for (let i = 0; i < columnData.length; i++) {
+          let data = {
+            id: columnData[i].id,
+            columnIndex: 10000000 * (i + 1),
+          };
+          columnDatas.push(data);
+        }
+        await this.columnRepository.resetIndexColumn(columnDatas);
+        columnDatas = [];
+
+        // 제일 앞으로
+        if (number === 0) {
+          preIndex = 0;
+          aftIndex = 10000000;
+        }
+        // 현재 위치 동일
+        else if (number === targetIndex) {
+          columnIndex = number * 10000000;
+        }
+        // 현재 위치보다 뒤로
+        else if (number > targetIndex) {
+          preIndex = number * 10000000;
+          aftIndex = preIndex + 20000000;
+        }
+        // 현재 위치보다 앞으로
+        else if (number < targetIndex) {
+          preIndex = number * 10000000;
+          aftIndex = (number + 1) * 10000000;
+        }
+
+        columnIndex = Math.floor((preIndex + aftIndex) / 2);
+      }
       const moveColumn = await this.columnRepository.moveColumn(
         columnId,
         columnIndex
@@ -212,6 +267,7 @@ class ColumnService {
         message: '컬럼 이동 성공',
       };
     } catch (err) {
+      console.log(err);
       return { status: 500, message: 'Server Error' };
     }
   };
