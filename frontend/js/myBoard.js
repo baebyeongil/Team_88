@@ -38,7 +38,7 @@ const myBoard = async () => {
               <div class="cards">
                 <div>${cardTitle}</div>
                 <div>${cardContent}</div>
-                <button id="detailCard" onclick="">상세보기</button>
+                <div><button id="detailCard" onclick="">상세보기</button></div>
               </div>
             `;
           $(`#cardList-${i}`).append(card_html);
