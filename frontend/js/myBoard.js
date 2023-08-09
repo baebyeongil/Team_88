@@ -21,7 +21,7 @@ const myBoard = async () => {
         let cards = result[i]['cards'];
         let id = result[i]['id'];
         let temp_html = `
-      <div id="columList" draggable="true" min-height:300px>
+      <div class="columList" id=${id} draggable="true" min-height:300px>
       <button id="delete-card" onclick="columnDeleteBtn(${id})">X</button>
       <button id="add-card" onclick="cardModarOpen(${id})">+</button>
         <div id="columnTitle">${title}</div>
