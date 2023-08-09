@@ -14,7 +14,7 @@
   </head>
   <body>
     <header class="header">
-      <div class="logo">8딱8딱 로고</div>
+      <div class="logo">8딱8딱</div>
       <button
         class="btn btn-light login-button"
         data-bs-toggle="modal"
@@ -22,7 +22,16 @@
       >
         로그인
       </button>
-      <button class="btn btn-light logout-button d-none">로그아웃</button>
+      <div class="container">
+        <button
+          class="btn btn-light myInfo-button"
+          data-bs-toggle="modal"
+          data-bs-target="#editModal"
+        >
+          내 정보 수정
+        </button>
+        <button class="btn btn-light logout-button d-none">로그아웃</button>
+      </div>
     </header>
 
     <!-- 헤더 아래에 보드 제목 추가 -->
@@ -106,6 +115,90 @@
             </button>
             <button type="button" class="btn btn-primary" id="submitBoard">
               생성
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 내 정보 수정 모달 -->
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      aria-labelledby="editModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">내 정보 수정</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="editForm">
+              <div class="mb-3">
+                <label for="password" class="form-label">기존 비밀번호</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="newNickname" class="form-label"
+                  >수정된 닉네임</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="newNickname"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="newPassword" class="form-label"
+                  >수정된 비밀번호</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="newPassword"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="confirm" class="form-label"
+                  >수정된 비밀번호 확인</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="confirm"
+                  required
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              취소
+            </button>
+            <button type="button" class="btn btn-primary" id="deleteUser">
+              회원 탈퇴
+            </button>
+            <button type="button" class="btn btn-primary" id="saveChanges">
+              정보 수정
             </button>
           </div>
         </div>

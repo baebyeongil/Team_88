@@ -83,11 +83,22 @@ class BoardRepository {
             attributes: ['id', 'title', 'columnIndex'],
             include: {
               model: Card,
-              attributes: ['id', 'title', 'content', 'workerId', 'deadLine'],
+              attributes: [
+                'id',
+                'title',
+                'content',
+                'workerId',
+                'deadLine',
+                'cardIndex',
+              ],
             },
           },
         },
-        order: [[Board, Column, 'columnIndex', 'DESC']],
+        order: [
+          [Board, Column, 'columnIndex', 'DESC'],
+          [Board, Column, Card, 'cardIndex', 'ASC'],
+        ],
+        // order: [[Board, Column, 'columnIndex', 'DESC']],
       });
 
       return getBoard;

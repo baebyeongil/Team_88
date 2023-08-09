@@ -116,6 +116,9 @@ class CardController {
     try {
       const { columnId, cardId } = req.params;
       const { number } = req.body;
+      console.log(columnId);
+      console.log(cardId);
+      console.log(number);
 
       const moveCardData = await this.cardService.moveCard(
         columnId,

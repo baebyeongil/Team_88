@@ -1,4 +1,5 @@
 const urlParams = new URL(location.href).searchParams;
+const boardId = urlParams.get('boardId');
 const cardId = urlParams.get('cardId');
 const columnId = urlParams.get('columnId');
 const commentInput = document.getElementById('commentInput');
@@ -19,17 +20,25 @@ const getCard = () => {
     const cardTitle = datas.result.title;
     const cardContent = datas.result.content;
     const cardId = datas.result.id;
+    const worker = datas.result.user.nickname;
     $('#cardBox').empty();
-    temp.innerHTML = `<div class="card text-center">
-                      <div class="card-header d-flex justify-content-between align-items-center">
-                      <span class="mx-auto">제목:${cardTitle}</span> 
-                      <button class="cardDeleteBtn" onclick="deleteCard(${cardId})">x</button>
+    temp.innerHTML = `<div class="card">
+                      <div class="card-header d-flex justify-content-between">
+                      <span class="card-worker">작업자:${worker}</span>
+                      <span>${cardTitle}</span>
+                      <div class="btn-group">
+                      <button id="cardEditBtn" class="btn btn-primary me-2" style="padding: 0; width: 60px; height: 30px; border-radius: 0; display: flex; align-items: center; justify-content: center;" onclick="editCard(${cardId})">수정</button>
+                      <button id="cardDeleteBtn" class="btn btn-primary" style="padding: 0; width: 30px; height: 30px; border-radius: 0; display: flex; align-items: center; justify-content: center;" onclick="deleteCard(${cardId})">x</button>
+                      </div>
                       </div>
                       <div class="card-body">
-                      <h5 class="card-title">내용:${cardContent}</h5>
-                      <button id="submitComment" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentModal">
+                      <h5 class="card-title" style="margin-left: 20px;">${cardContent}</h5>
+                      <div class="d-flex justify-content-end">
+                      <button id="submitComment" type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#commentModal">
                       댓글
                       </button>
+                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checklistModal">체크리스트</button>
+                      </div>
                       </div>
                       </div>`;
     document.querySelector('#cardBox').append(temp);
@@ -125,7 +134,7 @@ function deleteCard(cardId) {
     .then(res => res.json())
     .then(res => {
       alert(res.result);
-      window.location.href = `myboard.html?id=${columnId}`;
+      window.location.href = `myboard.html?id=${boardId}`;
     });
 }
 getCard();
