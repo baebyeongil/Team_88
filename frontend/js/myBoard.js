@@ -39,7 +39,7 @@ const myBoard = async () => {
               <div id=${id},${cardId} class="cards" draggable="true">
                 <div>${cardTitle}</div>
                 <div>${cardContent}</div>
-                <div><button id="detailCard" onclick="location.href='card.html?columnId=${id}&cardId=${cardId}'">상세보기</button></div>
+                <div><button id="detailCard" onclick="window.location.href ='card.html?boardId=${boardId}&columnId=${id}&cardId=${cardId}'">상세보기</button></div>
               </div>
             `;
           $(`.cardList-${i}`).append(card_html);
