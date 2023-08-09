@@ -125,11 +125,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const modalFooter = document.querySelector('#editModal .modal-footer');
         modalFooter.insertAdjacentElement('beforebegin', successMessage);
-        // 보드 생성에 성공한 경우, 생성된 보드를 화면에 추가
+
         reLoad();
       })
       .catch(error => {
-        alert(error.request.response);
+        alert(
+          '회원 정보 수정에 실패했습니다. 비밀번호를 확인하거나, 빈 칸을 채워주세요.'
+        );
       });
   });
 
@@ -137,12 +139,12 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('deleteUser').addEventListener('click', function () {
     const password = document.getElementById('password').value;
 
-    const newUserData = {
-      password: password,
-    };
-
     axios
-      .delete('/user/deleteUser', newUserData) // 실제 백엔드 URL로 수정해야 합니다
+      .delete('/user/deleteUser', {
+        headers: {
+          password: `${password}`,
+        },
+      })
       .then(response => {
         // 성공 메시지 표시
         const successMessage = document.createElement('div');
@@ -151,12 +153,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const modalFooter = document.querySelector('#editModal .modal-footer');
         modalFooter.insertAdjacentElement('beforebegin', successMessage);
-        // 보드 생성에 성공한 경우, 생성된 보드를 화면에 추가
-        reLoad();
+
+        window.location.href = `mypage.html`;
       })
       .catch(error => {
-        console.log(error);
-        alert(error);
+        alert('비밀번호를 확인해주세요.');
       });
   });
 });
