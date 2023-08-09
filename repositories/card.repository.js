@@ -48,6 +48,7 @@ class CardRepository {
     cardIndex
   ) => {
     try {
+      const checkListArr=[]
       const postCardData = await Card.create({
         userId,
         columnId,
@@ -56,6 +57,7 @@ class CardRepository {
         workerId,
         deadLine,
         cardIndex,
+        checkList:JSON.stringify(checkListArr)
       });
 
       return postCardData;
