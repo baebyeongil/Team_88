@@ -25,14 +25,15 @@ class CommentService {
 
   updateComment = async (userId, commentId, comment) => {
     try {
-      const updateCommentData = await this.commentRepository.updateComment(
-        userId,
-        commentId,
-        comment
+      const findCommentData = await this.commentRepository.findComment(
+        commentId
       );
-      if (!updateCommentData) {
+
+      if (findCommentData.userId != userId) {
         return { status: 403, message: 'Service Error: 수정 권한이 없습니다.' };
       }
+
+      await this.commentRepository.updateComment(commentId, comment);
 
       return { status: 200, message: '수정이 완료되었습니다.' };
     } catch (error) {
@@ -42,13 +43,17 @@ class CommentService {
 
   deleteComment = async (userId, commentId) => {
     try {
-      const deleteCommentData = await this.commentRepository.deleteComment(
-        userId,
+      const findCommentData = await this.commentRepository.findComment(
         commentId
       );
-      if (!deleteCommentData) {
+
+      if (findCommentData.userId != userId) {
         return { status: 403, message: 'Service Error: 삭제 권한이 없습니다.' };
       }
+
+      const deleteCommentData = await this.commentRepository.deleteComment(
+        commentId
+      );
 
       return { status: 200, message: '삭제가 완료되었습니다.' };
     } catch (error) {

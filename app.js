@@ -33,6 +33,9 @@ class App {
     this.app.get('/', (req, res) => {
       res.sendFile(__dirname + '/frontend/main.html');
     });
+    this.app.get("/card", (req, res) => {
+      res.sendFile(__dirname + "/frontend/card.html");
+    });
   }
 
   runServer() {
