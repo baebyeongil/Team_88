@@ -24,13 +24,30 @@ class CardController {
     try {
       const userId = res.locals.user.id;
       const { columnId } = req.params;
-      const { title, content, workerId, deadLine } = req.body;
+      const { title, content, email, deadLine } = req.body;
+
+      if (title == '') {
+        return res.status(400).json({ result: '제목을 작성해 주세요.' });
+      }
+
+      if (content == '') {
+        return res.status(400).json({ result: '내용을 작성해 주세요.' });
+      }
+
+      if (email == '') {
+        return res.status(400).json({ result: '작업자를 지정해 주세요.' });
+      }
+
+      if (deadLine == '') {
+        return res.status(400).json({ result: '마감기한을 설정해 주세요.' });
+      }
+
       const postCardData = await this.cardService.postCard(
         userId,
         columnId,
         title,
         content,
-        workerId,
+        email,
         deadLine
       );
 
@@ -46,14 +63,14 @@ class CardController {
     try {
       const userId = res.locals.user.id;
       const { cardId } = req.params;
-      const { title, content, workerId, deadLine } = req.body;
+      const { title, content, email, deadLine } = req.body;
 
       const updateCardData = await this.cardService.updateCard(
         userId,
         cardId,
         title,
         content,
-        workerId,
+        email,
         deadLine
       );
 

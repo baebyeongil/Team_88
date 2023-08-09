@@ -26,6 +26,10 @@ class CommentController {
       const { cardId } = req.params;
       const { comment } = req.body;
 
+      if (comment == '') {
+        return res.status(400).json({ result: '댓글 내용을 작성해 주세요.' });
+      }
+
       const postCommentData = await this.commentService.postComment(
         userId,
         cardId,
@@ -45,6 +49,10 @@ class CommentController {
       const userId = res.locals.user.id;
       const { commentId } = req.params;
       const { comment } = req.body;
+
+      if (comment == '') {
+        return res.status(400).json({ result: '댓글 내용을 작성해 주세요.' });
+      }
 
       const updateCommentData = await this.commentService.updateComment(
         userId,
