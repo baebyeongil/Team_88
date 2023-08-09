@@ -113,7 +113,6 @@ function deleteComment(commentId) {
       window.location.reload();
     });
 }
-<<<<<<< HEAD
 
 function deleteCard(cardId) {
   fetch(`/column/${columnId}/card/${cardId}`, {
@@ -126,10 +125,8 @@ function deleteCard(cardId) {
     .then(res => res.json())
     .then(res => {
       alert(res.result);
-      window.location.href = `myboard.html?id=${columnId}`
+      window.location.href = `myboard.html?id=${columnId}`;
     });
 }
-=======
->>>>>>> fe9594b7593e6d122b4419f3c53c0a453df4f493
 getCard();
 getComment();

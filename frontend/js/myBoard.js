@@ -1,8 +1,9 @@
+// 컬럼 그려지는 부분
 const myBoard = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const boardId = urlParams.get('id');
 
-  await fetch(`http://localhost:3000/board/${boardId}`, {
+  await fetch(`/board/${boardId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -20,7 +21,7 @@ const myBoard = async () => {
         let cards = result[i]['cards'];
         let id = result[i]['id'];
         let temp_html = `
-      <div id="columList">
+      <div class="columList" id=${id} draggable="true" min-height:300px>
       <button id="delete-card" onclick="columnDeleteBtn(${id})">X</button>
       <button id="add-card" onclick="cardModarOpen(${id})">+</button>
         <div id="columnTitle">${title}</div>
@@ -28,6 +29,7 @@ const myBoard = async () => {
       </div>
       `;
         $('#card-container').append(temp_html);
+        // 컬럼안에 카드 그려지는 부분
         for (let j = 0; j < cards.length; j++) {
           let cardTitle = cards[j].title;
           let cardContent = cards[j].content;
@@ -36,7 +38,7 @@ const myBoard = async () => {
               <div class="cards">
                 <div>${cardTitle}</div>
                 <div>${cardContent}</div>
-                <button id="detailCard" onclick="">상세보기</button>
+                <div><button id="detailCard" onclick="">상세보기</button></div>
               </div>
             `;
           $(`#cardList-${i}`).append(card_html);
@@ -69,7 +71,7 @@ $(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const boardId = urlParams.get('id');
 
-    let columnEndpoint = `http://localhost:3000/board/${boardId}/column`;
+    let columnEndpoint = `/board/${boardId}/column`;
 
     fetch(columnEndpoint, {
       method: 'POST',
@@ -80,11 +82,14 @@ $(document).ready(function () {
         title: title,
       }),
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Card created:', data);
-        location.reload();
-        // 실제로 생성된 카드를 화면에 표시하는 로직을 추가할 수 있습니다.
+      .then(async res => {
+        if (res.status == 400) {
+          const message = await res.json();
+          alert(message);
+          location.reload();
+        } else {
+          location.reload();
+        }
       })
       .catch(error => {
         console.error('Error creating card:', error);
@@ -98,7 +103,7 @@ function columnDeleteBtn(id) {
   const boardId = urlParams.get('id');
   const columnId = id;
 
-  fetch(`http://localhost:3000/board/${boardId}/column/${columnId}`, {
+  fetch(`/board/${boardId}/column/${columnId}`, {
     method: 'DELETE',
   })
     .then(res => res.json())
@@ -121,17 +126,17 @@ function cardModarOpen(id) {
   $('#save-card').click(function () {
     let title = $('#card-title').val();
     let content = $('#modal-content').val();
-    let workerId = $('#modal-worker').val();
+    let email = $('#modal-worker').val();
     let deadLine = $('#modal-deadLine').val();
-    createCard(content, workerId, deadLine, title);
+    createCard(content, email, deadLine, title);
     $('#cardModal').css('display', 'none');
   });
 
   // 카드 생성
-  function createCard(content, workerId, deadLine, title) {
+  function createCard(content, email, deadLine, title) {
     // API 요청을 보내는 부분
 
-    let columnEndpoint = `http://localhost:3000/column/${columnId}/card`;
+    let columnEndpoint = `/column/${columnId}/card`;
 
     fetch(columnEndpoint, {
       method: 'POST',
@@ -141,15 +146,18 @@ function cardModarOpen(id) {
       body: JSON.stringify({
         title,
         content,
-        workerId,
+        email,
         deadLine,
       }),
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Card created:', data);
-        location.reload();
-        // 실제로 생성된 카드를 화면에 표시하는 로직을 추가할 수 있습니다.
+      .then(async res => {
+        if (res.status == 400) {
+          const message = await res.json();
+          alert(message.result);
+          location.reload();
+        } else {
+          location.reload();
+        }
       })
       .catch(error => {
         console.error('Error creating card:', error);
