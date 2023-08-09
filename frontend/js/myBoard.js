@@ -39,7 +39,7 @@ const myBoard = async () => {
               <div id=${id},${cardId} class="cards" draggable="true">
                 <div>${cardTitle}</div>
                 <div>${cardContent}</div>
-                <div><button id="detailCard" onclick="">상세보기</button></div>
+                <div><button id="detailCard" onclick="location.href='card.html?columnId=${id}&cardId=${cardId}'">상세보기</button></div>
               </div>
             `;
           $(`.cardList-${i}`).append(card_html);
@@ -87,7 +87,7 @@ $(document).ready(function () {
         if (res.status == 400) {
           const message = await res.json();
           alert(message);
-          location.reload();
+          // location.reload();
         } else {
           location.reload();
         }
