@@ -23,6 +23,11 @@ const Column = connector.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    color: {
+      type: DataTypes.STRING,
+      defaultValue: 'white',
+      allowNull: false,
+    },
   },
   { timestamps: true }
 );

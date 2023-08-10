@@ -2,11 +2,12 @@ const Column = require('../db/models/column');
 const { Sequelize } = require('sequelize');
 
 class ColumnRepository {
-  postColumn = async (boardId, title, columnIndex) => {
+  postColumn = async (boardId, title, columnIndex, color) => {
     const column = await Column.create({
       boardId,
       title,
       columnIndex,
+      color,
     });
     return column;
   };
@@ -36,10 +37,11 @@ class ColumnRepository {
     return column;
   };
 
-  updateColumn = async (columnId, title) => {
+  updateColumn = async (columnId, title, color) => {
     const column = await Column.update(
       {
         title,
+        color,
       },
       { where: { id: columnId } }
     );
