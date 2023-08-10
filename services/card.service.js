@@ -1,5 +1,3 @@
-const { col } = require('sequelize');
-const CheckList = require('../db/models/checkList');
 const CardRepository = require('../repositories/card.repository');
 
 class CardService {
@@ -29,7 +27,6 @@ class CardService {
   ) => {
     try {
       let index = 10000000;
-      let workerId = userId;
 
       const findCardData = await this.cardRepository.findCard(columnId);
       if (findCardData.length) {
@@ -41,14 +38,14 @@ class CardService {
       if (!findUserData) {
         return { status: 400, message: '존재하지 않는 유저입니다.' };
       }
-      workerId = findUserData.id;
+      let worker = [findUserData.nickname, findUserData.email];
 
       await this.cardRepository.postCard(
         userId,
         columnId,
         title,
         content,
-        workerId,
+        worker,
         deadLine,
         index,
         color
