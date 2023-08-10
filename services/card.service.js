@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+const { col } = require('sequelize');
+const Card = require('../db/models/card');
+const CheckList = require('../db/models/checkList');
+=======
+>>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
 const CardRepository = require('../repositories/card.repository');
 
 class CardService {
@@ -208,15 +214,30 @@ class CardService {
       };
     }
 
+<<<<<<< HEAD
+    const existCard = await Card.findOne({
+      where: { id: cardId },
+    });
+=======
     const presentCard = await this.cardRepository.createCheckList(
       cardId,
       content
     );
+>>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
 
-    if (!presentCard) {
+    if (!existCard) {
       return {
         status: 400,
-        message: '현재 존재하는 카드가 아닙니다.',
+        message: '현존하지 않는 카드입니다.',
+      };
+    }
+
+    const createCheck = this.cardRepository.createCheckList(cardId, content);
+
+    if (!createCheck) {
+      return {
+        status: 400,
+        message: '체크리스트 생성 중 에러가 발생했습니다.',
       };
     }
 
@@ -231,12 +252,24 @@ class CardService {
     if (!presentCard) {
       return {
         status: 400,
-        message: '현재 존재하는 카드가 아닙니다.',
+        message: '존재하는 체크리스트가 없습니다.',
       };
     }
     return {
       status: 200,
+<<<<<<< HEAD
+      message: presentCard,
+    };
+  };
+
+  updateCheckList = async (checkListId, isSuccess) => {
+    await this.cardRepository.updateCheckList(checkListId, isSuccess);
+    return {
+      status: 200,
+      message: "체크박스 수정 완료",
+=======
       message: presentCard.checkList,
+>>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
     };
   };
 }
