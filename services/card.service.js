@@ -301,7 +301,6 @@ class CardService {
       checkListId,
       content
     );
-    console.log(editCheckList);
     if (editCheckList.status == 400) {
       return {
         status: 400,

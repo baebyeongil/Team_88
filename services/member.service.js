@@ -3,17 +3,12 @@ const MemberRepository = require('../repositories/member.repository');
 class MemberService {
   memberRepository = new MemberRepository();
 
-  postMember = async (boardId, userId) => {
+  findMemberList = async boardId => {
     try {
       if (!boardId) {
         return {
           status: 400,
           message: '보드 아이디 값이 입력되지 않았습니다.',
-        };
-      } else if (!userId) {
-        return {
-          status: 400,
-          message: '유저 아이디 값이 입력되지 않았습니다.',
         };
       }
       // const board = await this.boardRepository.1개보드찾는함수
@@ -23,19 +18,18 @@ class MemberService {
       //     message: '존재하지 않는 보드입니다.',
       //   };
       // }
-      const postMember = await this.memberRepository.postMember(
-        boardId,
-        userId
+      const findMemberList = await this.memberRepository.findMemberList(
+        boardId
       );
-      if (!postMember) {
+      if (!findMemberList) {
         return {
           status: 400,
-          message: '멤버 추가 실패',
+          message: '멤버 찾기 실패',
         };
       }
       return {
         status: 200,
-        message: '멤버 추가 성공',
+        message: findMemberList,
       };
     } catch (err) {
       return { status: 500, message: 'Server Error' };

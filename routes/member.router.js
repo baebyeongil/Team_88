@@ -4,7 +4,6 @@ const MemberController = require('../controllers/member.controller');
 
 const memberController = new MemberController();
 
-router.post('/:boardId/column', memberController.postMember);
-// router.delete('/:boardId/column/:columnId', memberController.deleteMember);
+router.get('/:boardId/member', memberController.findMemberList);
 
 module.exports = router;

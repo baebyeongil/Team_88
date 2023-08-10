@@ -176,7 +176,7 @@ class BoardService {
     }
 
     const existUser = await Member.findOne({
-      where: { userId: invitedUser.id },
+      where: { boardId, userId: invitedUser.id },
     });
     if (existUser) {
       return {

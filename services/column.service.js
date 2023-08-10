@@ -153,7 +153,7 @@ class ColumnService {
 
   moveColumn = async (boardId, columnId, number, user) => {
     try {
-      let columnIndex = 0;
+      let columnIndex = 10000000;
       let preIndex = 0;
       let aftIndex = 0;
       let columnDatas = [];
@@ -204,7 +204,10 @@ class ColumnService {
       }
       // 현재 위치 동일
       else if (number === targetIndex) {
-        columnIndex = columnData[number].columnIndex;
+        return {
+          status: 200,
+          message: '컬럼 이동 성공',
+        };
       }
       // 현재 위치보다 뒤로
       else if (number > targetIndex) {
@@ -238,7 +241,10 @@ class ColumnService {
         }
         // 현재 위치 동일
         else if (number === targetIndex) {
-          columnIndex = number * 10000000;
+          return {
+            status: 200,
+            message: '컬럼 이동 성공',
+          };
         }
         // 현재 위치보다 뒤로
         else if (number > targetIndex) {
