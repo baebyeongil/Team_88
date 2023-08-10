@@ -11,8 +11,9 @@ router.put('/:columnId/card/:cardId', auth, cardController.updateCard);
 router.get('/:columnId/card/:cardId/checkList', auth, cardController.getCheckList);
 router.post('/:columnId/card/:cardId/checkList', auth, cardController.createCheckList);
 router.put('/:columnId/card/:cardId/checkList', auth, cardController.updateCheckList);
+router.put('/:columnId/card/:cardId/editCheckList', auth, cardController.editCheckList);
+router.delete('/:columnId/card/:cardId/checkList', auth, cardController.deleteCheckList);
 router.delete('/:columnId/card/:cardId', auth, cardController.deleteCard);
 router.patch('/:columnId/card/:cardId/state', auth, cardController.stateCard);
 router.patch('/:columnId/card/:cardId/index', auth, cardController.moveCard);
-
 module.exports = router;

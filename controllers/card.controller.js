@@ -172,7 +172,6 @@ class CardController {
     }
   };
 
-<<<<<<< HEAD
   updateCheckList = async (req, res, next) => {
     try {
       const { checkListId, isSuccess } = req.body;
@@ -191,9 +190,45 @@ class CardController {
       };
     }
   };
-=======
-  updateCheckList = async (req, res, next) => {};
->>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
+  deleteCheckList = async (req, res, next) => {
+    try {
+      const userId = res.locals.user.id;
+      const { checkListId } = req.body;
+      const deleteCheckList = await this.cardService.deleteCheckList(
+        userId,
+        checkListId
+      );
+
+      return res
+        .status(deleteCheckList.status)
+        .json({ result: deleteCheckList.message });
+    } catch (error) {
+      return {
+        status: 400,
+        message: 'Controller Error: checkList 삭제에 실패했습니다.',
+      };
+    }
+  };
+
+  editCheckList = async (req, res, next) => {
+    try {
+      const userId = res.locals.user.id;
+      const { checkListId,content } = req.body;
+      const editCheckList = await this.cardService.editCheckList(
+        userId,
+        checkListId,
+        content
+      );
+      return res
+        .status(editCheckList.status)
+        .json({ result: editCheckList.message });
+    } catch {
+      return {
+        status: 400,
+        message: 'Controller Error: checkList 수정에 실패했습니다.',
+      };
+    }
+  };
 }
 
 module.exports = CardController;

@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 const { col } = require('sequelize');
 const Card = require('../db/models/card');
 const CheckList = require('../db/models/checkList');
-=======
->>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
 const CardRepository = require('../repositories/card.repository');
 
 class CardService {
@@ -214,16 +211,9 @@ class CardService {
       };
     }
 
-<<<<<<< HEAD
     const existCard = await Card.findOne({
       where: { id: cardId },
     });
-=======
-    const presentCard = await this.cardRepository.createCheckList(
-      cardId,
-      content
-    );
->>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
 
     if (!existCard) {
       return {
@@ -257,7 +247,6 @@ class CardService {
     }
     return {
       status: 200,
-<<<<<<< HEAD
       message: presentCard,
     };
   };
@@ -266,10 +255,62 @@ class CardService {
     await this.cardRepository.updateCheckList(checkListId, isSuccess);
     return {
       status: 200,
-      message: "체크박스 수정 완료",
-=======
-      message: presentCard.checkList,
->>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
+      message: '체크박스 수정 완료',
+    };
+  };
+
+  deleteCheckList = async (userId, checkListId) => {
+    if (!userId) {
+      return {
+        status: 400,
+        message: '로그인이 필요한 기능입니다.',
+      };
+    }
+    const deleteCheckList = await this.cardRepository.deleteCheckList(
+      checkListId
+    );
+    if (deleteCheckList.status == 400) {
+      return {
+        status: 400,
+        message: '존재하는 체크리스트가 아닙니다.',
+      };
+    }
+
+    return {
+      status: 200,
+      message: '체크리스트를 삭제했습니다.',
+    };
+  };
+
+  editCheckList = async (userId, checkListId, content) => {
+    if (!userId) {
+      return {
+        status: 400,
+        message: '로그인이 필요한 기능입니다.',
+      };
+    }
+
+    if (!content) {
+      return {
+        status: 400,
+        message: '수정내용을 입력하지 않으셨습니다.',
+      };
+    }
+
+    const editCheckList = await this.cardRepository.editCheckList(
+      checkListId,
+      content
+    );
+    console.log(editCheckList);
+    if (editCheckList.status == 400) {
+      return {
+        status: 400,
+        message: '존재하는 체크리스트가 아닙니다.',
+      };
+    }
+    return {
+      status: 200,
+      message: '체크리스트를 수정했습니다.',
     };
   };
 }
