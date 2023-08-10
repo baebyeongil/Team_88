@@ -159,6 +159,35 @@ class CardRepository {
       throw error;
     }
   };
+  deleteCheckList = async checkListId => {
+    try {
+      const existcheckList = await CheckList.findByPk(checkListId);
+      if (!existcheckList) {
+        return {
+          status: 400,
+        };
+      }
+      return await CheckList.destroy({ where: { id: checkListId } });
+    } catch (error) {
+      throw error;
+    }
+  };
+  editCheckList = async (checkListId, content) => {
+    try {
+      const existcheckList = await CheckList.findByPk(checkListId);
+      if (!existcheckList) {
+        return {
+          status: 400,
+        };
+      }
+      return await CheckList.update(
+        { content },
+        { where: { id: checkListId } }
+      );
+    } catch (error) {
+      throw error;
+    }
+  };
 }
 
 module.exports = CardRepository;
