@@ -172,7 +172,6 @@ class CardController {
     }
   };
 
-<<<<<<< HEAD
   updateCheckList = async (req, res, next) => {
     try {
       const { checkListId, isSuccess } = req.body;
@@ -191,9 +190,6 @@ class CardController {
       };
     }
   };
-=======
-  updateCheckList = async (req, res, next) => {};
->>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
 }
 
 module.exports = CardController;

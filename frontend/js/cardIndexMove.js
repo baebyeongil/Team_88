@@ -30,17 +30,13 @@ CardsContainer.addEventListener('drop', async event => {
     } else if (droppedCard.id == 'detailCard') {
       droppedCard = droppedCard.parentElement.parentElement;
     }
-    const dragColumnIndex = Array.from(dragColumn.children[3].children).indexOf(
+    const dragColumnIndex = Array.from(dragColumn.children[4].children).indexOf(
       droppedCard
     );
 
-    console.log(dragColumnIndex);
-
     const columnId = dragStartCardIndex.split(',')[0];
     const cardId = dragStartCardIndex.split(',')[1];
-
     const dropColumnId = droppedCard.id;
-    console.log(dropColumnId);
     const checkColumId = dropColumnId.split(',')[0];
     if (checkColumId !== columnId) {
       try {
