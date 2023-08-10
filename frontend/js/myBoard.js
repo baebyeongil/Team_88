@@ -216,17 +216,17 @@ $(document).ready(function () {
   });
 
   $('#save-invite').click(function () {
-    let memberEmail = $('#memberEmail').val();
-    createCard(memberEmail);
+    let email = $('#memberEmail').val();
+    inviteMember(email);
     $('#inviteModal').css('display', 'none');
   });
 
-  function createCard(title) {
+  function inviteMember(email) {
     // API 요청을 보내는 부분
     const urlParams = new URLSearchParams(window.location.search);
     const boardId = urlParams.get('id');
 
-    let columnEndpoint = `/board/${boardId}/column`;
+    let columnEndpoint = `/board/${boardId}`;
 
     fetch(columnEndpoint, {
       method: 'POST',
@@ -234,17 +234,14 @@ $(document).ready(function () {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        title: title,
+        email,
       }),
     })
-      .then(async res => {
-        if (res.status == 400) {
-          const message = await res.json();
-          alert(message);
-          // location.reload();
-        } else {
-          location.reload();
-        }
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        alert(res);
+        location.reload();
       })
       .catch(error => {
         console.error('Error creating card:', error);
