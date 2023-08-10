@@ -6,11 +6,15 @@ const connector = require('./db/db.js');
 const config = require('./config/config.js');
 const router = require('./routes/index.js');
 const morgan = require('morgan');
+const http = require('http');
+const socketIO = require('socket.io');
 
 class App {
   constructor() {
     this.app = express();
     this.connector = connector;
+    this.server = http.createServer(this.app);
+    this.io = socketIO(this.server);
   }
   setup() {
     this.app.use(
@@ -33,13 +37,25 @@ class App {
     this.app.get('/', (req, res) => {
       res.sendFile(__dirname + '/frontend/main.html');
     });
-    this.app.get("/card", (req, res) => {
-      res.sendFile(__dirname + "/frontend/card.html");
+    this.app.get('/card', (req, res) => {
+      res.sendFile(__dirname + '/frontend/card.html');
+    });
+
+    this.io.on('connection', socket => {
+      console.log('사용자가 연결되었습니다.');
+
+      socket.on('chat message', msg => {
+        this.io.emit('chat message', msg);
+      });
+
+      socket.on('disconnect', () => {
+        console.log('사용자가 연결이 끊어졌습니다.');
+      });
     });
   }
 
   runServer() {
-    this.app.listen(config.server.port, () => {
+    this.server.listen(config.server.port, () => {
       console.log('🔥'.repeat(40));
       console.log(
         `Server is running on http://localhost:${config.server.port}`

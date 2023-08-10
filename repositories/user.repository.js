@@ -67,6 +67,18 @@ class UserRepository {
       };
     }
   }
+  //회원 정보 불러오기
+  async findUser(userId) {
+    try {
+      const findUserData = await User.findOne({
+        attributes: ['nickname'],
+        where: { id: userId },
+      });
+      return findUserData;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = UserRepository;

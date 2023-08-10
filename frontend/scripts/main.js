@@ -86,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function () {
       password: password,
     };
 
-
     // Axios를 사용하여 POST 요청 보내기
     axios
       .post('/user/login', userData) // 실제 백엔드 URL로 수정해야 합니다
@@ -99,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const modalBody = document.querySelector('#loginModal .modal-body');
         modalBody.appendChild(successMessage);
 
-        checkLoginStatus();
+        window.location.href = `mypage.html`;
       })
       .catch(error => {
         alert(error.request.response);
