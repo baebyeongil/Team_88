@@ -204,3 +204,50 @@ function updateColumnBtn(columnId) {
       });
   }
 }
+
+// 초대하기 모달
+$(document).ready(function () {
+  $('#addMember').click(function () {
+    $('#inviteModal').css('display', 'block');
+  });
+
+  $('.inviteModalClose').click(function () {
+    $('#inviteModal').css('display', 'none');
+  });
+
+  $('#save-invite').click(function () {
+    let memberEmail = $('#memberEmail').val();
+    createCard(memberEmail);
+    $('#inviteModal').css('display', 'none');
+  });
+
+  function createCard(title) {
+    // API 요청을 보내는 부분
+    const urlParams = new URLSearchParams(window.location.search);
+    const boardId = urlParams.get('id');
+
+    let columnEndpoint = `/board/${boardId}/column`;
+
+    fetch(columnEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: title,
+      }),
+    })
+      .then(async res => {
+        if (res.status == 400) {
+          const message = await res.json();
+          alert(message);
+          // location.reload();
+        } else {
+          location.reload();
+        }
+      })
+      .catch(error => {
+        console.error('Error creating card:', error);
+      });
+  }
+});
