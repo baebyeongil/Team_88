@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(response => {
       res = response.data;
       const boardButtonsContainer = document.querySelector('.board-buttons');
-
+      console.log(res);
       // 버튼 클릭 이벤트 리스너 추가
       boardButtonsContainer.addEventListener('click', function (event) {
         const target = event.target;
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         button.style.width = '120px';
         button.style.height = '80px';
         button.textContent = `${res[i].board.title}`;
-        button.id = `${res[i].id}`;
+        button.id = `${res[i].boardId}`;
         boardButtonsContainer.appendChild(button);
       }
     })

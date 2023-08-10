@@ -175,6 +175,7 @@ class CardRepository {
   editCheckList = async (checkListId, content) => {
     try {
       const existcheckList = await CheckList.findByPk(checkListId);
+      console.log(existcheckList)
       if (!existcheckList) {
         return {
           status: 400,
