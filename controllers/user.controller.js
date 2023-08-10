@@ -60,6 +60,23 @@ class UserController {
     );
     return res.status(updateUser.status).json(updateUser.message);
   };
+  //유저 정보 불러오기
+  findUser = async (req, res, next) => {
+    try {
+      const user = res.locals.user;
+
+      const findUserData = await this.userService.findUser(user);
+
+      return res
+        .status(findUserData.status)
+        .json({ result: findUserData.message });
+    } catch (error) {
+      return {
+        status: 400,
+        message: 'Controller Error: 불러오기에 실패했습니다.',
+      };
+    }
+  };
 }
 
 module.exports = UserController;

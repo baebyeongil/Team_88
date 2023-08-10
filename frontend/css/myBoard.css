@@ -91,7 +91,8 @@ header {
 
 #myModal,
 #columnUpdateModal,
-#cardModal {
+#cardModal,
+#inviteModal {
   display: none; /* 기본적으로 숨김 */
   position: fixed;
   z-index: 1;
@@ -113,7 +114,8 @@ header {
 
 .columnModarClose,
 .cardModarClose,
-.columnUpdateModarClose {
+.columnUpdateModarClose,
+.inviteModalClose {
   float: right;
   font-size: 20px;
   font-weight: bold;
@@ -126,7 +128,8 @@ header {
 #modal-content,
 #modal-worker,
 #modal-deadLine,
-#column-title {
+#column-title,
+#memberEmail {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -137,7 +140,8 @@ header {
 
 #save-column,
 #save-card,
-#save-columnUpdate {
+#save-columnUpdate,
+#save-invite {
   background-color: #007bff;
   color: white;
   border: none;

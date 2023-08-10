@@ -17,6 +17,7 @@
     </header>
     <main>
       <button id="add-column">+</button>
+      <button id="addMember">초대하기</button>
       <div id="card-container">
         <!-- 카드들이 여기에 들어갈 것입니다 -->
       </div>
@@ -45,9 +46,15 @@
         <button id="save-columnUpdate">수정</button>
       </div>
     </div>
+    <div id="inviteModal">
+      <div class="modal-content">
+        <span class="inviteModalClose">&times;</span>
+        <input type="text" id="memberEmail" placeholder="이메일" />
+        <button id="save-invite">초대</button>
+      </div>
+    </div>
     <script src="./js/myBoard.js" defer></script>
     <script src="./js/dragAndDrop.js" defer></script>
     <script src="./js/cardIndexMove.js" defer></script>
-    <script src="./js/cardStateMove.js" defer></script>
   </body>
 </html>

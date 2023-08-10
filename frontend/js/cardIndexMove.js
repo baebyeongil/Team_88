@@ -34,6 +34,8 @@ CardsContainer.addEventListener('drop', async event => {
       droppedCard
     );
 
+    console.log(dragColumnIndex);
+
     const columnId = dragStartCardIndex.split(',')[0];
     const cardId = dragStartCardIndex.split(',')[1];
 
