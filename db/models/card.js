@@ -31,12 +31,17 @@ const Card = connector.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    workerId: {
-      type: DataTypes.INTEGER,
+    worker: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
     deadLine: {
       type: DataTypes.DATE,
+      allowNull: false,
+    },
+    color: {
+      type: DataTypes.STRING,
+      defaultValue: 'white',
       allowNull: false,
     },
   },

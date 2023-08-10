@@ -7,7 +7,7 @@ class ColumnService {
   boardRepository = new BoardRepository();
   columnIndexRepository = new ColumnIndexRepository();
 
-  postColumn = async (boardId, title, user) => {
+  postColumn = async (boardId, title, user, color) => {
     try {
       let columnIndex = 0;
       if (!boardId) {
@@ -38,7 +38,8 @@ class ColumnService {
       const createColumn = await this.columnRepository.postColumn(
         boardId,
         title,
-        columnIndex
+        columnIndex,
+        color
       );
       if (!createColumn) {
         return {
@@ -55,7 +56,7 @@ class ColumnService {
     }
   };
 
-  updateColumn = async (boardId, columnId, title, user) => {
+  updateColumn = async (boardId, columnId, title, user, color) => {
     try {
       if (!boardId) {
         return {
@@ -89,7 +90,8 @@ class ColumnService {
       }
       const updatecolumn = await this.columnRepository.updateColumn(
         columnId,
-        title
+        title,
+        color
       );
       if (!updatecolumn) {
         return {

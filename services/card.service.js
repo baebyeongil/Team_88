@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 const { col } = require('sequelize');
 const Card = require('../db/models/card');
 const CheckList = require('../db/models/checkList');
+=======
+>>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
 const CardRepository = require('../repositories/card.repository');
 
 class CardService {
@@ -19,10 +22,17 @@ class CardService {
     }
   };
 
-  postCard = async (userId, columnId, title, content, email, deadLine) => {
+  postCard = async (
+    userId,
+    columnId,
+    title,
+    content,
+    email,
+    deadLine,
+    color
+  ) => {
     try {
       let index = 10000000;
-      let workerId = userId;
 
       const findCardData = await this.cardRepository.findCard(columnId);
       if (findCardData.length) {
@@ -34,16 +44,17 @@ class CardService {
       if (!findUserData) {
         return { status: 400, message: '존재하지 않는 유저입니다.' };
       }
-      workerId = findUserData.id;
+      let worker = [findUserData.nickname, findUserData.email];
 
       await this.cardRepository.postCard(
         userId,
         columnId,
         title,
         content,
-        workerId,
+        worker,
         deadLine,
-        index
+        index,
+        color
       );
 
       return { status: 200, message: '등록이 완료되었습니다.' };
@@ -203,9 +214,16 @@ class CardService {
       };
     }
 
+<<<<<<< HEAD
     const existCard = await Card.findOne({
       where: { id: cardId },
     });
+=======
+    const presentCard = await this.cardRepository.createCheckList(
+      cardId,
+      content
+    );
+>>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
 
     if (!existCard) {
       return {
@@ -239,6 +257,7 @@ class CardService {
     }
     return {
       status: 200,
+<<<<<<< HEAD
       message: presentCard,
     };
   };
@@ -248,6 +267,9 @@ class CardService {
     return {
       status: 200,
       message: "체크박스 수정 완료",
+=======
+      message: presentCard.checkList,
+>>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
     };
   };
 }

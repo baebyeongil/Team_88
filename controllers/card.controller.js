@@ -24,7 +24,7 @@ class CardController {
     try {
       const userId = res.locals.user.id;
       const { columnId } = req.params;
-      const { title, content, email, deadLine } = req.body;
+      const { title, content, email, deadLine, color } = req.body;
 
       if (title == '') {
         return res.status(400).json({ result: '제목을 작성해 주세요.' });
@@ -48,7 +48,8 @@ class CardController {
         title,
         content,
         email,
-        deadLine
+        deadLine,
+        color
       );
 
       return res
@@ -171,6 +172,7 @@ class CardController {
     }
   };
 
+<<<<<<< HEAD
   updateCheckList = async (req, res, next) => {
     try {
       const { checkListId, isSuccess } = req.body;
@@ -189,6 +191,9 @@ class CardController {
       };
     }
   };
+=======
+  updateCheckList = async (req, res, next) => {};
+>>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
 }
 
 module.exports = CardController;
