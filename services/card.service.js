@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 const { col } = require('sequelize');
 const Card = require('../db/models/card');
 const CheckList = require('../db/models/checkList');
-=======
->>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
 const CardRepository = require('../repositories/card.repository');
 
 class CardService {
@@ -214,16 +211,9 @@ class CardService {
       };
     }
 
-<<<<<<< HEAD
     const existCard = await Card.findOne({
       where: { id: cardId },
     });
-=======
-    const presentCard = await this.cardRepository.createCheckList(
-      cardId,
-      content
-    );
->>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
 
     if (!existCard) {
       return {
@@ -257,7 +247,6 @@ class CardService {
     }
     return {
       status: 200,
-<<<<<<< HEAD
       message: presentCard,
     };
   };
@@ -266,10 +255,7 @@ class CardService {
     await this.cardRepository.updateCheckList(checkListId, isSuccess);
     return {
       status: 200,
-      message: "체크박스 수정 완료",
-=======
-      message: presentCard.checkList,
->>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
+      message: '체크박스 수정 완료',
     };
   };
 }
