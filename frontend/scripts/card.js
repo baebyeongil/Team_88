@@ -22,23 +22,25 @@ const checkList = fetch(`/column/${columnId}/card/${cardId}/checkList`)
 const getCheckList = () => {
   checkList.then(datas => {
     $('#checkListBox').empty();
-    datas.result.forEach(checkList => {
+    datas.result.forEach(async checkList => {
       const temp = document.createElement('div');
       const content = checkList.content;
       const checkListId = checkList.id;
       const checkListState = checkList.isSuccess;
-      temp.innerHTML = `<input class="form-check-input" type="checkbox" ${checkListState ? 'checked' : ''} value="${checkListState}" id="${checkListId}">
+      temp.innerHTML = `<input class="form-check-input" type="checkbox" ${
+        checkListState ? 'checked' : ''
+      } value="${checkListState}" id="${checkListId}" onclick="updateCheckList(${checkListId},this.checked)">
                         <label class="form-check-label" for="${checkListId}">
                         ${content}
                         </label>`;
-      document.querySelector('#checkListBox').append(temp);
+      await document.querySelector('#checkListBox').append(temp);
     });
   });
 };
 const getCard = () => {
   card.then(datas => {
-    const workerData=datas.result.worker.split(",")
-    console.log(workerData)
+    const workerData = datas.result.worker.split(',');
+    console.log(workerData);
     const temp = document.createElement('div');
     const cardTitle = datas.result.title;
     const cardContent = datas.result.content;
@@ -57,7 +59,9 @@ const getCard = () => {
                       <div class="card-header d-flex justify-content-between">
                       <span>${cardTitle}</span>
                       <div class="btn-group">
-                      <button id="cardEditBtn" class="btn btn-primary me-2" style="padding: 0; width: 60px; height: 30px; border-radius: 0; display: flex; align-items: center; justify-content: center;" onclick="openEditModal('${cardTitle}', '${cardContent}', '${workerData[1]}', '${deadLine}')">수정</button>
+                      <button id="cardEditBtn" class="btn btn-primary me-2" style="padding: 0; width: 60px; height: 30px; border-radius: 0; display: flex; align-items: center; justify-content: center;" onclick="openEditModal('${cardTitle}', '${cardContent}', '${
+      workerData[1]
+    }', '${deadLine}')">수정</button>
                       <button id="cardDeleteBtn" class="btn btn-primary" style="padding: 0; width: 60px; height: 30px; border-radius: 0; display: flex; align-items: center; justify-content: center;" onclick="deleteCard(${cardId})">삭제</button>
                       </div>
                       </div>
@@ -206,6 +210,22 @@ function createCheckList() {
     },
     body: JSON.stringify(req),
   });
+
+  $('#checklistModal').modal('hide');
+  window.location.reload();
+}
+
+function updateCheckList(checkListId, isSuccess) {
+  const req = { checkListId, isSuccess };
+  fetch(`/column/${columnId}/card/${cardId}/checkList`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(req),
+  })
+    .then(res => res.json())
+    .then(res => console.log(res));
 }
 
 function openEditModal(title, content, email, deadLine) {
@@ -239,7 +259,10 @@ function formatDate(dateString) {
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
-
-getCard();
-getCheckList();
-getComment();
+$(document).ready(() => {
+  setTimeout(() => {
+    getCard();
+    getCheckList();
+    getComment();
+  }, 50);
+});
