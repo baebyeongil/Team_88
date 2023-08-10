@@ -2,6 +2,7 @@ const Board = require('../db/models/board');
 const Member = require('../db/models/member');
 const Column = require('../db/models/column');
 const Card = require('../db/models/card');
+const User = require('../db/models/user');
 class BoardRepository {
   //보드생성
   async createBoard(user, title, content) {

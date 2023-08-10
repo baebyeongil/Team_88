@@ -21,9 +21,8 @@ const myBoard = async () => {
         let cards = result[i]['cards'];
         let id = result[i]['id'];
         let color = result[i]['color'];
-        console.log(result[i]);
         let temp_html = `
-      <div class="columList" id=${id} style="min-height:300px; background-color: ${color}; color: black;" draggable="true" min-height:300px >
+      <div class="columList" id=${id} style="min-height:200px; background-color: ${color}; color: black;" draggable="true" >
         <button id="delete-card" onclick="columnDeleteBtn(${id})">컬럼삭제</button>
         <button id="updateColumnBtn" onclick="updateColumnBtn(${id})">컬럼수정</button>
         <button id="add-card" onclick="cardModarOpen(${id})">카드생성</button>
@@ -47,9 +46,35 @@ const myBoard = async () => {
               </div>
             `;
           $(`.cardList-${i}`).append(card_html);
-          console.log(cards[j]);
         }
       }
+      // board 내용
+      $('#boardContent').empty();
+      let boardContent = rows.board.content;
+      let content_html = `<div>${boardContent}</div>`;
+      $(`#boardContent`).append(content_html);
+
+      // 멤버 목록
+      fetch(`/board/${boardId}/member`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          let r = data;
+          for (let e = r.length - 1; e >= 0; e--) {
+            console.log(r[e].user['nickname']);
+
+            let memberNiname = r[e].user['nickname'];
+
+            let member_html = `<div>${memberNiname}</div>`;
+            $('#boardMember').append(member_html);
+          }
+        });
     });
 };
 

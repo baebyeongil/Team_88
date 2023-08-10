@@ -16,10 +16,14 @@
       <button id="myInfo" onclick="location.href='mypage.html'">내정보</button>
     </header>
     <main>
-      <button id="add-column">컬럼 생성</button>
-      <button id="inviteMember">멤버 추가</button>
-      <div id="card-container">
-        <!-- 카드들이 여기에 들어갈 것입니다 -->
+      <div>
+        <button id="add-column">컬럼 생성</button>
+        <button id="inviteMember">멤버 추가</button>
+      </div>
+      <div id="boardContent">보드 내용</div>
+      <div id="mainBottom">
+        <div id="boardMember">멤버 목록</div>
+        <div id="card-container"></div>
       </div>
     </main>
     <div id="myModal">
@@ -77,6 +81,5 @@
     <script src="./js/myBoard.js" defer></script>
     <script src="./js/dragAndDrop.js" defer></script>
     <script src="./js/cardIndexMove.js" defer></script>
-    <script src="./js/cardStateMove.js" defer></script>
   </body>
 </html>
