@@ -87,7 +87,7 @@ class BoardRepository {
                 'id',
                 'title',
                 'content',
-                'workerId',
+                'worker',
                 'deadLine',
                 'cardIndex',
                 'color',
