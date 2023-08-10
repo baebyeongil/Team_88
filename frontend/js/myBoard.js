@@ -22,8 +22,9 @@ const myBoard = async () => {
         let id = result[i]['id'];
         let temp_html = `
       <div class="columList" id=${id} draggable="true" min-height:300px>
-      <button id="delete-card" onclick="columnDeleteBtn(${id})">X</button>
-      <button id="add-card" onclick="cardModarOpen(${id})">+</button>
+        <button id="delete-card" onclick="columnDeleteBtn(${id})">컬럼삭제</button>
+        <button id="updateColumnBtn" onclick="updateColumnBtn(${id})">컬럼수정</button>
+        <button id="add-card" onclick="cardModarOpen(${id})">카드생성</button>
         <div id="columnTitle">${title}</div>
         <div id="cardList" class="cardList-${i}"></div>
       </div>
@@ -99,10 +100,9 @@ $(document).ready(function () {
 });
 
 // 컬럼 삭제
-function columnDeleteBtn(id) {
+function columnDeleteBtn(columnId) {
   const urlParams = new URLSearchParams(window.location.search);
   const boardId = urlParams.get('id');
-  const columnId = id;
 
   fetch(`/board/${boardId}/column/${columnId}`, {
     method: 'DELETE',
@@ -116,8 +116,7 @@ function columnDeleteBtn(id) {
 }
 
 // 카드 생성 모달
-function cardModarOpen(id) {
-  const columnId = id;
+function cardModarOpen(columnId) {
   $('#cardModal').css('display', 'block');
 
   $('.cardModarClose').click(function () {
@@ -162,6 +161,46 @@ function cardModarOpen(id) {
       })
       .catch(error => {
         console.error('Error creating card:', error);
+      });
+  }
+}
+
+// 컬럼 수정 모달
+function updateColumnBtn(columnId) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const boardId = urlParams.get('id');
+
+  $('#columnUpdateModal').css('display', 'block');
+
+  $('.columnUpdateModarClose').click(function () {
+    $('#columnUpdateModal').css('display', 'none');
+  });
+
+  $('#save-columnUpdate').click(function () {
+    let title = $('#column-title').val();
+    updateCloumn(title);
+    $('#columnUpdateModal').css('display', 'none');
+  });
+  // 카드 생성
+  function updateCloumn(title) {
+    // API 요청을 보내는 부분
+
+    let columnEndpoint = `/board/${boardId}/column/${columnId}`;
+
+    fetch(columnEndpoint, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title,
+      }),
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        alert(res);
+        location.reload();
       });
   }
 }

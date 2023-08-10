@@ -88,7 +88,6 @@ class ColumnService {
         };
       }
       const updatecolumn = await this.columnRepository.updateColumn(
-        boardId,
         columnId,
         title
       );
