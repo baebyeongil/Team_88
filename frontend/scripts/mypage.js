@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .catch(error => {
         alert(
-          '회원 정보 수정에 실패했습니다. 비밀번호를 확인하거나, 빈 칸을 채워주세요.'
+          '회원 정보 수정에 실패했습니다. 닉네임에는 쉼표(,)를 사용할 수 없습니다. 비밀번호를 확인하거나, 빈 칸을 채워주세요.'
         );
       });
   });
