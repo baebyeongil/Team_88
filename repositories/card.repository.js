@@ -52,7 +52,7 @@ class CardRepository {
     cardIndex
   ) => {
     try {
-      const checkListArr=[]
+      const checkListArr = [];
       const postCardData = await Card.create({
         userId,
         columnId,
@@ -61,7 +61,7 @@ class CardRepository {
         workerId,
         deadLine,
         cardIndex,
-        checkList:JSON.stringify(checkListArr)
+        checkList: JSON.stringify(checkListArr),
       });
 
       return postCardData;
@@ -126,6 +126,24 @@ class CardRepository {
       });
 
       return resetIndexCardData;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  createCheckList = async (cardId, content) => {
+    try {
+      const presentCard = await Card.findOne({where: { id: cardId }});
+      return presentCard;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getCheckList = async (cardId) => {
+    try {
+      const presentCard = await Card.findOne({where: { id: cardId }});
+      return presentCard;
     } catch (error) {
       throw error;
     }
