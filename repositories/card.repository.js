@@ -49,10 +49,7 @@ class CardRepository {
     color
   ) => {
     try {
-<<<<<<< HEAD
-=======
       worker = String(worker);
->>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
       const postCardData = await Card.create({
         userId,
         columnId,
@@ -133,7 +130,6 @@ class CardRepository {
 
   createCheckList = async (cardId, content) => {
     try {
-<<<<<<< HEAD
       const checkList = await CheckList.create({
         cardId,
         content,
@@ -147,26 +143,18 @@ class CardRepository {
   getCheckList = async cardId => {
     try {
       const presentCard = await CheckList.findAll({ where: { cardId } });
-=======
-      const presentCard = await CheckList.findOne({ where: { id: cardId } });
->>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
       return presentCard;
     } catch (error) {
       throw error;
     }
   };
 
-<<<<<<< HEAD
   updateCheckList = async (checkListId, isSuccess) => {
     try {
-     return await CheckList.update({ isSuccess }, { where: { id: checkListId } });
-
-=======
-  getCheckList = async cardId => {
-    try {
-      const presentCard = await Card.findOne({ where: { id: cardId } });
-      return presentCard;
->>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
+      return await CheckList.update(
+        { isSuccess },
+        { where: { id: checkListId } }
+      );
     } catch (error) {
       throw error;
     }
