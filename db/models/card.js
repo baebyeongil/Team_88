@@ -39,10 +39,6 @@ const Card = connector.sequelize.define(
       type: DataTypes.DATE,
       allowNull: false,
     },
-    checkList: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
   },
   { timestamps: true }
 );

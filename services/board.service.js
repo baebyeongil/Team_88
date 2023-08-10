@@ -1,6 +1,7 @@
 const BoardRepository = require('../repositories/board.repository');
 const User = require('../db/models/user');
 const Board = require('../db/models/board');
+const Member = require('../db/models/member');
 const bcrypt = require('bcrypt');
 class BoardService {
   boardRepository = new BoardRepository();
@@ -173,7 +174,17 @@ class BoardService {
         message: '해당 보드는 존재하지 않습니다.',
       };
     }
-    console.log(invitedUser.id);
+
+    const existUser = await Member.findOne({
+      where: { userId: invitedUser.id },
+    });
+    if (existUser) {
+      return {
+        status: 400,
+        message: '이미 초대된 유저입니다.',
+      };
+    }
+
     return await this.boardRepository.inviteBoard(invitedUser.id, boardId);
   };
 }

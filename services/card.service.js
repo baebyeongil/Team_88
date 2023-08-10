@@ -1,4 +1,5 @@
 const { col } = require('sequelize');
+const CheckList = require('../db/models/checkList');
 const CardRepository = require('../repositories/card.repository');
 
 class CardService {
@@ -190,6 +191,43 @@ class CardService {
       return { status: 200, message: '수정이 완료되었습니다.' };
     } catch (error) {
       return { status: 400, message: 'Repository Error: 수정에 실패했습니다.' };
+    }
+  };
+
+  createCheckList = async (cardId, content) => {
+    if (!content) {
+      return {
+        status: 400,
+        message: '체크리스트를 입력하셔야 생성이 가능합니다.',
+      };
+    }
+
+    const presentCard = await this.cardRepository.createCheckList(cardId, content);
+
+    if (!presentCard) {
+      return {
+        status: 400,
+        message: '현재 존재하는 카드가 아닙니다.',
+      };
+    }
+
+    return {
+      status: 200,
+      message: '체크리스트를 생성했습니다.',
+    };
+  };
+
+  getCheckList = async cardId => {
+    const presentCard = await this.cardRepository.getCheckList(cardId);
+    if (!presentCard) {
+      return {
+        status: 400,
+        message: '현재 존재하는 카드가 아닙니다.',
+      };
+    }
+    return{
+      status: 200,
+      message: presentCard.checkList,
     }
   };
 }

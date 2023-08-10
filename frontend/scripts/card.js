@@ -25,29 +25,31 @@ const getCard = () => {
     const workerEmail = datas.result.user.email;
     $('#cardBox').empty();
     temp.innerHTML = `<div class="card">
-    <div class="card-header d-flex justify-content-between">
-      <span class="card-worker">작업자:${worker}</span>
-      <div>
-      <span class="card-deadLine">마감일:${formatDate(deadLine)}</span>
-      </div>
-    </div>
-    <div class="card-header d-flex justify-content-between">
-      <span>${cardTitle}</span>
-      <div class="btn-group">
-        <button id="cardEditBtn" class="btn btn-primary me-2" style="padding: 0; width: 60px; height: 30px; border-radius: 0; display: flex; align-items: center; justify-content: center;" onclick="openEditModal(${cardId}, '${cardTitle}', '${cardContent}', '${workerEmail}', '${deadLine}')">수정</button>
-        <button id="cardDeleteBtn" class="btn btn-primary" style="padding: 0; width: 60px; height: 30px; border-radius: 0; display: flex; align-items: center; justify-content: center;" onclick="deleteCard(${cardId})">삭제</button>
-      </div>
-    </div>
-    <div class="card-body">
-      <h5 class="card-title" style="margin-left: 20px;">${cardContent}</h5>
-      <div class="d-flex justify-content-end">
-        <button id="submitComment" type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#commentModal">
-          댓글
-        </button>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checklistModal">체크리스트</button>
-      </div>
-    </div>
-  </div>`;
+                      <div class="card-header d-flex justify-content-between">
+                      <span class="card-worker">작업자:${worker}</span>
+                      <div>
+                      <span class="card-deadLine">마감일:${formatDate(
+                        deadLine
+                      )}</span>
+                      </div>
+                      </div>
+                      <div class="card-header d-flex justify-content-between">
+                      <span>${cardTitle}</span>
+                      <div class="btn-group">
+                      <button id="cardEditBtn" class="btn btn-primary me-2" style="padding: 0; width: 60px; height: 30px; border-radius: 0; display: flex; align-items: center; justify-content: center;" onclick="openEditModal(${cardId}, '${cardTitle}', '${cardContent}', '${workerEmail}', '${deadLine}')">수정</button>
+                      <button id="cardDeleteBtn" class="btn btn-primary" style="padding: 0; width: 60px; height: 30px; border-radius: 0; display: flex; align-items: center; justify-content: center;" onclick="deleteCard(${cardId})">삭제</button>
+                      </div>
+                      </div>
+                      <div class="card-body">
+                      <h5 class="card-title" style="margin-left: 20px;">${cardContent}</h5>
+                      <div class="d-flex justify-content-end">
+                      <button id="submitComment" type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#commentModal">
+                      댓글
+                      </button>
+                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checklistModal">체크리스트</button>
+                      </div>
+                      </div>
+                      </div>`;
     document.querySelector('#cardBox').append(temp);
   });
 };
@@ -165,7 +167,7 @@ function deleteCard(cardId) {
       window.location.href = `myboard.html?id=${boardId}`;
     });
 }
-function openEditModal(cardId, title, content, email, deadLine) {
+function openEditModal(title, content, email, deadLine) {
   $('#editTitleInput').val(title);
   $('#editContentInput').val(content);
   $('#editWorkerInput').val(email);
@@ -196,9 +198,5 @@ function formatDate(dateString) {
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
-
-const originalDate = '2023-08-10T00:00:00.000Z';
-const formattedDate = formatDate(originalDate);
-console.log(formattedDate);
 getCard();
 getComment();
