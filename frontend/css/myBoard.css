@@ -62,7 +62,8 @@ header {
 }
 
 /* 추가 버튼 스타일링 */
-#add-column {
+#add-column,
+#inviteMember {
   font-size: 20px;
   margin-bottom: 10px;
 }
@@ -92,7 +93,7 @@ header {
 #myModal,
 #columnUpdateModal,
 #cardModal,
-#inviteModal {
+#inviteMemberModal {
   display: none; /* 기본적으로 숨김 */
   position: fixed;
   z-index: 1;
@@ -115,7 +116,7 @@ header {
 .columnModarClose,
 .cardModarClose,
 .columnUpdateModarClose,
-.inviteModalClose {
+.inviteMemberModarClose {
   float: right;
   font-size: 20px;
   font-weight: bold;
@@ -129,7 +130,7 @@ header {
 #modal-worker,
 #modal-deadLine,
 #column-title,
-#memberEmail {
+#email {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -141,7 +142,7 @@ header {
 #save-column,
 #save-card,
 #save-columnUpdate,
-#save-invite {
+#save-inviteMember {
   background-color: #007bff;
   color: white;
   border: none;

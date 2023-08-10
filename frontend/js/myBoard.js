@@ -216,18 +216,18 @@ function updateColumnBtn(columnId) {
 
 // 초대하기 모달
 $(document).ready(function () {
-  $('#addMember').click(function () {
-    $('#inviteModal').css('display', 'block');
+  $('#inviteMember').click(function () {
+    $('#inviteMemberModal').css('display', 'block');
   });
 
-  $('.inviteModalClose').click(function () {
-    $('#inviteModal').css('display', 'none');
+  $('.inviteMemberModarClose').click(function () {
+    $('#inviteMemberModal').css('display', 'none');
   });
 
-  $('#save-invite').click(function () {
-    let email = $('#memberEmail').val();
+  $('#save-inviteMember').click(function () {
+    let email = $('#email').val();
     inviteMember(email);
-    $('#inviteModal').css('display', 'none');
+    $('#inviteMemberModal').css('display', 'none');
   });
 
   function inviteMember(email) {
