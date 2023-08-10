@@ -14,6 +14,7 @@ const myBoard = async () => {
     })
     .then(data => {
       let rows = data;
+      console.log(rows);
       const result = rows.board.columns;
       $('#card-container').empty();
       for (let i = result.length - 1; i >= 0; i--) {
