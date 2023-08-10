@@ -27,12 +27,18 @@ const getCheckList = () => {
       const content = checkList.content;
       const checkListId = checkList.id;
       const checkListState = checkList.isSuccess;
-      temp.innerHTML = `<input class="form-check-input" type="checkbox" ${
+      temp.innerHTML = `<div class="form-check d-flex">
+      <input class="form-check-input" type="checkbox" ${
         checkListState ? 'checked' : ''
-      } value="${checkListState}" id="${checkListId}" onclick="updateCheckList(${checkListId},this.checked)">
-                        <label class="form-check-label" for="${checkListId}">
-                        ${content}
-                        </label>`;
+      } value="${checkListState}" id="${checkListId}" onclick="updateCheckList(${checkListId}, this.checked)">
+      <label class="form-check-label me-2" for="${checkListId}">
+        ${content}
+      </label>
+      <div class="btn-group">
+        <button class="btn btn-primary btn-sm me-2" onclick="editCheckList(${checkListId})">수정</button>
+        <button class="btn btn-primary btn-sm" onclick="deleteCheckList(${checkListId})">삭제</button>
+      </div>
+    </div>`;
       await document.querySelector('#checkListBox').append(temp);
     });
   });
@@ -40,7 +46,6 @@ const getCheckList = () => {
 const getCard = () => {
   card.then(datas => {
     const workerData = datas.result.worker.split(',');
-    console.log(workerData);
     const temp = document.createElement('div');
     const cardTitle = datas.result.title;
     const cardContent = datas.result.content;
@@ -225,7 +230,31 @@ function updateCheckList(checkListId, isSuccess) {
     body: JSON.stringify(req),
   })
     .then(res => res.json())
-    .then(res => console.log(res));
+}
+
+function deleteCheckList(checkListId) {
+  const req = { checkListId };
+  fetch(`/column/${columnId}/card/${cardId}/checkList`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(req),
+  }).then(res => res.json());
+  window.location.reload();
+}
+
+function editCheckList(checkListId) {
+  const content = prompt('수정될 내용을 입력해주세요', '');
+  const req = { checkListId, content };
+  fetch(`/column/${columnId}/card/${cardId}/editCheckList`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(req),
+  })
+  window.location.reload();
 }
 
 function openEditModal(title, content, email, deadLine) {
