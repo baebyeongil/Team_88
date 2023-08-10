@@ -27,9 +27,7 @@ const getCheckList = () => {
       const content = checkList.content;
       const checkListId = checkList.id;
       const checkListState = checkList.isSuccess;
-      temp.innerHTML = `<input class="form-check-input" type="checkbox" ${
-        checkListState ? 'checked' : ''
-      } value="${checkListState}" id="${checkListId}">
+      temp.innerHTML = `<input class="form-check-input" type="checkbox" ${checkListState ? 'checked' : ''} value="${checkListState}" id="${checkListId}">
                         <label class="form-check-label" for="${checkListId}">
                         ${content}
                         </label>`;
@@ -39,17 +37,17 @@ const getCheckList = () => {
 };
 const getCard = () => {
   card.then(datas => {
+    const workerData=datas.result.worker.split(",")
+    console.log(workerData)
     const temp = document.createElement('div');
     const cardTitle = datas.result.title;
     const cardContent = datas.result.content;
     const cardId = datas.result.id;
-    const worker = datas.result.user.nickname;
     const deadLine = datas.result.deadLine;
-    const workerEmail = datas.result.user.email;
     $('#cardBox').empty();
     temp.innerHTML = `<div class="card">
                       <div class="card-header d-flex justify-content-between">
-                      <span class="card-worker">작업자:${worker}</span>
+                      <span class="card-worker">작업자:${workerData[0]}</span>
                       <div>
                       <span class="card-deadLine">마감일:${formatDate(
                         deadLine
@@ -59,7 +57,7 @@ const getCard = () => {
                       <div class="card-header d-flex justify-content-between">
                       <span>${cardTitle}</span>
                       <div class="btn-group">
-                      <button id="cardEditBtn" class="btn btn-primary me-2" style="padding: 0; width: 60px; height: 30px; border-radius: 0; display: flex; align-items: center; justify-content: center;" onclick="openEditModal(${cardId}, '${cardTitle}', '${cardContent}', '${workerEmail}', '${deadLine}')">수정</button>
+                      <button id="cardEditBtn" class="btn btn-primary me-2" style="padding: 0; width: 60px; height: 30px; border-radius: 0; display: flex; align-items: center; justify-content: center;" onclick="openEditModal('${cardTitle}', '${cardContent}', '${workerData[1]}', '${deadLine}')">수정</button>
                       <button id="cardDeleteBtn" class="btn btn-primary" style="padding: 0; width: 60px; height: 30px; border-radius: 0; display: flex; align-items: center; justify-content: center;" onclick="deleteCard(${cardId})">삭제</button>
                       </div>
                       </div>
@@ -198,15 +196,15 @@ function deleteCard(cardId) {
 }
 
 function createCheckList() {
-  const req={
-    content:checkListInput.value
-  }
+  const req = {
+    content: checkListInput.value,
+  };
   fetch(`/column/${columnId}/card/${cardId}/checkList`, {
-    method: 'DELETE',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(),
+    body: JSON.stringify(req),
   });
 }
 
