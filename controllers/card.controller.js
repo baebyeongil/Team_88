@@ -171,9 +171,24 @@ class CardController {
     }
   };
 
-  updateCheckList= async (req, res, next) => {
+  updateCheckList = async (req, res, next) => {
+    try {
+      const { checkListId, isSuccess } = req.body;
+      const updateCheckList = await this.cardService.updateCheckList(
+        checkListId,
+        isSuccess
+      );
 
-  }
+      return res
+        .status(updateCheckList.status)
+        .json({ result: updateCheckList.message });
+    } catch (error) {
+      return {
+        status: 400,
+        message: 'Controller Error: checkList 불러오기에 실패했습니다.',
+      };
+    }
+  };
 }
 
 module.exports = CardController;

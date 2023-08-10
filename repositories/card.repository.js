@@ -1,5 +1,5 @@
 const Card = require('../db/models/card');
-const CheckList=require('../db/models/checkList');
+const CheckList = require('../db/models/checkList');
 const User = require('../db/models/user');
 
 class CardRepository {
@@ -53,7 +53,6 @@ class CardRepository {
     cardIndex
   ) => {
     try {
-      const checkListArr = [];
       const postCardData = await Card.create({
         userId,
         columnId,
@@ -133,17 +132,29 @@ class CardRepository {
 
   createCheckList = async (cardId, content) => {
     try {
-      const presentCard = await CheckList.findOne({where: { id: cardId }});
+      const checkList = await CheckList.create({
+        cardId,
+        content,
+      });
+      return checkList;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getCheckList = async cardId => {
+    try {
+      const presentCard = await CheckList.findAll({ where: { cardId } });
       return presentCard;
     } catch (error) {
       throw error;
     }
   };
 
-  getCheckList = async (cardId) => {
+  updateCheckList = async (checkListId, isSuccess) => {
     try {
-      const presentCard = await Card.findOne({where: { id: cardId }});
-      return presentCard;
+     return await CheckList.update({ isSuccess }, { where: { id: checkListId } });
+
     } catch (error) {
       throw error;
     }
