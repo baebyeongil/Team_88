@@ -1,4 +1,5 @@
 const Card = require('../db/models/card');
+const CheckList=require('../db/models/checkList');
 const User = require('../db/models/user');
 
 class CardRepository {
@@ -52,6 +53,7 @@ class CardRepository {
     cardIndex
   ) => {
     try {
+      const checkListArr = [];
       const postCardData = await Card.create({
         userId,
         columnId,
@@ -124,6 +126,24 @@ class CardRepository {
       });
 
       return resetIndexCardData;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  createCheckList = async (cardId, content) => {
+    try {
+      const presentCard = await CheckList.findOne({where: { id: cardId }});
+      return presentCard;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getCheckList = async (cardId) => {
+    try {
+      const presentCard = await Card.findOne({where: { id: cardId }});
+      return presentCard;
     } catch (error) {
       throw error;
     }

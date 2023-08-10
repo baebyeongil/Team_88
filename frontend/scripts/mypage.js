@@ -1,22 +1,31 @@
 //보드 상세페이지로 이동하는 버튼에 대한 동적 생성
 document.addEventListener('DOMContentLoaded', function () {
   // 로그인 판별 여부
-  const loginButton = document.querySelector('.login-button');
+  const chatButton = document.querySelector('.chat-button');
   const logoutButton = document.querySelector('.logout-button');
 
   // 쿠키값 확인하여 버튼 상태 설정
   function checkLoginStatus() {
     let cookies = document.cookie;
-    if (cookies.includes('Authorization=Bearer%20')) {
-      loginButton.classList.add('d-none'); // 로그인 버튼 숨김
-      logoutButton.classList.remove('d-none'); // 로그아웃 버튼 표시
-    } else {
+    if (!cookies.includes('Authorization=Bearer%20')) {
       window.location.href = `main.html`;
     }
   }
 
   // 페이지 로드 시 쿠키값 확인
   checkLoginStatus();
+
+  chatButton.addEventListener('click', function () {
+    axios
+      .get('/user')
+      .then(response => {
+        window.location.href = `chat.html?nickname=${response.data.result.nickname}`;
+      })
+      .catch(error => {
+        console.log(error);
+        alert(error.request.response);
+      });
+  });
 
   logoutButton.addEventListener('click', function () {
     // Axios를 사용하여 POST 요청 보내기

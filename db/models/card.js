@@ -39,6 +39,11 @@ const Card = connector.sequelize.define(
       type: DataTypes.DATE,
       allowNull: false,
     },
+    color: {
+      type: DataTypes.STRING,
+      defaultValue: 'white',
+      allowNull: false,
+    },
   },
   { timestamps: true }
 );

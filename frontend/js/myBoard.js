@@ -20,10 +20,13 @@ const myBoard = async () => {
         let title = result[i]['title'];
         let cards = result[i]['cards'];
         let id = result[i]['id'];
+        let color = result[i]['color'];
+        console.log(result[i]);
         let temp_html = `
-      <div class="columList" id=${id} draggable="true" min-height:300px>
-      <button id="delete-card" onclick="columnDeleteBtn(${id})">X</button>
-      <button id="add-card" onclick="cardModarOpen(${id})">+</button>
+      <div class="columList" id=${id} style="min-height:300px; background-color: ${color}; color: black;" draggable="true" min-height:300px >
+        <button id="delete-card" onclick="columnDeleteBtn(${id})">컬럼삭제</button>
+        <button id="updateColumnBtn" onclick="updateColumnBtn(${id})">컬럼수정</button>
+        <button id="add-card" onclick="cardModarOpen(${id})">카드생성</button>
         <div id="columnTitle">${title}</div>
         <div id="cardList" class="cardList-${i}"></div>
       </div>
@@ -39,7 +42,7 @@ const myBoard = async () => {
               <div id=${id},${cardId} class="cards" draggable="true">
                 <div>${cardTitle}</div>
                 <div>${cardContent}</div>
-                <div><button id="detailCard" onclick="">상세보기</button></div>
+                <div><button id="detailCard" onclick="window.location.href ='card.html?boardId=${boardId}&columnId=${id}&cardId=${cardId}'">상세보기</button></div>
               </div>
             `;
           $(`.cardList-${i}`).append(card_html);
@@ -63,11 +66,12 @@ $(document).ready(function () {
 
   $('#save-column').click(function () {
     let title = $('#modal-title').val();
-    createCard(title);
+    let color = $('#colorSelect').val();
+    createCard(title, color);
     $('#myModal').css('display', 'none');
   });
 
-  function createCard(title) {
+  function createCard(title, color) {
     // API 요청을 보내는 부분
     const urlParams = new URLSearchParams(window.location.search);
     const boardId = urlParams.get('id');
@@ -81,13 +85,14 @@ $(document).ready(function () {
       },
       body: JSON.stringify({
         title: title,
+        color: color,
       }),
     })
       .then(async res => {
         if (res.status == 400) {
           const message = await res.json();
           alert(message);
-          location.reload();
+          // location.reload();
         } else {
           location.reload();
         }
@@ -99,10 +104,9 @@ $(document).ready(function () {
 });
 
 // 컬럼 삭제
-function columnDeleteBtn(id) {
+function columnDeleteBtn(columnId) {
   const urlParams = new URLSearchParams(window.location.search);
   const boardId = urlParams.get('id');
-  const columnId = id;
 
   fetch(`/board/${boardId}/column/${columnId}`, {
     method: 'DELETE',
@@ -116,8 +120,7 @@ function columnDeleteBtn(id) {
 }
 
 // 카드 생성 모달
-function cardModarOpen(id) {
-  const columnId = id;
+function cardModarOpen(columnId) {
   $('#cardModal').css('display', 'block');
 
   $('.cardModarClose').click(function () {
@@ -165,3 +168,89 @@ function cardModarOpen(id) {
       });
   }
 }
+
+// 컬럼 수정 모달
+function updateColumnBtn(columnId) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const boardId = urlParams.get('id');
+
+  $('#columnUpdateModal').css('display', 'block');
+
+  $('.columnUpdateModarClose').click(function () {
+    $('#columnUpdateModal').css('display', 'none');
+  });
+
+  $('#save-columnUpdate').click(function () {
+    let title = $('#column-title').val();
+    let color = $('#columnColorSelect').val();
+    updateCloumn(title, color);
+    $('#columnUpdateModal').css('display', 'none');
+  });
+  // 카드 생성
+  function updateCloumn(title, color) {
+    // API 요청을 보내는 부분
+
+    let columnEndpoint = `/board/${boardId}/column/${columnId}`;
+
+    fetch(columnEndpoint, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title,
+        color,
+      }),
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        alert(res);
+        location.reload();
+      });
+  }
+}
+
+// 초대하기 모달
+$(document).ready(function () {
+  $('#addMember').click(function () {
+    $('#inviteModal').css('display', 'block');
+  });
+
+  $('.inviteModalClose').click(function () {
+    $('#inviteModal').css('display', 'none');
+  });
+
+  $('#save-invite').click(function () {
+    let email = $('#memberEmail').val();
+    inviteMember(email);
+    $('#inviteModal').css('display', 'none');
+  });
+
+  function inviteMember(email) {
+    // API 요청을 보내는 부분
+    const urlParams = new URLSearchParams(window.location.search);
+    const boardId = urlParams.get('id');
+
+    let columnEndpoint = `/board/${boardId}`;
+
+    fetch(columnEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+      }),
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        alert(res);
+        location.reload();
+      })
+      .catch(error => {
+        console.error('Error creating card:', error);
+      });
+  }
+});
