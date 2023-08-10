@@ -3,6 +3,7 @@ const boardId = urlParams.get('boardId');
 const cardId = urlParams.get('cardId');
 const columnId = urlParams.get('columnId');
 const commentInput = document.getElementById('commentInput');
+const checkListInput = document.getElementById('checkListInput');
 const card = fetch(`/column/${columnId}/card/${cardId}`)
   .then(response => response.json())
   .then(data => {
@@ -13,7 +14,29 @@ const commentList = fetch(`/card/${cardId}/comment`)
   .then(data => {
     return data;
   });
-
+const checkList = fetch(`/column/${columnId}/card/${cardId}/checkList`)
+  .then(response => response.json())
+  .then(data => {
+    return data;
+  });
+const getCheckList = () => {
+  checkList.then(datas => {
+    $('#checkListBox').empty();
+    datas.result.forEach(checkList => {
+      const temp = document.createElement('div');
+      const content = checkList.content;
+      const checkListId = checkList.id;
+      const checkListState = checkList.isSuccess;
+      temp.innerHTML = `<input class="form-check-input" type="checkbox" ${
+        checkListState ? 'checked' : ''
+      } value="${checkListState}" id="${checkListId}">
+                        <label class="form-check-label" for="${checkListId}">
+                        ${content}
+                        </label>`;
+      document.querySelector('#checkListBox').append(temp);
+    });
+  });
+};
 const getCard = () => {
   card.then(datas => {
     const temp = document.createElement('div');
@@ -47,6 +70,12 @@ const getCard = () => {
                       댓글
                       </button>
                       <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checklistModal">체크리스트</button>
+                      </div>
+                      <div id=checkListBox class="form-check" style="margin-top: 10px; margin-left: 20px;">
+                      <input class="form-check-input" type="checkbox" value="" id="checklistCheckbox">
+                      <label class="form-check-label" for="checklistCheckbox">
+                      체크리스트입니다.
+                      </label>
                       </div>
                       </div>
                       </div>`;
@@ -167,6 +196,20 @@ function deleteCard(cardId) {
       window.location.href = `myboard.html?id=${boardId}`;
     });
 }
+
+function createCheckList() {
+  const req={
+    content:checkListInput.value
+  }
+  fetch(`/column/${columnId}/card/${cardId}/checkList`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(),
+  });
+}
+
 function openEditModal(title, content, email, deadLine) {
   $('#editTitleInput').val(title);
   $('#editContentInput').val(content);
@@ -198,5 +241,7 @@ function formatDate(dateString) {
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
+
 getCard();
+getCheckList();
 getComment();

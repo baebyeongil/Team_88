@@ -28,6 +28,9 @@ class UserService {
     if (!nickname) {
       return { status: 400, message: '닉네임을 기입하지 않았습니다.' };
     }
+    if (nickname.indexOf(',') != -1) {
+      return { status: 400, message: '닉네임에 쉼표(,)를 사용할 수 없습니다.' };
+    }
 
     const hashPassword = await bcrypt.hash(password, 5);
 
@@ -115,8 +118,11 @@ class UserService {
         return { message: '새로운 비밀번호의 형식이 일치하지 않습니다.' };
       }
     }
+    if (newNickname.indexOf(',') != -1) {
+      return { status: 400, message: '닉네임에 쉼표(,)를 사용할 수 없습니다.' };
+    }
 
-    const hashPassword = await bcrypt.hash(password, 5);
+    const hashPassword = await bcrypt.hash(newPassword, 5);
 
     let updateValues = {};
     if (user) updateValues.id = user.id;

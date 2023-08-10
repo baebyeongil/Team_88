@@ -130,8 +130,11 @@ class CardRepository {
 
   createCheckList = async (cardId, content) => {
     try {
-      const presentCard = await CheckList.findOne({ where: { id: cardId } });
-      return presentCard;
+      const checkList = await CheckList.create({
+        cardId,
+        content,
+      });
+      return checkList;
     } catch (error) {
       throw error;
     }
@@ -139,8 +142,19 @@ class CardRepository {
 
   getCheckList = async cardId => {
     try {
-      const presentCard = await Card.findOne({ where: { id: cardId } });
+      const presentCard = await CheckList.findAll({ where: { cardId } });
       return presentCard;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  updateCheckList = async (checkListId, isSuccess) => {
+    try {
+      return await CheckList.update(
+        { isSuccess },
+        { where: { id: checkListId } }
+      );
     } catch (error) {
       throw error;
     }
