@@ -60,7 +60,16 @@ document.addEventListener('DOMContentLoaded', function () {
         button.style.marginTop = '20px';
         button.style.width = '120px';
         button.style.height = '80px';
-        button.textContent = `${res[i].board.title}`;
+
+        const title = document.createElement('div'); // 제목을 담을 div 요소 생성
+        title.textContent = `${res[i].board.title}`;
+        title.style.marginBottom = '5px'; // 제목과 설명 사이 간격 조정
+
+        const description = document.createElement('div'); // 설명을 담을 div 요소 생성
+        description.textContent = `${res[i].board.content}`;
+
+        button.appendChild(title);
+        button.appendChild(description);
         button.id = `${res[i].id}`;
         boardButtonsContainer.appendChild(button);
       }
