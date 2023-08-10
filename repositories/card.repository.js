@@ -6,11 +6,6 @@ class CardRepository {
   getCard = async cardId => {
     try {
       const getCardData = await Card.findOne({
-        include: {
-          model: User,
-          attributes: ['nickname', 'email'],
-        },
-        order: [['cardIndex']],
         where: { id: cardId },
       });
 
@@ -48,18 +43,19 @@ class CardRepository {
     columnId,
     title,
     content,
-    workerId,
+    worker,
     deadLine,
     cardIndex,
     color
   ) => {
     try {
+      worker = String(worker);
       const postCardData = await Card.create({
         userId,
         columnId,
         title,
         content,
-        workerId,
+        worker,
         deadLine,
         cardIndex,
         color,

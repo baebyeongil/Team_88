@@ -31,8 +31,8 @@ const Card = connector.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    workerId: {
-      type: DataTypes.INTEGER,
+    worker: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
     deadLine: {
