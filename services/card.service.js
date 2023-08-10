@@ -18,7 +18,15 @@ class CardService {
     }
   };
 
-  postCard = async (userId, columnId, title, content, email, deadLine) => {
+  postCard = async (
+    userId,
+    columnId,
+    title,
+    content,
+    email,
+    deadLine,
+    color
+  ) => {
     try {
       let index = 10000000;
       let workerId = userId;
@@ -42,7 +50,8 @@ class CardService {
         content,
         workerId,
         deadLine,
-        index
+        index,
+        color
       );
 
       return { status: 200, message: '등록이 완료되었습니다.' };
@@ -202,7 +211,10 @@ class CardService {
       };
     }
 
-    const presentCard = await this.cardRepository.createCheckList(cardId, content);
+    const presentCard = await this.cardRepository.createCheckList(
+      cardId,
+      content
+    );
 
     if (!presentCard) {
       return {
@@ -225,10 +237,10 @@ class CardService {
         message: '현재 존재하는 카드가 아닙니다.',
       };
     }
-    return{
+    return {
       status: 200,
       message: presentCard.checkList,
-    }
+    };
   };
 }
 
