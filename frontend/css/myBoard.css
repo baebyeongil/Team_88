@@ -1,5 +1,10 @@
 /* 전체 페이지 스타일링 */
+html {
+  width: 100%;
+  height: 100%;
+}
 body {
+  height: 100%;
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -13,11 +18,12 @@ header {
   color: white;
 }
 
-.main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+main {
+  height: 100%;
+}
+
+#mainBottom {
+  height: 100%;
 }
 
 /* 카드 스타일링 */
@@ -62,37 +68,49 @@ header {
 }
 
 /* 추가 버튼 스타일링 */
-#add-column {
+#add-column,
+#inviteMember {
   font-size: 20px;
   margin-bottom: 10px;
 }
 
 .columList {
   border: 1px solid #000;
-  width: 300px;
   padding: 20px;
-  background-color: #fff;
+  margin: 20px;
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: 40px;
-  margin-bottom: 40px;
-  margin-left: 40px;
-  min-height: 500px;
   display: inline-block; /* 가로 정렬을 위한 추가 */
 }
 
+#mainBottom {
+  display: flex;
+  height: 100%;
+}
+
 #card-container {
-  white-space: nowrap;
-  overflow-x: auto;
-  display: grid; /* 그리드 형식 적용 */
-  grid-template-columns: repeat(3, 1fr); /* 한 줄에 4개의 카드를 보여줌 */
+  width: 100%;
   gap: 10px; /* 카드 사이의 간격 설정 */
+}
+
+#boardContent {
+  border-bottom: 2px solid #000;
+  border-top: 2px solid #000;
+  text-align: center;
+  padding: 10px;
+}
+
+#boardMember {
+  border-right: 2px solid #000;
+  width: 15%;
+  height: 100%;
+  padding: 10px;
 }
 
 #myModal,
 #columnUpdateModal,
 #cardModal,
-#inviteModal {
+#inviteMemberModal {
   display: none; /* 기본적으로 숨김 */
   position: fixed;
   z-index: 1;
@@ -115,7 +133,7 @@ header {
 .columnModarClose,
 .cardModarClose,
 .columnUpdateModarClose,
-.inviteModalClose {
+.inviteMemberModarClose {
   float: right;
   font-size: 20px;
   font-weight: bold;
@@ -129,7 +147,7 @@ header {
 #modal-worker,
 #modal-deadLine,
 #column-title,
-#memberEmail {
+#email {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -141,7 +159,7 @@ header {
 #save-column,
 #save-card,
 #save-columnUpdate,
-#save-invite {
+#save-inviteMember {
   background-color: #007bff;
   color: white;
   border: none;
