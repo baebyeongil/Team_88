@@ -116,7 +116,7 @@ class UserService {
       }
     }
 
-    const hashPassword = await bcrypt.hash(password, 5);
+    const hashPassword = await bcrypt.hash(newPassword, 5);
 
     let updateValues = {};
     if (user) updateValues.id = user.id;

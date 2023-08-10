@@ -24,7 +24,7 @@ class CardController {
     try {
       const userId = res.locals.user.id;
       const { columnId } = req.params;
-      const { title, content, email, deadLine } = req.body;
+      const { title, content, email, deadLine, color } = req.body;
 
       if (title == '') {
         return res.status(400).json({ result: '제목을 작성해 주세요.' });
@@ -48,7 +48,8 @@ class CardController {
         title,
         content,
         email,
-        deadLine
+        deadLine,
+        color
       );
 
       return res
@@ -171,9 +172,28 @@ class CardController {
     }
   };
 
-  updateCheckList= async (req, res, next) => {
+<<<<<<< HEAD
+  updateCheckList = async (req, res, next) => {
+    try {
+      const { checkListId, isSuccess } = req.body;
+      const updateCheckList = await this.cardService.updateCheckList(
+        checkListId,
+        isSuccess
+      );
 
-  }
+      return res
+        .status(updateCheckList.status)
+        .json({ result: updateCheckList.message });
+    } catch (error) {
+      return {
+        status: 400,
+        message: 'Controller Error: checkList 불러오기에 실패했습니다.',
+      };
+    }
+  };
+=======
+  updateCheckList = async (req, res, next) => {};
+>>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
 }
 
 module.exports = CardController;

@@ -20,8 +20,10 @@ const myBoard = async () => {
         let title = result[i]['title'];
         let cards = result[i]['cards'];
         let id = result[i]['id'];
+        let color = result[i]['color'];
+        console.log(result[i]);
         let temp_html = `
-      <div class="columList" id=${id} draggable="true" min-height:300px>
+      <div class="columList" id=${id} style="min-height:300px; background-color: ${color}; color: black;" draggable="true" min-height:300px >
         <button id="delete-card" onclick="columnDeleteBtn(${id})">컬럼삭제</button>
         <button id="updateColumnBtn" onclick="updateColumnBtn(${id})">컬럼수정</button>
         <button id="add-card" onclick="cardModarOpen(${id})">카드생성</button>
@@ -35,9 +37,10 @@ const myBoard = async () => {
           let cardTitle = cards[j].title;
           let cardContent = cards[j].content;
           let cardId = cards[j].id;
+          let cardColor = cards[j].color;
           // 카드 내용을 출력하거나 추가하는 코드를 작성하세요
           let card_html = `
-              <div id=${id},${cardId} class="cards" draggable="true">
+              <div id=${id},${cardId} class="cards" style=" background-color: ${cardColor}; color: black;" draggable="true">
                 <div>${cardTitle}</div>
                 <div>${cardContent}</div>
                 <div><button id="detailCard" onclick="window.location.href ='card.html?boardId=${boardId}&columnId=${id}&cardId=${cardId}'">상세보기</button></div>
@@ -64,11 +67,12 @@ $(document).ready(function () {
 
   $('#save-column').click(function () {
     let title = $('#modal-title').val();
-    createCard(title);
+    let color = $('#colorSelect').val();
+    createCard(title, color);
     $('#myModal').css('display', 'none');
   });
 
-  function createCard(title) {
+  function createCard(title, color) {
     // API 요청을 보내는 부분
     const urlParams = new URLSearchParams(window.location.search);
     const boardId = urlParams.get('id');
@@ -82,6 +86,7 @@ $(document).ready(function () {
       },
       body: JSON.stringify({
         title: title,
+        color: color,
       }),
     })
       .then(async res => {
@@ -128,12 +133,13 @@ function cardModarOpen(columnId) {
     let content = $('#modal-content').val();
     let email = $('#modal-worker').val();
     let deadLine = $('#modal-deadLine').val();
-    createCard(content, email, deadLine, title);
+    let color = $('#cardColorSelect').val();
+    createCard(content, email, deadLine, title, color);
     $('#cardModal').css('display', 'none');
   });
 
   // 카드 생성
-  function createCard(content, email, deadLine, title) {
+  function createCard(content, email, deadLine, title, color) {
     // API 요청을 보내는 부분
 
     let columnEndpoint = `/column/${columnId}/card`;
@@ -148,6 +154,7 @@ function cardModarOpen(columnId) {
         content,
         email,
         deadLine,
+        color,
       }),
     })
       .then(async res => {
@@ -178,11 +185,12 @@ function updateColumnBtn(columnId) {
 
   $('#save-columnUpdate').click(function () {
     let title = $('#column-title').val();
-    updateCloumn(title);
+    let color = $('#columnColorSelect').val();
+    updateCloumn(title, color);
     $('#columnUpdateModal').css('display', 'none');
   });
   // 카드 생성
-  function updateCloumn(title) {
+  function updateCloumn(title, color) {
     // API 요청을 보내는 부분
 
     let columnEndpoint = `/board/${boardId}/column/${columnId}`;
@@ -194,6 +202,7 @@ function updateColumnBtn(columnId) {
       },
       body: JSON.stringify({
         title,
+        color,
       }),
     })
       .then(res => res.json())

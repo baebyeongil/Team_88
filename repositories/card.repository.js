@@ -1,16 +1,11 @@
 const Card = require('../db/models/card');
-const CheckList=require('../db/models/checkList');
+const CheckList = require('../db/models/checkList');
 const User = require('../db/models/user');
 
 class CardRepository {
   getCard = async cardId => {
     try {
       const getCardData = await Card.findOne({
-        include: {
-          model: User,
-          attributes: ['nickname', 'email'],
-        },
-        order: [['cardIndex']],
         where: { id: cardId },
       });
 
@@ -48,20 +43,25 @@ class CardRepository {
     columnId,
     title,
     content,
-    workerId,
+    worker,
     deadLine,
-    cardIndex
+    cardIndex,
+    color
   ) => {
     try {
-      const checkListArr = [];
+<<<<<<< HEAD
+=======
+      worker = String(worker);
+>>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
       const postCardData = await Card.create({
         userId,
         columnId,
         title,
         content,
-        workerId,
+        worker,
         deadLine,
         cardIndex,
+        color,
       });
 
       return postCardData;
@@ -133,17 +133,40 @@ class CardRepository {
 
   createCheckList = async (cardId, content) => {
     try {
-      const presentCard = await CheckList.findOne({where: { id: cardId }});
+<<<<<<< HEAD
+      const checkList = await CheckList.create({
+        cardId,
+        content,
+      });
+      return checkList;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getCheckList = async cardId => {
+    try {
+      const presentCard = await CheckList.findAll({ where: { cardId } });
+=======
+      const presentCard = await CheckList.findOne({ where: { id: cardId } });
+>>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
       return presentCard;
     } catch (error) {
       throw error;
     }
   };
 
-  getCheckList = async (cardId) => {
+<<<<<<< HEAD
+  updateCheckList = async (checkListId, isSuccess) => {
     try {
-      const presentCard = await Card.findOne({where: { id: cardId }});
+     return await CheckList.update({ isSuccess }, { where: { id: checkListId } });
+
+=======
+  getCheckList = async cardId => {
+    try {
+      const presentCard = await Card.findOne({ where: { id: cardId } });
       return presentCard;
+>>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
     } catch (error) {
       throw error;
     }

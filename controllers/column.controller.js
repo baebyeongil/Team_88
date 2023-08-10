@@ -5,23 +5,29 @@ class ColumnController {
 
   postColumn = async (req, res) => {
     const { boardId } = req.params;
-    const { title } = req.body;
+    const { title, color } = req.body;
     const user = res.locals.user;
 
-    const result = await this.columnService.postColumn(boardId, title, user);
+    const result = await this.columnService.postColumn(
+      boardId,
+      title,
+      user,
+      color
+    );
     return res.status(result.status).json(result.message);
   };
 
   updateColumn = async (req, res) => {
     const { boardId, columnId } = req.params;
-    const { title } = req.body;
+    const { title, color } = req.body;
     const user = res.locals.user;
 
     const result = await this.columnService.updateColumn(
       boardId,
       columnId,
       title,
-      user
+      user,
+      color
     );
     return res.status(result.status).json(result.message);
   };

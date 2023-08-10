@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 const { col } = require('sequelize');
+const Card = require('../db/models/card');
 const CheckList = require('../db/models/checkList');
+=======
+>>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
 const CardRepository = require('../repositories/card.repository');
 
 class CardService {
@@ -18,10 +22,17 @@ class CardService {
     }
   };
 
-  postCard = async (userId, columnId, title, content, email, deadLine) => {
+  postCard = async (
+    userId,
+    columnId,
+    title,
+    content,
+    email,
+    deadLine,
+    color
+  ) => {
     try {
       let index = 10000000;
-      let workerId = userId;
 
       const findCardData = await this.cardRepository.findCard(columnId);
       if (findCardData.length) {
@@ -33,16 +44,17 @@ class CardService {
       if (!findUserData) {
         return { status: 400, message: '존재하지 않는 유저입니다.' };
       }
-      workerId = findUserData.id;
+      let worker = [findUserData.nickname, findUserData.email];
 
       await this.cardRepository.postCard(
         userId,
         columnId,
         title,
         content,
-        workerId,
+        worker,
         deadLine,
-        index
+        index,
+        color
       );
 
       return { status: 200, message: '등록이 완료되었습니다.' };
@@ -202,12 +214,30 @@ class CardService {
       };
     }
 
-    const presentCard = await this.cardRepository.createCheckList(cardId, content);
+<<<<<<< HEAD
+    const existCard = await Card.findOne({
+      where: { id: cardId },
+    });
+=======
+    const presentCard = await this.cardRepository.createCheckList(
+      cardId,
+      content
+    );
+>>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
 
-    if (!presentCard) {
+    if (!existCard) {
       return {
         status: 400,
-        message: '현재 존재하는 카드가 아닙니다.',
+        message: '현존하지 않는 카드입니다.',
+      };
+    }
+
+    const createCheck = this.cardRepository.createCheckList(cardId, content);
+
+    if (!createCheck) {
+      return {
+        status: 400,
+        message: '체크리스트 생성 중 에러가 발생했습니다.',
       };
     }
 
@@ -222,13 +252,25 @@ class CardService {
     if (!presentCard) {
       return {
         status: 400,
-        message: '현재 존재하는 카드가 아닙니다.',
+        message: '존재하는 체크리스트가 없습니다.',
       };
     }
-    return{
+    return {
       status: 200,
+<<<<<<< HEAD
+      message: presentCard,
+    };
+  };
+
+  updateCheckList = async (checkListId, isSuccess) => {
+    await this.cardRepository.updateCheckList(checkListId, isSuccess);
+    return {
+      status: 200,
+      message: "체크박스 수정 완료",
+=======
       message: presentCard.checkList,
-    }
+>>>>>>> 0eff3415b1874c23313bbefd0410b7017dba8f9a
+    };
   };
 }
 
