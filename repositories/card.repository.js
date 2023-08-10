@@ -1,4 +1,5 @@
 const Card = require('../db/models/card');
+const CheckList=require('../db/models/checkList');
 const User = require('../db/models/user');
 
 class CardRepository {
@@ -61,7 +62,6 @@ class CardRepository {
         workerId,
         deadLine,
         cardIndex,
-        checkList: JSON.stringify(checkListArr),
       });
 
       return postCardData;
@@ -133,7 +133,7 @@ class CardRepository {
 
   createCheckList = async (cardId, content) => {
     try {
-      const presentCard = await Card.findOne({where: { id: cardId }});
+      const presentCard = await CheckList.findOne({where: { id: cardId }});
       return presentCard;
     } catch (error) {
       throw error;
