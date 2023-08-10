@@ -125,5 +125,18 @@ class UserService {
 
     return await this.userRepository.updateUser(updateValues);
   };
+  //유저 정보 불러오기
+  findUser = async user => {
+    try {
+      const findUserData = await this.userRepository.findUser(user.id);
+
+      return { status: 200, message: findUserData };
+    } catch (error) {
+      return {
+        status: 400,
+        message: 'Repository Error: 불러오기에 실패했습니다.',
+      };
+    }
+  };
 }
 module.exports = UserService;
