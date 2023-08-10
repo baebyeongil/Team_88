@@ -80,7 +80,7 @@ class BoardRepository {
           attributes: ['title', 'content'],
           include: {
             model: Column,
-            attributes: ['id', 'title', 'columnIndex'],
+            attributes: ['id', 'title', 'columnIndex', 'color'],
             include: {
               model: Card,
               attributes: [
