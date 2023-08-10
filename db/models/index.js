@@ -4,6 +4,7 @@ const Member = require('./member.js');
 const Board = require('./board.js');
 const Column = require('./column.js');
 const Card = require('./card.js');
+const CheckList=require('./checkList.js');
 const Comment = require('./comment.js');
 
 //User
@@ -23,12 +24,15 @@ Member.belongsTo(Board);
 Column.hasMany(Card);
 Column.belongsTo(Board);
 //Card
+Card.hasMany(CheckList);
 Card.hasMany(Comment);
 Card.belongsTo(User);
 Card.belongsTo(Column);
+//CheckList
+CheckList.belongsTo(Card)
 //Comment
 Comment.belongsTo(User);
 Comment.belongsTo(Board);
 Comment.belongsTo(Card);
 
-module.exports = [User, Member, Board, Card, Comment];
+module.exports = [User, Member, Board, Card, CheckList, Comment];

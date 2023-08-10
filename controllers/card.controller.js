@@ -133,6 +133,47 @@ class CardController {
       return { status: 400, message: 'Controller Error: 수정에 실패했습니다.' };
     }
   };
+
+  createCheckList = async (req, res, next) => {
+    try {
+      const { cardId } = req.params;
+      const { content } = req.body;
+
+      const createCheckList = await this.cardService.createCheckList(
+        cardId,
+        content
+      );
+
+      return res
+        .status(createCheckList.status)
+        .json({ result: createCheckList.message });
+    } catch (error) {
+      return {
+        status: 400,
+        message: 'Controller Error: checkList 생성에 실패했습니다.',
+      };
+    }
+  };
+
+  getCheckList = async (req, res, next) => {
+    try {
+      const { cardId } = req.params;
+      const getCheckList = await this.cardService.getCheckList(cardId);
+
+      return res
+        .status(getCheckList.status)
+        .json({ result: getCheckList.message });
+    } catch (error) {
+      return {
+        status: 400,
+        message: 'Controller Error: checkList 불러오기에 실패했습니다.',
+      };
+    }
+  };
+
+  updateCheckList= async (req, res, next) => {
+
+  }
 }
 
 module.exports = CardController;
