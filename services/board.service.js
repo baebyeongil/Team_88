@@ -8,7 +8,6 @@ class BoardService {
 
   //보드생성
   createBoard = async (user, title, content) => {
-    console.log('////////////////////////////////', user, title, content);
     if (!user) {
       return {
         status: 400,
@@ -42,7 +41,6 @@ class BoardService {
       };
     }
     const getBoard = await this.boardRepository.getBoardList(user);
-    console.log(getBoard);
     if (!getBoard.boardList[0]) {
       return {
         status: 400,
@@ -96,7 +94,6 @@ class BoardService {
     }
 
     const getBoard = await this.boardRepository.getBoard(user, boardId);
-    console.log(getBoard);
     if (!getBoard) {
       return {
         status: 400,

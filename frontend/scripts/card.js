@@ -47,7 +47,6 @@ const getCheckList = () => {
 };
 const getCard = () => {
   card.then(datas => {
-    console.log(datas)
     const workerData = datas.result.worker.split(',');
     const temp = document.createElement('div');
     const cardTitle = datas.result.title;
