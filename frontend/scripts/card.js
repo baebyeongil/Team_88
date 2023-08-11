@@ -22,12 +22,13 @@ const checkList = fetch(`/column/${columnId}/card/${cardId}/checkList`)
 const getCheckList = () => {
   checkList.then(datas => {
     $('#checkListBox').empty();
-    datas.result.forEach(async checkList => {
-      const temp = document.createElement('div');
-      const content = checkList.content;
-      const checkListId = checkList.id;
-      const checkListState = checkList.isSuccess;
-      temp.innerHTML = `<div class="form-check d-flex">
+    datas.result.forEach(checkList => {
+      setTimeout(() => {
+        const temp = document.createElement('div');
+        const content = checkList.content;
+        const checkListId = checkList.id;
+        const checkListState = checkList.isSuccess;
+        temp.innerHTML = `<div class="form-check d-flex">
       <input class="form-check-input" type="checkbox" ${
         checkListState ? 'checked' : ''
       } value="${checkListState}" id="${checkListId}" onclick="updateCheckList(${checkListId}, this.checked)">
@@ -39,7 +40,8 @@ const getCheckList = () => {
         <button class="btn btn-primary btn-sm" onclick="deleteCheckList(${checkListId})">삭제</button>
       </div>
     </div>`;
-      await document.querySelector('#checkListBox').append(temp);
+        document.querySelector('#checkListBox').append(temp);
+      }, 100);
     });
   });
 };
@@ -80,10 +82,6 @@ const getCard = () => {
                       <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checklistModal">체크리스트</button>
                       </div>
                       <div id=checkListBox class="form-check" style="margin-top: 10px; margin-left: 20px;">
-                      <input class="form-check-input" type="checkbox" value="" id="checklistCheckbox">
-                      <label class="form-check-label" for="checklistCheckbox">
-                      체크리스트입니다.
-                      </label>
                       </div>
                       </div>
                       </div>`;
@@ -240,8 +238,7 @@ function updateCheckList(checkListId, isSuccess) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(req),
-  })
-    .then(res => res.json())
+  }).then(res => res.json());
 }
 
 function deleteCheckList(checkListId) {
@@ -265,7 +262,7 @@ function editCheckList(checkListId) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(req),
-  })
+  });
   window.location.reload();
 }
 
