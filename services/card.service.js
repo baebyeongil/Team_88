@@ -86,7 +86,7 @@ class CardService {
         content = findCardData.content;
       }
 
-      if ((color = '')) {
+      if (color == '') {
         color = findCardData.color;
       }
 
