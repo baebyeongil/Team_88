@@ -65,4 +65,4 @@ jobs:
             --deployment-config-name CodeDeployDefault.AllAtOnce \
             --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
             --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
-            --s3-location bucket=$S3_BUCKET_NAME,key=$.env,bundleType=env
+            --s3-location bucket=$S3_BUCKET_NAME,key=.env,bundleType=env
