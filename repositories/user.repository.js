@@ -60,7 +60,6 @@ class UserRepository {
       });
       return { status: 200, message: '프로필이 업데이트 됐습니다.' };
     } catch (error) {
-      console.log(error);
       return {
         status: 400,
         message: '프로필 업데이트 중 오류가 발생했습니다.',

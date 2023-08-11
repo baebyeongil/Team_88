@@ -67,10 +67,10 @@ class CardRepository {
     }
   };
 
-  updateCard = async (cardId, title, content, workerId, deadLine) => {
+  updateCard = async (cardId, title, content, worker, deadLine, color) => {
     try {
       const updateCard = await Card.update(
-        { title, content, workerId, deadLine },
+        { title, content, worker, deadLine, color },
         { where: { id: cardId } }
       );
 
@@ -175,7 +175,6 @@ class CardRepository {
   editCheckList = async (checkListId, content) => {
     try {
       const existcheckList = await CheckList.findByPk(checkListId);
-      console.log(existcheckList)
       if (!existcheckList) {
         return {
           status: 400,

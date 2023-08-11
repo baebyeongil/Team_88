@@ -1,4 +1,5 @@
 const { col } = require('sequelize');
+const User = require('../db/models/user');
 const Card = require('../db/models/card');
 const CheckList = require('../db/models/checkList');
 const CardRepository = require('../repositories/card.repository');
@@ -60,8 +61,16 @@ class CardService {
     }
   };
 
-  updateCard = async (userId, cardId, title, content, email, deadLine) => {
-    let workerId;
+  updateCard = async (
+    userId,
+    cardId,
+    title,
+    content,
+    email,
+    deadLine,
+    color
+  ) => {
+    let worker;
     try {
       const findCardData = await this.cardRepository.getCard(cardId);
 
@@ -77,14 +86,19 @@ class CardService {
         content = findCardData.content;
       }
 
+      if ((color = '')) {
+        color = findCardData.color;
+      }
+
       if (email == '') {
-        workerId = findCardData.workerId;
+        worker = findCardData.worker;
       } else {
         const findUserData = await this.cardRepository.findUser(email);
+
         if (!findUserData) {
           return { status: 400, message: '존재하지 않는 유저입니다.' };
         }
-        workerId = findUserData.id;
+        worker = `${findUserData.nickname},${findUserData.email}`;
       }
 
       if (deadLine == '') {
@@ -95,10 +109,10 @@ class CardService {
         cardId,
         title,
         content,
-        workerId,
-        deadLine
+        worker,
+        deadLine,
+        color
       );
-
       return { status: 200, message: '수정이 완료되었습니다.' };
     } catch (error) {
       return { status: 400, message: 'Repository Error: 수정에 실패했습니다.' };
@@ -134,7 +148,6 @@ class CardService {
 
       return { status: 200, message: '수정이 완료되었습니다.' };
     } catch (error) {
-      console.log(error);
       return { status: 400, message: 'Repository Error: 수정에 실패했습니다.' };
     }
   };

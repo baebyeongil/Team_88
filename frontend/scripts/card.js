@@ -201,6 +201,17 @@ function deleteCard(cardId) {
       window.location.href = `myboard.html?id=${boardId}`;
     });
 }
+// function createCheckList() {
+//   $.ajax({
+//     type: 'POST',
+//     url: `/column/${columnId}/card/${cardId}/checkList`,
+//     data: {content: checkListInput.value},
+//     success: function (response) {
+//       $('#checklistModal').modal('hide');
+//       $('#checkListBox').load(location.href+' #checkListBox')
+//     }
+//   })
+// }
 
 function createCheckList() {
   const req = {
