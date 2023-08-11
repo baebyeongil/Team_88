@@ -166,12 +166,13 @@ function deleteComment(commentId) {
     });
 }
 
-function upadateCard(newTitle, newContent, newEmail, newDeadLine) {
+function upadateCard(newTitle, newContent, newEmail, newDeadLine, color) {
   const req = {
     title: newTitle,
     content: newContent,
     email: newEmail,
     deadLine: newDeadLine,
+    color,
   };
   fetch(`/column/${columnId}/card/${cardId}`, {
     method: 'PUT',
@@ -278,9 +279,10 @@ function openEditModal(title, content, email, deadLine) {
       const newContent = $('#editContentInput').val();
       const newEmail = $('#editWorkerInput').val();
       const newDeadLine = $('#editDeadLineInput').val();
+      const color = $('#cardColorUpdate').val();
 
       // 여기서 수정 데이터를 처리하는 함수 호출
-      upadateCard(newTitle, newContent, newEmail, newDeadLine);
+      upadateCard(newTitle, newContent, newEmail, newDeadLine, color);
 
       // 모달 닫기
       $('#editCardModal').modal('hide');
