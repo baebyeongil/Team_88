@@ -117,9 +117,6 @@ class CardController {
     try {
       const { columnId, cardId } = req.params;
       const { number } = req.body;
-      console.log(columnId);
-      console.log(cardId);
-      console.log(number);
 
       const moveCardData = await this.cardService.moveCard(
         columnId,
@@ -190,6 +187,7 @@ class CardController {
       };
     }
   };
+
   deleteCheckList = async (req, res, next) => {
     try {
       const userId = res.locals.user.id;
@@ -213,7 +211,7 @@ class CardController {
   editCheckList = async (req, res, next) => {
     try {
       const userId = res.locals.user.id;
-      const { checkListId,content } = req.body;
+      const { checkListId, content } = req.body;
       const editCheckList = await this.cardService.editCheckList(
         userId,
         checkListId,

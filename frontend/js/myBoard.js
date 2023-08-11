@@ -14,7 +14,6 @@ const myBoard = async () => {
     })
     .then(data => {
       let rows = data;
-      console.log(rows);
       const result = rows.board.columns;
       $('#card-container').empty();
       for (let i = result.length - 1; i >= 0; i--) {
@@ -68,7 +67,6 @@ const myBoard = async () => {
         .then(data => {
           let r = data;
           for (let e = r.length - 1; e >= 0; e--) {
-            console.log(r[e].user['nickname']);
 
             let memberNiname = r[e].user['nickname'];
 
@@ -140,7 +138,6 @@ function columnDeleteBtn(columnId) {
   })
     .then(res => res.json())
     .then(res => {
-      console.log(res);
       alert(res);
       location.reload();
     });
@@ -233,7 +230,6 @@ function updateColumnBtn(columnId) {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res);
         alert(res);
         location.reload();
       });
@@ -274,7 +270,6 @@ $(document).ready(function () {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res);
         alert(res);
         location.reload();
       })
