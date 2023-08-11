@@ -22,10 +22,6 @@ main {
   height: 100%;
 }
 
-#mainBottom {
-  height: 100%;
-}
-
 /* 카드 스타일링 */
 .cards {
   border: 1px solid #ccc;
@@ -80,7 +76,7 @@ main {
   margin: 20px;
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  display: inline-block; /* 가로 정렬을 위한 추가 */
+  display: inline-block; /*가로 정렬을 위한 추가 */
 }
 
 #mainBottom {
