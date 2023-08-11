@@ -48,7 +48,6 @@ class ColumnController {
     const { boardId, columnId } = req.params;
     const { number } = req.body;
     const user = res.locals.user;
-    console.log(boardId, columnId, number);
     const result = await this.columnService.moveColumn(
       boardId,
       columnId,
