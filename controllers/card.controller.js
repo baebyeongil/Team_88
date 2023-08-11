@@ -64,7 +64,7 @@ class CardController {
     try {
       const userId = res.locals.user.id;
       const { cardId } = req.params;
-      const { title, content, email, deadLine } = req.body;
+      const { title, content, email, deadLine, color } = req.body;
 
       const updateCardData = await this.cardService.updateCard(
         userId,
@@ -72,7 +72,8 @@ class CardController {
         title,
         content,
         email,
-        deadLine
+        deadLine,
+        color
       );
 
       return res

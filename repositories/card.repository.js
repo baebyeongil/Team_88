@@ -67,10 +67,10 @@ class CardRepository {
     }
   };
 
-  updateCard = async (cardId, title, content, worker, deadLine) => {
+  updateCard = async (cardId, title, content, worker, deadLine, color) => {
     try {
       const updateCard = await Card.update(
-        { title, content, worker, deadLine },
+        { title, content, worker, deadLine, color },
         { where: { id: cardId } }
       );
 
