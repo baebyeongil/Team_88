@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = `chat.html?nickname=${response.data.result.nickname}`;
       })
       .catch(error => {
-        console.log(error);
         alert(error.request.response);
       });
   });
@@ -45,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(response => {
       res = response.data;
       const boardButtonsContainer = document.querySelector('.board-buttons');
-      console.log(res);
       // 버튼 클릭 이벤트 리스너 추가
       boardButtonsContainer.addEventListener('click', function (event) {
         const target = event.target;

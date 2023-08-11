@@ -274,7 +274,6 @@ class ColumnService {
         message: '컬럼 이동 성공',
       };
     } catch (err) {
-      console.log(err);
       return { status: 500, message: 'Server Error' };
     }
   };
