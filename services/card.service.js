@@ -1,5 +1,5 @@
 const { col } = require('sequelize');
-const User=require('../db/models/user');
+const User = require('../db/models/user');
 const Card = require('../db/models/card');
 const CheckList = require('../db/models/checkList');
 const CardRepository = require('../repositories/card.repository');
@@ -61,8 +61,15 @@ class CardService {
     }
   };
 
-  updateCard = async (userId, cardId, title, content, email, deadLine) => {
-   
+  updateCard = async (
+    userId,
+    cardId,
+    title,
+    content,
+    email,
+    deadLine,
+    color
+  ) => {
     let worker;
     try {
       const findCardData = await this.cardRepository.getCard(cardId);
@@ -79,28 +86,32 @@ class CardService {
         content = findCardData.content;
       }
 
+      if ((color = '')) {
+        color = findCardData.color;
+      }
+
       if (email == '') {
         worker = findCardData.worker;
-        
       } else {
         const findUserData = await this.cardRepository.findUser(email);
-        
+
         if (!findUserData) {
           return { status: 400, message: '존재하지 않는 유저입니다.' };
         }
-         worker = `${findUserData.nickname},${findUserData.email}`;
+        worker = `${findUserData.nickname},${findUserData.email}`;
       }
-      
+
       if (deadLine == '') {
         deadLine = findCardData.deadLine;
       }
-      
+
       await this.cardRepository.updateCard(
         cardId,
         title,
         content,
         worker,
-        deadLine
+        deadLine,
+        color
       );
       return { status: 200, message: '수정이 완료되었습니다.' };
     } catch (error) {
