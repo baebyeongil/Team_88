@@ -47,6 +47,7 @@ const getCheckList = () => {
 };
 const getCard = () => {
   card.then(datas => {
+    console.log(datas)
     const workerData = datas.result.worker.split(',');
     const temp = document.createElement('div');
     const cardTitle = datas.result.title;
@@ -201,6 +202,17 @@ function deleteCard(cardId) {
       window.location.href = `myboard.html?id=${boardId}`;
     });
 }
+// function createCheckList() {
+//   $.ajax({
+//     type: 'POST',
+//     url: `/column/${columnId}/card/${cardId}/checkList`,
+//     data: {content: checkListInput.value},
+//     success: function (response) {
+//       $('#checklistModal').modal('hide');
+//       $('#checkListBox').load(location.href+' #checkListBox')
+//     }
+//   })
+// }
 
 function createCheckList() {
   const req = {
