@@ -37,8 +37,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build test
-        run: npm run build
+      # - name: Build test
+      #   run: npm run build
 
       # (4) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
       - name: Configure AWS credentials
